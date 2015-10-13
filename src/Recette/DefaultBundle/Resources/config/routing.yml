@@ -1,0 +1,11 @@
+recette_indicators_default:
+    path:     /
+    defaults: { _controller: RecetteDefaultBundle:Monitoring:index }
+
+recette_indicators:
+    path:     /{type}{id}
+    defaults: { _controller: RecetteDefaultBundle:Monitoring:index, type: null, id: null }
+    requirements:
+        type: category|priority|status
+        id: \d+
+

@@ -1,0 +1,100 @@
+/* Responsive Navigation styles begin here */
+@media (max-width: 640px) {
+    /* Theming opened nav */
+    body > header nav ul {
+        position: absolute;
+        top: 0rem;
+        left: 1rem;
+        width: calc(100% - 6rem);
+        z-index: 1;
+        /* translate with hardware acceleration */
+        -webkit-transform: translateY(0) translateZ(0);
+        -ms-transform: translateY(0) translateZ(0);
+        transform: translateY(0) translateZ(0);
+        -webkit-transition: -webkit-transform .3s cubic-bezier(.72, .89, .28, 1.39);
+        transition: transform .3s cubic-bezier(.72, .89, .28, 1.39);
+        will-change: transform;
+        /* global styles */
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background: url('../images/background-dark.jpg');
+    }
+    body > header nav a {
+        display: block;
+        padding: 0.2rem;
+        /*color: #fff;*/
+        /*background: #114b69;*/
+        text-decoration: none;
+        /*margin-bottom: 2px;*/
+    }
+    body > header nav a:hover,
+    body > header nav a:focus,
+    body > header nav a:active {
+        background-color: darkgoldenrod;
+        mix-blend-mode : hard-light;
+    }
+    /* Theming closed nav */
+    body > header nav.is-closed ul {
+        -webkit-transform: translateY(-30rem) translateZ(0);
+        -ms-transform: translateY(-30rem) translateZ(0);
+        transform: translateY(-30rem) translateZ(0);
+        /* number of links x5 */
+    }
+    /* Global styling nav button */
+    body > header nav > button {
+        position: absolute;
+        top: .8rem;
+        right: 1rem;
+        z-index: 10;
+        height: 3rem;
+        width: 3rem;
+        background-color: transparent;
+        padding: 0;
+        outline: 0;
+        border: 1px solid white;
+        border-radius: 50%;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-transition: -webkit-transform .2s;
+        transition: transform .2s;
+    }
+    /*  Removing Firefox's dotted outline on button */
+    body > header nav > button::-moz-focus-inner {
+        border: 0;
+    }
+    body > header nav > button::after,
+    body > header nav > button::before {
+        content: "";
+        position: absolute;
+        top: 15%;
+        right: 40%;
+        bottom: 15%;
+        left: 40%;
+        background-color: white;
+        border-radius: 10px;
+        -webkit-transition: -webkit-transform .2s;
+        transition: transform .2s;
+    }
+    body > header nav > button::before {
+        top: 40%;
+        right: 15%;
+        bottom: 40%;
+        left: 15%;
+    }
+    /* Theming opened nav button */
+    body > header nav:not(.is-closed) > button,
+    body > header nav:not(.is-closed) > button::before {
+        -webkit-transform: rotate(90deg) translateZ(0);
+        -ms-transform: rotate(90deg) translateZ(0);
+        transform: rotate(90deg) translateZ(0);
+    }
+    /* Hide alternate text except from screen readers */
+    .visually-hidden {
+        position: absolute !important;
+        clip: rect(1px, 1px, 1px, 1px);
+        overflow: hidden;
+        height: 1px;
+        width: 1px;
+    }
+}

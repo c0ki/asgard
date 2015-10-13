@@ -1,0 +1,186 @@
+@font-face {
+    font-family: 'apps';
+    src: url('font/apps.eot?58565589');
+    src: url('font/apps.eot?58565589#iefix') format('embedded-opentype'),
+    url('font/apps.woff?58565589') format('woff'),
+    url('font/apps.ttf?58565589') format('truetype'),
+    url('font/apps.svg?58565589#apps') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'apps';
+    src: url('../font/apps.svg?58565589#apps') format('svg');
+  }
+}
+*/
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+    font-family: "apps";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .5em;
+    text-align: center;
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: .2em;
+
+    /* you can be more comfortable with increased icons size */
+    /* font-size: 120%; */
+
+    /* Font smoothing. That was taken from TWBS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+nav.icon a:before {
+    font-family: "apps";
+    font-size: 2rem;
+    display: block;
+    margin: -0.5rem;
+}
+
+nav.icon a {
+    font-size: 1.1rem;
+}
+
+@media (max-width: 640px) {
+    nav.icon a {
+        font-size: 2rem;
+    }
+
+    nav.icon a:before {
+        display: inline-block;
+        margin: 0.5rem 1.5rem;
+    }
+}
+
+.inputicon input + label:before {
+    font-family: "apps";
+    font-size: 3rem;
+    margin-right: 2rem;
+    color: black;
+    display: inline-block;
+}
+
+.inputicon input + label:after {
+    position: absolute;
+    content: attr(tooltip);
+    opacity: 0;
+    font-size: 3rem;
+}
+
+.icon-only:before {
+    font-size: 1rem;
+    color: black;
+}
+
+.icon-only, .inputicon input + label {
+    font-size: 1px;
+    letter-spacing: -1px;
+    color: transparent;
+}
+
+.icon-no:before, nav.icon .no a:before, .inputicon input[value="no"] + label:before {
+    content: '\00a0';
+}
+
+.icon-ok:before, nav.icon .ok a:before, .inputicon input[value="ok"] + label:before {
+    content: '\e800';
+}
+
+.icon-cancel:before, nav.icon .cancel a:before, .inputicon input[value="cancel"] + label:before {
+    content: '\e801';
+}
+
+.icon-minus:before, nav.icon .minus a:before, .inputicon input[value="minus"] + label:before {
+    content: '\e802';
+}
+
+.icon-plus:before, nav.icon .plus a:before, .inputicon input[value="plus"] + label:before {
+    content: '\e803';
+}
+
+.icon-help:before, nav.icon .help a:before, .inputicon input[value="help"] + label:before {
+    content: '\e804';
+}
+
+.icon-info:before, nav.icon .info a:before, .inputicon input[value="info"] + label:before {
+    content: '\e805';
+}
+
+.icon-graduation-cap:before, nav.icon .graduation-cap a:before, .inputicon input[value="graduation-cap"] + label:before {
+    content: '\e806';
+}
+
+.icon-globe:before, nav.icon .globe a:before, .inputicon input[value="globe"] + label:before {
+    content: '\e807';
+}
+
+.icon-tasks:before, nav.icon .tasks a:before, .inputicon input[value="tasks"] + label:before {
+    content: '\e809';
+}
+
+.icon-cog:before, nav.icon .cog a:before, .inputicon input[value="cog"] + label:before {
+    content: '\e80b';
+}
+
+.icon-attention:before, nav.icon .attention a:before, .inputicon input[value="attention"] + label:before {
+    content: '\e80c';
+}
+
+.icon-mobile:before, nav.icon .mobile a:before, .inputicon input[value="mobile"] + label:before {
+    content: '\e80d';
+}
+
+.icon-tablet:before, nav.icon .tablet a:before, .inputicon input[value="tablet"] + label:before {
+    content: '\e80e';
+}
+
+.icon-tabletlandscape:before, nav.icon .tabletlandscape a:before, .inputicon input[value="tabletlandscape"] + label:before {
+    content: '\e80e';
+    transform: rotate(-90deg);
+}
+
+.icon-laptop:before, nav.icon .laptop a:before, .inputicon input[value="laptop"] + label:before {
+    content: '\e80f';
+}
+
+.icon-desktop:before, nav.icon .desktop a:before, .inputicon input[value="desktop"] + label:before {
+    content: '\e810';
+}
+
+.icon-camera:before, nav.icon .camera a:before, .inputicon input[value="camera"] + label:before {
+    content: '\e815';
+}
+
+.icon-home:before, nav.icon .home a:before, .inputicon input[value="home"] + label:before {
+    content: '\e816';
+}
+
+
+
+
+

@@ -1,0 +1,62 @@
+{% extends 'LogAnalyserBundle::layout.html.twig' %}
+
+{% block header %}
+    {{ parent() }}
+    <h1><a href="{{ path('log_analyser_analyse', {'identifier': identifier}) }}">Log File</a></h1>
+{% endblock %}
+
+{% block content %}
+    <h2>
+        Fichier
+        {% if logInfo.typeLabel %}
+            (type: {{ logInfo.typeLabel }})
+        {% endif %}
+        {% if logInfo.dateStart|default() is not empty %}
+            du {{ logInfo.dateStart|date("d/m/Y H:i:s") }}
+            {% if logInfo.dateEnd|default() is not empty %}
+                au {{ logInfo.dateEnd|date("d/m/Y H:i:s") }}
+            {% else %}
+                à aujourd'hui
+            {% endif %}
+        {% endif %}
+    </h2>
+
+    {{ form(form) }}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#analyse_analyse').change(function () {
+                if ($(this).val()) $('form[name=analyse]').submit();
+            });
+            $('#analyse_static').change(function () {
+                if ($('#analyse_analyse').val()) $('form[name=analyse]').submit();
+            });
+        });
+    </script>
+
+    {% if results %}
+        <table class="results">
+            <thead>
+            {% for key in results[0]|keys %}
+                <th>{{ key }}</th>
+            {% endfor %}
+            </thead>
+            <tbody>
+            {% for result in results %}
+                <tr>
+                    {% for value in result %}
+                        <td>
+                        {% if loop.index == 1 %}
+                            {{ value }}
+                        {% else %}
+                            <a href="{{ path( 'log_analyser_detail', { 'identifier': identifier, 'info': value|url_encode } ) }}">{{ value }}</a>
+                        {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    {% block head_css %}
+        {% stylesheets
+        'bundles/corelayout/css/knacss.css'
+        'bundles/corelayout/css/icon.css'
+        'bundles/corelayout/css/simplenav.css'
+        'bundles/corelayout/css/default.css'
+        filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
+    {% block head_js %}{% endblock %}
+</head>
+<body class="flex-container-v">
+
+
+{% block header %}
+    <header class="flex-container-h">
+        <div class="logo flex-item-first">
+            <a href="{{ path('core_layout_root') }}" class="icon-graduation-cap icon-only">Apps</a>
+        </div>
+        {% block projects_nav %}
+            {{ render(controller('CoreLayoutBundle:Layout:headerNav')) }}
+        {% endblock %}
+    </header>
+{% endblock %}
+
+<div class="flex-item-fluid flex-container-h">
+    {% block aside %}
+        <aside class="flex-item-last">
+            {% block tools_nav %}
+                {{ render(controller('CoreLayoutBundle:Layout:asideNav')) }}
+            {% endblock %}
+        </aside>
+    {% endblock %}
+    <section id="main" class="flex-item-fluid">
+        {% block content %}{% endblock %}
+    </section>
+</div>
+
+{% block footer %}
+    <footer class="flex-item-last">
+        Developped by: bru.guerin.pro@gmail.com
+    </footer>
+{% endblock %}
+
+{% block foot_css %}{% endblock %}
+{% block foot_js %}
+    {% javascripts
+    '@CoreLayoutBundle/Resources/public/js/simplenav.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+</body>
+</html>

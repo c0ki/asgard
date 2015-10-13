@@ -1,0 +1,7 @@
+<nav id="tools">
+    <ul>
+        {% for tool in tools %}
+            <li><a href="{{ path(tool.route_name, {'project': project}) }}" class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>

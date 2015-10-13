@@ -1,0 +1,11 @@
+.hide {
+    display: none;
+}
+
+#indicators .detail {
+    display: none;
+}
+
+#indicators .detail + *:before {
+    content: 'tutu';
+}

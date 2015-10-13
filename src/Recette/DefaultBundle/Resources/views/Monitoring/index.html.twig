@@ -1,0 +1,68 @@
+{% extends 'RecetteDefaultBundle::layout.html.twig' %}
+
+{% block content %}
+    <div id="indicators">
+        <h2>Indicateurs
+            {% if type is not empty %}
+                selon
+                {% if type == 'priority' %}
+                    la priorité {{ indicators.priorities[id].name }}
+                {% elseif type == 'category' %}
+                    la catégorie {{ indicators.categories[id].name }}
+                {% elseif type == 'status' %}
+                    l'état {{ indicators.statuses[id].name }}
+                {% endif %}
+            {% endif %}
+        </h2>
+
+        <div>
+            <h3><a href="{{ path ("recette_indicators") }}">Total</a></h3>
+            <ul>
+                <li>{{ indicators.nb_issues }} anomalies</li>
+            </ul>
+        </div>
+        {% if type != 'priority' %}
+            <div>
+                <h3>Par priorité</h3>
+                <ul>
+                    {% for indicator in indicators.priorities %}
+                        <li>
+                            <a href="{{ path ("recette_indicators", {"type": "priority", "id": indicator.id} ) }}">{{ indicator.name }}
+                                [{{ indicator.nb_issues|default(0) }}]</a>
+                            <ul class="detail">
+                                {% for issue in indicator.issues %}
+                                    <li><a href="http://126.7.113.13/redmine/issues/{{ issue.id }}"
+                                           target="_blank">{{ issue.id_almqc }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% if type != 'category' %}
+            <div>
+                <h3>Par catégorie</h3>
+                <ul>
+                    {% for indicator in indicators.categories %}
+                        <li>
+                            <a href="{{ path ("recette_indicators", {"type": "category", "id": indicator.id} ) }}">{{ indicator.name }}
+                                [{{ indicator.nb_issues|default(0) }}]</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% if type != 'status' %}
+            <div>
+                <h3>Par état</h3>
+                <ul>
+                    {% for indicator in indicators.statuses if indicator.nb_issues|default(0) %}
+                        <li>
+                            <a href="{{ path ("recette_indicators", {"type": "status", "id": indicator.id} ) }}">{{ indicator.name }}
+                                [{{ indicator.nb_issues|default(0) }}]</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

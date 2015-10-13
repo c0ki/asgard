@@ -1,0 +1,30 @@
+{% extends 'DisplayBundle:Default:form.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <section id="displayurl-result">
+        <h2>Results</h2>
+        <div class="inputicon">
+        {{ form(subform) }}
+        </div>
+
+        <div>
+            {% for url in urls %}
+                <section class="result">
+                    <h3>{{ url }}</h3>
+                    <iframe src="{{ url }}"></iframe>
+                </section>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block foot_js %}
+    {{ parent() }}
+    {% javascripts
+    '@DisplayBundle/Resources/public/js/resultdisplay.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

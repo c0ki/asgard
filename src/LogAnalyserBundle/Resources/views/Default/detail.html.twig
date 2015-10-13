@@ -1,0 +1,20 @@
+{% extends 'LogAnalyserBundle:Default:analyse.html.twig' %}
+
+{% block content %}
+    <h2>
+        Détail pour "{{ info }}"
+    </h2>
+
+    <div>
+        <a href="{{ path('log_analyser_analyse', {'identifier': identifier}) }}">Retour</a>
+    </div>
+
+    {% if results %}
+        {% for value in results %}
+            <div>
+                {{ value }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

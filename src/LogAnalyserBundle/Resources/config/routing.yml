@@ -1,0 +1,15 @@
+log_analyser_homepage:
+    path:     /
+    defaults: { _controller: LogAnalyserBundle:Default:form }
+
+log_analyser_listlogfiles_ajax:
+    path:     /ajax/listlogfiles
+    defaults: { _controller: LogAnalyserBundle:Default:listLogFilesAjax }
+
+log_analyser_analyse:
+    path:     /analyse/{identifier}
+    defaults: { _controller: LogAnalyserBundle:Default:analyse }
+
+log_analyser_detail:
+    path:     /detail/{identifier}/{info}
+    defaults: { _controller: LogAnalyserBundle:Default:detail }

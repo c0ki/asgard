@@ -1,0 +1,18 @@
+
+.icon-ok:before { content: '\e800'; } /* '' */
+.icon-cancel:before { content: '\e801'; } /* '' */
+.icon-minus:before { content: '\e802'; } /* '' */
+.icon-plus:before { content: '\e803'; } /* '' */
+.icon-help:before { content: '\e804'; } /* '' */
+.icon-info:before { content: '\e805'; } /* '' */
+.icon-graduation-cap:before { content: '\e806'; } /* '' */
+.icon-globe:before { content: '\e807'; } /* '' */
+.icon-tasks:before { content: '\e809'; } /* '' */
+.icon-cog:before { content: '\e80b'; } /* '' */
+.icon-attention:before { content: '\e80c'; } /* '' */
+.icon-mobile:before { content: '\e80d'; } /* '' */
+.icon-tablet:before { content: '\e80e'; } /* '' */
+.icon-laptop:before { content: '\e80f'; } /* '' */
+.icon-desktop:before { content: '\e810'; } /* '' */
+.icon-camera:before { content: '\e815'; } /* '' */
+.icon-home:before { content: '\e816'; } /* '' */

@@ -1,0 +1,132 @@
+body {
+    position: absolute;
+    min-height: 100%;
+    width: 100%;
+}
+
+body > header, body > footer {
+    background: url('../images/background-dark.jpg');
+}
+
+
+body > header {
+    min-height: 4.6rem;
+}
+body > header, body > header a {
+    color: white;
+}
+
+body > header a {
+    text-decoration: none;
+}
+
+body > header a:hover {
+    color: #9ed0ff;
+}
+
+body > header .logo a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-right: 3rem;
+}
+body > header .logo a:before {
+    color: #9ed0ff;
+    font-size: 5rem;
+}
+@media (max-width: 640px) {
+    body > header .logo a:before {
+        font-size: 3rem;
+    }
+}
+
+body > header nav {
+    position: relative;
+}
+
+body > header nav ul {
+    position: absolute;
+    bottom: 0;
+    padding-left: 0;
+}
+
+@media (max-width: 640px) {
+    /* Theming opened nav */
+    body > header nav  {
+        position: inherit;
+    }
+
+    body > header nav ul {
+        bottom: auto;
+    }
+}
+
+@media (min-width: 641px) {
+    body > header nav ul li {
+        display: inline-block;
+    }
+
+    body > header nav a {
+        display: inline-block;
+        width: 7rem;
+        text-align: center;
+        padding: 0.5rem;
+        text-decoration: none;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+    }
+
+    body > header nav a:hover,
+    body > header nav a:focus,
+    body > header nav a:active,
+    body > header nav .selected a {
+        background-color: darkgoldenrod;
+        mix-blend-mode : hard-light;
+    }
+
+}
+
+body > footer {
+    text-align: right;
+}
+
+body > footer, body > footer a {
+    color: white;
+}
+
+aside nav li {
+    list-style: none;
+}
+
+aside nav a {
+    text-decoration: none;
+    padding: 0.3rem 1rem;
+    display: inline-block;
+}
+
+#main {
+    margin: 1rem;
+}
+
+#main h2 {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#main h3 {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#main form {
+    margin-left: 3rem;
+}
+
+#main form > div > div {
+    margin: 0.5rem;
+}
+
+#main label {
+    margin-top: 0;
+}

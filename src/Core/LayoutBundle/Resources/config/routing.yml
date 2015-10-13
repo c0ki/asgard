@@ -1,0 +1,3 @@
+core_layout_root:
+    path:     /
+    defaults: { _controller: CoreLayoutBundle:Default:index }

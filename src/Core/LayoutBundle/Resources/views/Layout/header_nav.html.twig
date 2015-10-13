@@ -1,0 +1,7 @@
+<nav id="navigation" class="flex-item-fluid icon">
+    <ul>
+        {% for project in projects %}
+            <li class="{{ project.class|default() }}"><a href="{{ path(project.route_name) }}">{{ project.label }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>

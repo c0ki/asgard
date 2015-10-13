@@ -1,0 +1,3 @@
+recette_import:
+    path:     /
+    defaults: { _controller: RecetteImportBundle:Default:index }

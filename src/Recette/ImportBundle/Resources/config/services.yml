@@ -1,0 +1,7 @@
+parameters:
+    xlsx.parser.class: Recette\ImportBundle\Component\Xlsx\Parser
+
+services:
+    xlsx_parser:
+        class: %xlsx.parser.class%
+        arguments: [ @service_container ]

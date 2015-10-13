@@ -1,0 +1,23 @@
+form > div > div {
+    margin: 5px 10px;
+}
+
+label {
+    display: inline-block;
+    width: 180px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table.results th, table.results td {
+    margin: 0;
+    padding: 5px;
+    border: 1px solid black;
+}
+table.results tr td:first-of-type {
+    text-align: center;
+}

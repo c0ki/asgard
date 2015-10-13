@@ -1,0 +1,7 @@
+display_homepage:
+    path:   /
+    defaults: { _controller: DisplayBundle:Default:index }
+    options:
+        class: icon-camera
+        label: Display
+

@@ -1,0 +1,49 @@
+{% extends 'LogAnalyserBundle::layout.html.twig' %}
+
+{% block content %}
+    <h2>
+        Sélection du fichier de log
+    </h2>
+
+    {{ form(form) }}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#logfile_server').change(function () {
+                // Remove current options
+                var eleLogfile = $('#logfile_log_file');
+                eleLogfile.prop('disabled', true);
+                while (eleLogfile.children().length > 1) {
+                    $('#logfile_log_file *:last-child').remove();
+                }
+
+                var val = $(this).val();
+                if (!val) {
+                    return;
+                }
+                $('#logfile_log_file').addClass('loading');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('log_analyser_listlogfiles_ajax') }}",
+                    data: {server: val},
+                    success: function (data) {
+                        // Add new options
+                        $.each(data, function (k, v) {
+                            eleLogfile.append('<option value="' + k + '">' + v + '</option>');
+                        });
+                        if (eleLogfile.children().length > 1) {
+                            eleLogfile.prop('disabled', false);
+                        }
+                        $('#logfile_log_file').removeClass('loading');
+                    },
+                    error: function(data) {
+                        // TODO
+                        $('#logfile_log_file').removeClass('loading');
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+{% endblock %}

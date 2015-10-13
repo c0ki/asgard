@@ -1,0 +1,3 @@
+core_default_index:
+    path:     /
+    defaults: { _controller: CoreDefaultBundle:Default:index }

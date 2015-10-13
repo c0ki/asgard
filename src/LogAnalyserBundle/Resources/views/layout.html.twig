@@ -1,0 +1,18 @@
+{% extends 'CoreLayoutBundle::layout.html.twig' %}
+
+{% block head_css %}
+    {{ parent() }}
+    {% stylesheets 'bundles/loganalyser/css/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block head_js %}
+    {{ parent() }}
+    {% javascripts
+    '@LogAnalyserBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+
