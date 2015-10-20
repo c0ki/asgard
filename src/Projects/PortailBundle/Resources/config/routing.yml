@@ -1,9 +1,0 @@
-projects_portail_homepage:
-    path:     /
-    defaults:
-        _controller: FrameworkBundle:Redirect:redirect
-        route: dashboard_homepage
-        project: portail
-    options:
-        class: globe
-        label: Portail

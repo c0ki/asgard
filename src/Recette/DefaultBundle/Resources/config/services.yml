@@ -1,7 +1,0 @@
-parameters:
-    recette.redmine_helper.class: Recette\DefaultBundle\Component\Helper\RedmineHelper
-
-services:
-    redmine_helper:
-        class: %recette.redmine_helper.class%
-        arguments: [ @service_container ]

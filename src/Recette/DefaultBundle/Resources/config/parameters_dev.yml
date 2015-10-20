@@ -1,8 +1,0 @@
-parameters:
-    redmine_dbal:
-        driver: pdo_mysql
-        host: localhost
-        port: null
-        dbname: redmine
-        user: root
-        password: root

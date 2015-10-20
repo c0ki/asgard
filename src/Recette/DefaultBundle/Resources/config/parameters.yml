@@ -1,8 +1,0 @@
-parameters:
-    redmine_dbal:
-        driver: pdo_mysql
-        host: 126.7.113.13
-        port: null
-        dbname: redmine
-        user: redmine
-        password: Micado111
