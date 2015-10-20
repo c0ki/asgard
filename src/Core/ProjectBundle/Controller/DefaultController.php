@@ -1,16 +1,19 @@
 <?php
 
-namespace Core\DefaultBundle\Controller;
+namespace Core\ProjectBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
+
     public function indexAction()
     {
         $projectHelper = $this->container->get('project_helper');
-        $listProjects = $projectHelper->listProjects();
-
-        return $this->render('CoreDefaultBundle:Default:index.html.twig', array('projects' => $listProjects));
+        $projects = $projectHelper->all();
+        return $this->render('CoreProjectBundle:Default:index.html.twig',
+            array('projects' => $projects)
+        );
     }
+
 }

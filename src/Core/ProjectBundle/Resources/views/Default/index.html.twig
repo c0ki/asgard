@@ -1,0 +1,14 @@
+{% extends 'CoreProjectBundle::layout.html.twig' %}
+
+{% block content %}
+    <section id="default-projectlist">
+        <h2>Projects list</h2>
+        <ul>
+            {% for project in projects %}
+                <li class="icon-{{ project.logo|default('no') }}">
+                    <a href="{{ path('core_project_project', {'project': project.name}) }}">{{ project.label }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
