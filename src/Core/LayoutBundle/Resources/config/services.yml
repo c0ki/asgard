@@ -1,12 +1,7 @@
 parameters:
-    project_helper.class: Core\LayoutBundle\Component\Helper\ProjectHelper
     tool_helper.class: Core\LayoutBundle\Component\Helper\ToolHelper
 
 services:
-    project_helper:
-        class: %project_helper.class%
-        arguments: [ @service_container ]
-
     tool_helper:
         class: %tool_helper.class%
         arguments: [ @service_container ]

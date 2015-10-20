@@ -16,14 +16,12 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Core\CoreBundle\CoreCoreBundle(),
             new Core\LayoutBundle\CoreLayoutBundle(),
-            new Core\DefaultBundle\CoreDefaultBundle(),
-            new Recette\ImportBundle\RecetteImportBundle(),
-            new Recette\DefaultBundle\RecetteDefaultBundle(),
+            new Core\ProjectBundle\CoreProjectBundle(),
+            new DashboardBundle\DashboardBundle(),
             new LogAnalyserBundle\LogAnalyserBundle(),
             new DisplayBundle\DisplayBundle(),
-            new Projects\PortailBundle\ProjectsPortailBundle(),
-            new DashboardBundle\DashboardBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

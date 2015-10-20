@@ -1,38 +1,23 @@
-projects_portail:
-    resource: "@ProjectsPortailBundle/Resources/config/routing.yml"
-    prefix:   /portail/
-
 dashboard:
     resource: "@DashboardBundle/Resources/config/routing.yml"
-    prefix:   /{project}/dashboard/
-    defaults:
-        project: none
+    prefix:   /dashboard/
 
-portail:
+display:
     resource: "@DisplayBundle/Resources/config/routing.yml"
-    prefix:   /{project}/display/
-    defaults:
-        project: none
-
+    prefix:   /display/
 
 log_analyser:
     resource: "@LogAnalyserBundle/Resources/config/routing.yml"
-    prefix:   /{project}/loganalyser/
-    defaults:
-        project: none
+    prefix:   /loganalyser/
 
-recette_import:
-    resource: "@RecetteImportBundle/Resources/config/routing.yml"
-    prefix:   /recette/import/
-
-recette_default:
-    resource: "@RecetteDefaultBundle/Resources/config/routing.yml"
-    prefix:   /recette/
-
-core_default:
-    resource: "@CoreDefaultBundle/Resources/config/routing.yml"
+core_project:
+    resource: "@CoreProjectBundle/Resources/config/routing.yml"
     prefix:   /
 
 core_layout:
     resource: "@CoreLayoutBundle/Resources/config/routing.yml"
     prefix:   /
+
+#core_core:
+#    resource: "@CoreCoreBundle/Resources/config/routing.yml"
+#    prefix:   /

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
 
-    public function indexAction($project, Request $request)
+    public function indexAction(Request $request)
     {
         //$project
         $form = $this->createForm('displayurl');

@@ -1,0 +1,14 @@
+parameters:
+    templating.globals.class: Core\CoreBundle\Component\Templating\GlobalVariables
+    router_listener.class: Core\CoreBundle\EventListener\RouterListener
+
+    asgard.eventlistener.console.pid_file.class: Core\CoreBundle\EventListener\ConsolePidFileListener
+
+
+services:
+    asgard.eventlistener.console.pid_file:
+        class: %asgard.eventlistener.console.pid_file.class%
+        arguments: [@monolog.logger]
+        tags:
+            - {name: kernel.event_listener, event: console.command, method: onConsoleCommand}
+            - {name: kernel.event_listener, event: console.terminate, method: onConsoleTerminate}
