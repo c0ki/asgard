@@ -1,6 +1,5 @@
 parameters:
     templating.globals.class: Core\CoreBundle\Component\Templating\GlobalVariables
-    router_listener.class: Core\CoreBundle\EventListener\RouterListener
 
     asgard.eventlistener.console.pid_file.class: Core\CoreBundle\EventListener\ConsolePidFileListener
 
