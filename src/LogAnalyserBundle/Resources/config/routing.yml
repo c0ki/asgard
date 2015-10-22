@@ -1,4 +1,4 @@
-log_analyser_homepage:
+log_analyser_tool_homepage:
     path:     /
     defaults: { _controller: LogAnalyserBundle:Default:form }
 

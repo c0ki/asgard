@@ -1,4 +1,4 @@
-display_homepage:
+display_tool_homepage:
     path:   /
     defaults: { _controller: DisplayBundle:Default:index }
     options:

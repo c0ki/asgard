@@ -26,10 +26,7 @@ class ToolHelper
         $listTools = array();
         $routes = $this->container->get('router')->getRouteCollection()->all();
         foreach ($routes as $name => $route) {
-            if (preg_match('/_homepage$/', $name)) {
-                if (!preg_match('/{project}/', $route->getPath())) {
-                    continue;
-                }
+            if (preg_match('/_tool_homepage$/', $name)) {
                 if (preg_match_all('/{([^}]+)}/', $route->getPath(), $matches)) {
                     foreach ($matches[1] as $param) {
                         if (is_null($route->getDefault($param))) {
@@ -45,7 +42,7 @@ class ToolHelper
                     $listTools[$name]['label'] = $route->getOption('label');
                 }
                 else {
-                    $listTools[$name]['label'] = ucwords(str_replace('_', ' ', str_replace('_homepage', '', $name)));
+                    $listTools[$name]['label'] = ucwords(str_replace('_', ' ', str_replace('_tool_homepage', '', $name)));
                 }
             }
         }

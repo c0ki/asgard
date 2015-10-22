@@ -1,4 +1,4 @@
-dashboard_homepage:
+dashboard_tool_homepage:
     path:     /
     defaults: { _controller: DashboardBundle:Default:index }
     options:
