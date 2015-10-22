@@ -4,4 +4,4 @@ core_project_homepage:
 
 core_project_project:
     path:     /{project}/
-    defaults: { _controller: CoreProjectBundle:Project:index }
+    defaults: { _controller: CoreProjectBundle:Default:indexProject }

@@ -16,4 +16,9 @@ class DefaultController extends Controller
         );
     }
 
+    public function indexProjectAction($project)
+    {
+        return $this->render('CoreProjectBundle:Default:index_project.html.twig', array('project' => $project));
+    }
+
 }
