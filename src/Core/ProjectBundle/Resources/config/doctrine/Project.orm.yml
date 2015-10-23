@@ -9,6 +9,7 @@ Core\ProjectBundle\Entity\Project:
         name:
             type: string
             length: 20
+            unique: true
         label:
             type: string
             length: 50

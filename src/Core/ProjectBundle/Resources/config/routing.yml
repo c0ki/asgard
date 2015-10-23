@@ -2,6 +2,14 @@ core_project_homepage:
     path:     /
     defaults: { _controller: CoreProjectBundle:Default:index }
 
+core_project_admin:
+    path:     /admin/
+    defaults: { _controller: CoreProjectBundle:Admin:index }
+
+core_project_admin_project:
+    path:     /{project}/admin/
+    defaults: { _controller: CoreProjectBundle:Admin:index }
+
 core_project_project:
     path:     /{project}/
     defaults: { _controller: CoreProjectBundle:Default:indexProject }
