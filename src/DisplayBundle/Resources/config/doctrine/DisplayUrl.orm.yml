@@ -1,0 +1,17 @@
+DisplayBundle\Entity\DisplayUrl:
+    type: entity
+    table: dispaly_url
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        project_id:
+            type: integer
+        url:
+            type: string
+            length: 100
+        group:
+            type: string
+            length: 20
+            nullable: true

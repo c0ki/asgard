@@ -5,3 +5,7 @@ display_tool_homepage:
         class: icon-camera
         label: Display
 
+display_tool_admin:
+    path:   /admin/
+    defaults: { _controller: DisplayBundle:Admin:index }
+

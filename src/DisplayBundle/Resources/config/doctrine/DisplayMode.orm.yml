@@ -1,0 +1,16 @@
+DisplayBundle\Entity\DisplayMode:
+    type: entity
+    table: display_mode
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        project_id:
+            type: integer
+        mode_id:
+            type: integer
+        width:
+            type: integer
+        height:
+            type: integer
