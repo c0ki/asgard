@@ -1,8 +1,3 @@
-form[name=displayurl] label {
-    display: inline-block;
-    width: 10rem;
-}
-
 @media (max-width: 640px) {
     form[name=displayurl] label {
         display: block;

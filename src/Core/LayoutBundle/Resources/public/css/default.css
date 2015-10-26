@@ -127,6 +127,8 @@ aside nav a {
     margin: 0.5rem;
 }
 
-#main label {
+#main form label {
+    display: inline-block;
+    width: 10rem;
     margin-top: 0;
 }
