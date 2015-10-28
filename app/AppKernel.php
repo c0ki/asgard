@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new DashboardBundle\DashboardBundle(),
             new LogAnalyserBundle\LogAnalyserBundle(),
             new DisplayBundle\DisplayBundle(),
+            new eZPublishBundle\eZPublishBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

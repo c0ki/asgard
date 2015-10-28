@@ -1,0 +1,7 @@
+ezpublish_tool_homepage:
+    path:     /
+    defaults: { _controller: eZPublishBundle:Default:index }
+
+ezpublish_right:
+    path:     /right
+    defaults: { _controller: eZPublishBundle:Right:index }

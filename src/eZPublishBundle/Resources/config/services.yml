@@ -1,0 +1,9 @@
+parameters:
+    ezpublish.form.type.right.class: eZPublishBundle\Form\Type\RightType
+
+services:
+    ezpublish.form.type.right:
+        class: %ezpublish.form.type.right.class%
+        arguments: [ @service_container ]
+        tags:
+            - { name: form.type, alias: ezpublish_right }

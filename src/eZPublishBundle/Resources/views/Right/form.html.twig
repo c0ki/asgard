@@ -1,0 +1,12 @@
+{% extends 'eZPublishBundle::layout.html.twig' %}
+
+{% form_theme form 'CoreLayoutBundle:Form:form_horizontal_multiple.html.twig' %}
+
+{% block content %}
+    <h2>
+        Sélection des droits
+    </h2>
+
+    {{ form(form) }}
+
+{% endblock %}
