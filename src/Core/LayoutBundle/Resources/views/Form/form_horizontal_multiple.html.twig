@@ -1,0 +1,49 @@
+{% use "form_div_layout.html.twig" %}
+
+{% block form_row %}
+    {% spaceless %}
+        {% if form.vars.name starts with '_' %}
+            {{ parent() }}
+        {% else %}
+            <td>
+                <div class="label" style="display:none;">{{ form_label(form) }}</div>
+                {{ form_errors(form) }}
+                {{ form_widget(form) }}
+            </td>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block form_rows %}
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            {% for child in form if not (child.vars.name starts with '_') and 'hidden' not in child.vars.block_prefixes and 'button' not in child.vars.block_prefixes %}
+                <th>
+                    {{ form_label(child) }}
+                </th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tr>
+            <td><a href="#" class="icon-plus"></a><a href="#" class="icon-minus"></a></td>
+            {% for child in form if not (child.vars.name starts with '_') and 'hidden' not in child.vars.block_prefixes and 'button' not in child.vars.block_prefixes %}
+                {{ form_row(child) }}
+            {% endfor %}
+        </tr>
+    </table>
+{% endblock form_rows %}
+
+{% block form %}
+    {% stylesheets 'bundles/corelayout/css/form_horizontal_multiple.css' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+    <div class="form_horizontal_multiple">
+    {{ parent() }}
+    </div>
+    {% javascripts
+    '@CoreLayoutBundle/Resources/public/js/form_horizontal_multiple.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

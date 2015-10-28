@@ -1,0 +1,12 @@
+.form_horizontal_multiple form table a {
+    text-decoration: none;
+}
+
+.form_horizontal_multiple form table td:first-child, form table th:first-child {
+    width: 4rem;
+}
+
+.form_horizontal_multiple form table tr:first-child td:first-child .icon-minus {
+    display: none;
+}
+
