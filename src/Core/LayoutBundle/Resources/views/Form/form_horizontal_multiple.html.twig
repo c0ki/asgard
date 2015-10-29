@@ -1,11 +1,11 @@
-{% use "form_div_layout.html.twig" %}
+{% use "CoreLayoutBundle:Form:form_div_layout.html.twig" %}
 
 {% block form_row %}
     {% spaceless %}
         {% if form.vars.name starts with '_' %}
             {{ parent() }}
         {% else %}
-            <td>
+            <td class="col_{{ form.vars.name }}">
                 <div class="label" style="display:none;">{{ form_label(form) }}</div>
                 {{ form_errors(form) }}
                 {{ form_widget(form) }}
@@ -20,14 +20,17 @@
         <tr>
             <th></th>
             {% for child in form if not (child.vars.name starts with '_') and 'hidden' not in child.vars.block_prefixes and 'button' not in child.vars.block_prefixes %}
-                <th>
+                <th class="col_{{ child.vars.name }}">
                     {{ form_label(child) }}
                 </th>
             {% endfor %}
         </tr>
         </thead>
         <tr>
-            <td><a href="#" class="icon-plus"></a><a href="#" class="icon-minus"></a></td>
+            <td>
+                <a href="#" onclick="form_horizontal_multiple_duplicate_line(this.parentNode.parentNode);return false;" class="icon-plus"></a>
+                <a href="#" onclick="form_horizontal_multiple_remove_line(this.parentNode.parentNode);return false;" class="icon-minus"></a>
+            </td>
             {% for child in form if not (child.vars.name starts with '_') and 'hidden' not in child.vars.block_prefixes and 'button' not in child.vars.block_prefixes %}
                 {{ form_row(child) }}
             {% endfor %}

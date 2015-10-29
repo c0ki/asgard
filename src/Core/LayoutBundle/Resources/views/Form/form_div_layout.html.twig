@@ -1,0 +1,14 @@
+{% use "form_div_layout.html.twig" %}
+
+{%- block choice_widget_collapsed -%}
+
+    {% if multiple %}
+        {% set attr = attr|merge({'onchange': 'form_choice_multiple(this)'}) %}
+        <div class="choices_group">
+    {% endif %}
+    {{ parent() }}
+    {% if multiple %}
+        <ul class="choices_selected" for="{{ id }}"></ul>
+        </div>
+    {% endif %}
+{%- endblock choice_widget_collapsed -%}
