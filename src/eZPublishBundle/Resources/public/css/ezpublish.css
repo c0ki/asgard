@@ -1,0 +1,10 @@
+#main form th, #main form td {
+    vertical-align: middle;
+}
+#main form table .col_module {
+    width: 10rem;
+}
+
+#main form table .col_function {
+    width: 10rem;
+}
