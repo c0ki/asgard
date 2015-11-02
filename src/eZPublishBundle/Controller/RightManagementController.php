@@ -4,12 +4,20 @@ namespace eZPublishBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use eZPublishBundle\Entity\Policy;
 
 class RightManagementController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $form = $this->createForm('ezpublish_role');
+        $form = $this->createForm('ezpublishbundle_policy');
+
+//        $policyEntity = new Policy();
+//        $projectEntity->setName($project);
+//        $projectEntity->setDescription('Describe project here');
+
+//        $form = $this->createForm('ezpublish_role');
+//        $form = $this->createForm('entity', $policyEntity, array('entity' => 'eZPublishBundle\Entity\Policy'));
         $form->add('choice', 'submit', array('label' => 'Envoyer'));
 
         $formIsValid = false;

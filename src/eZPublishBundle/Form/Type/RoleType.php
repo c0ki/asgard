@@ -24,8 +24,8 @@ class RoleType extends AbstractType
                       ));
 
 
-        $builder->add('right', 'collection', array(
-            'type'         => new RightType($this),
+        $builder->add('policies', 'collection', array(
+            'type'         => new PolicyType($this),
             'allow_add'    => true,
         ));
 

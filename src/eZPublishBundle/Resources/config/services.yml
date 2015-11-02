@@ -1,6 +1,6 @@
 parameters:
     ezpublish.form.type.role.class: eZPublishBundle\Form\Type\RoleType
-    ezpublish.form.type.right.class: eZPublishBundle\Form\Type\RightType
+    ezpublish.form.type.policy.class: eZPublishBundle\Form\Type\PolicyType
 
 services:
     ezpublish.form.type.role:
@@ -9,8 +9,12 @@ services:
         tags:
             - { name: form.type, alias: ezpublish_role }
 
-    ezpublish.form.type.right:
-        class: %ezpublish.form.type.right.class%
-        arguments: [ @ezpublish.form.type.role ]
+    ezpublish.form.type.policy:
+        class: %ezpublish.form.type.policy.class%
         tags:
-            - { name: form.type, alias: ezpublish_right }
+            - { name: form.type, alias: ezpublish_policy }
+
+    ezpublish.form.policy:
+        class: eZPublishBundle\Form\PolicyType
+        tags:
+            - { name: form.type, alias: ezpublishbundle_policy }

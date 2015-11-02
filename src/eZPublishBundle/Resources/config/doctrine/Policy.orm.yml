@@ -1,0 +1,34 @@
+eZPublishBundle\Entity\Policy:
+    type: entity
+    table: ezpublish_policy
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        module:
+            type: string
+            length: 50
+        function:
+            type: string
+            length: 50
+        class:
+            type: simple_array
+            nullable: true
+        path:
+            type: simple_array
+            nullable: true
+#        language:
+#            type: simple_array
+#            nullable: true
+    manyToMany:
+        language:
+            targetEntity: Language
+            joinTable:
+                name: ezpublish_policy_language
+                joinColumns:
+                    entity_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    language_id:
+                        referencedColumnName: id

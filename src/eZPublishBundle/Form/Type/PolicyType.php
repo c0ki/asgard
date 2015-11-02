@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class RightType extends AbstractType
+class PolicyType extends AbstractType
 {
 
     /**
@@ -224,7 +224,7 @@ class RightType extends AbstractType
 
     public function getName()
     {
-        return 'ezpublish_right';
+        return 'ezpublish_policy';
     }
 
 }

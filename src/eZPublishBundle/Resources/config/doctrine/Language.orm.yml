@@ -1,0 +1,17 @@
+eZPublishBundle\Entity\Language:
+    type: entity
+    table: ezpublish_language
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        project_id:
+            type: integer
+        label:
+            type: string
+            length: 50
+        code:
+            type: string
+            nullable: 10
+
