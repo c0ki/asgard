@@ -4,4 +4,4 @@ ezpublish_tool_homepage:
 
 ezpublish_right:
     path:     /right
-    defaults: { _controller: eZPublishBundle:Right:index }
+    defaults: { _controller: eZPublishBundle:RightManagement:index }
