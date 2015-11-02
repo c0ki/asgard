@@ -2,7 +2,7 @@ parameters:
     templating.globals.class: Core\CoreBundle\Component\Templating\GlobalVariables
 
     asgard.eventlistener.console.pid_file.class: Core\CoreBundle\EventListener\ConsolePidFileListener
-    form.type.entity.class: Core\CoreBundle\Form\Type\EntityType
+    form.type.generic_entity.class: Core\CoreBundle\Form\Type\GenericEntityType
 
 services:
     asgard.eventlistener.console.pid_file:
@@ -12,8 +12,8 @@ services:
             - {name: kernel.event_listener, event: console.command, method: onConsoleCommand}
             - {name: kernel.event_listener, event: console.terminate, method: onConsoleTerminate}
 
-    form.type.entity:
-        class: %form.type.entity.class%
+    form.type.generic_entity:
+        class: %form.type.generic_entity.class%
         arguments: [ @service_container ]
         tags:
-            - { name: form.type, alias: entity }
+            - { name: form.type, alias: generic_entity }

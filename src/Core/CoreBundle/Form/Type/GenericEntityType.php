@@ -9,7 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class EntityType extends AbstractType
+class GenericEntityType extends AbstractType
 {
 
     public function __construct(ContainerInterface $container)
@@ -57,7 +57,7 @@ class EntityType extends AbstractType
 
     public function getName()
     {
-        return 'entity';
+        return 'generic_entity';
     }
 
 }
