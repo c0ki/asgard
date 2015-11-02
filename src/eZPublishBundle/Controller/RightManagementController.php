@@ -9,25 +9,25 @@ class RightManagementController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $form = $this->createForm('ezpublish_right');
+        $form = $this->createForm('ezpublish_role');
         $form->add('choice', 'submit', array('label' => 'Envoyer'));
 
         $formIsValid = false;
-        foreach ($request->request->all() as $paramName => $paramValue) {
-            if (preg_match('/^ezpublish_right/', $paramName)) {
-                $formIsValid = true;
-                $newRequest = $request;
-                $newRequest->request->set('ezpublish_right',
-                                          array_merge($request->request->get('ezpublish_right'), $paramValue));
-                $form2 = $this->createForm('ezpublish_right');
-                $form2->add('choice', 'submit', array('label' => 'Envoyer'));
-                $form2->handleRequest($newRequest);
-                if (!$form2->isValid()) {
-                    $formIsValid = false;
-                    break;
-                }
-            }
-        }
+//        foreach ($request->request->all() as $paramName => $paramValue) {
+//            if (preg_match('/^ezpublish_right/', $paramName)) {
+//                $formIsValid = true;
+//                $newRequest = $request;
+//                $newRequest->request->set('ezpublish_right',
+//                                          array_merge($request->request->get('ezpublish_right'), $paramValue));
+//                $form2 = $this->createForm('ezpublish_right');
+//                $form2->add('choice', 'submit', array('label' => 'Envoyer'));
+//                $form2->handleRequest($newRequest);
+//                if (!$form2->isValid()) {
+//                    $formIsValid = false;
+//                    break;
+//                }
+//            }
+//        }
         if ($formIsValid) {
             $macro = "VERSION BUILD=8940826 RECORDER=FX\n";
             $macro .= "TAB T=1\n";
