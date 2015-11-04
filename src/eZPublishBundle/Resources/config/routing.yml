@@ -1,6 +1,9 @@
 ezpublish_tool_homepage:
     path:     /
     defaults: { _controller: eZPublishBundle:Default:index }
+    options:
+        class: icon-ez
+        label: eZPublish
 
 ezpublish_right:
     path:     /right
