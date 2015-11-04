@@ -30,7 +30,7 @@ body > header .logo a {
     margin-right: 3rem;
 }
 body > header .logo a:before {
-    color: #9ed0ff;
+    color: #ffffff;
     font-size: 5rem;
 }
 @media (max-width: 640px) {
