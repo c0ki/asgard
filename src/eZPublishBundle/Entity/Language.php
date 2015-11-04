@@ -109,5 +109,9 @@ class Language
     {
         return $this->code;
     }
+
+    public function __toString() {
+        return "{$this->getLabel()} [{$this->getCode()}]";
+    }
 }
 
