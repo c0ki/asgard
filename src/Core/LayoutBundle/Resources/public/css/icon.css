@@ -131,6 +131,10 @@ nav.icon a {
     content: '\e805';
 }
 
+.icon-ez:before, nav.icon .ez a:before, .inputicon input[value="ez"] + label:before {
+    content: '\e806';
+}
+
 .icon-globe:before, nav.icon .globe a:before, .inputicon input[value="globe"] + label:before {
     content: '\e807';
 }
