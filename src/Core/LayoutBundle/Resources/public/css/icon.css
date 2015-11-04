@@ -139,12 +139,17 @@ nav.icon a {
     content: '\e807';
 }
 
-.icon-logo:before, nav.icon .logo a:before, .inputicon input[value="logo"] + label:before {
+.icon-ez-colorful:before, nav.icon .ez-colorful a:before, .inputicon input[value="ez-colorful"] + label:before {
     content: '\e808';
 }
 
+
 .icon-tasks:before, nav.icon .tasks a:before, .inputicon input[value="tasks"] + label:before {
     content: '\e809';
+}
+
+.icon-logo:before, nav.icon .logo a:before, .inputicon input[value="logo"] + label:before {
+    content: '\e80a';
 }
 
 .icon-cog:before, nav.icon .cog a:before, .inputicon input[value="cog"] + label:before {

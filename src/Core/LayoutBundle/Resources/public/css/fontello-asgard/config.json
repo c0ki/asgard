@@ -9,7 +9,7 @@
     {
       "uid": "e772f6dc9915f88c7d631cecc68d2db5",
       "css": "logo",
-      "code": 59400,
+      "code": 59402,
       "src": "custom_icons",
       "selected": true,
       "svg": {
@@ -22,8 +22,8 @@
     },
     {
       "uid": "3afca89141e01955dd630a276edb7907",
-      "css": "ez",
-      "code": 59398,
+      "css": "ez-colorful",
+      "code": 59400,
       "src": "custom_icons",
       "selected": true,
       "svg": {
@@ -32,6 +32,20 @@
       },
       "search": [
         "logo-ez"
+      ]
+    },
+    {
+      "uid": "4f8b8023ccef234876315104c9fe7dad",
+      "css": "ez",
+      "code": 59398,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M41.7 39.4L41.7 812.5 361.6 812.5 361.6 951.8 956.3 951.8 956.3 357.1 814.8 357.1 814.8 39.4 41.7 39.4ZM116.6 114.3L739.9 114.3 739.9 357.1 361.6 357.1 361.6 737.5 116.6 737.5 116.6 114.3Z",
+        "width": 1000
+      },
+      "search": [
+        "logo-ez-2"
       ]
     },
     {
