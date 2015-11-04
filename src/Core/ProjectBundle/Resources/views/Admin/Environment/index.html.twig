@@ -1,0 +1,10 @@
+{% extends 'CoreProjectBundle:Admin:index.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <section id="project-edit">
+        <h2>Project {% if edit_mode %}edition{% else %}creation{% endif %}</h2>
+        {{ form(form) }}
+    </section>
+{% endblock %}

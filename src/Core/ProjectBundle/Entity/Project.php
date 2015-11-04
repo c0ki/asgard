@@ -120,4 +120,50 @@ class Project
     {
         return $this->logo;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $environments;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->environments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add environment
+     *
+     * @param \Core\ProjectBundle\Entity\Environment $environment
+     *
+     * @return Project
+     */
+    public function addEnvironment(\Core\ProjectBundle\Entity\Environment $environment)
+    {
+        $this->environments[] = $environment;
+
+        return $this;
+    }
+
+    /**
+     * Remove environment
+     *
+     * @param \Core\ProjectBundle\Entity\Environment $environment
+     */
+    public function removeEnvironment(\Core\ProjectBundle\Entity\Environment $environment)
+    {
+        $this->environments->removeElement($environment);
+    }
+
+    /**
+     * Get environments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEnvironments()
+    {
+        return $this->environments;
+    }
 }

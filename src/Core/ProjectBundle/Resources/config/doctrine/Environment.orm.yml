@@ -1,6 +1,6 @@
-Core\ProjectBundle\Entity\Project:
+Core\ProjectBundle\Entity\Environment:
     type: entity
-    table: project
+    table: project_environment
     id:
         id:
             type: integer
@@ -9,7 +9,6 @@ Core\ProjectBundle\Entity\Project:
         name:
             type: string
             length: 20
-            unique: true
         label:
             type: string
             length: 50
@@ -20,7 +19,10 @@ Core\ProjectBundle\Entity\Project:
             length: 20
             nullable: true
 
-    oneToMany:
-        environments:
-            targetEntity: Core\ProjectBundle\Entity\Environment
-            mappedBy: project
+    manyToOne:
+        project:
+            targetEntity: Core\ProjectBundle\Entity\Project
+            inversedBy: environments
+            joinColumn:
+                name: project_id
+                referencedColumnName: id
