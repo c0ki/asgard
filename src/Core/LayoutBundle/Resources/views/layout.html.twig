@@ -47,6 +47,14 @@
     </footer>
 {% endblock %}
 
+{% if asgard_has_message %}
+{% block message %}
+    <section class="message">
+
+    </section>
+{% endblock %}
+{% endif %}
+
 {% block foot_css %}{% endblock %}
 {% block foot_js %}
     {% javascripts
