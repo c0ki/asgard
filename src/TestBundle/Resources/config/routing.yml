@@ -1,0 +1,7 @@
+test_homepage:
+    path:     /
+    defaults: { _controller: TestBundle:Default:index }
+
+test_form:
+    path:     /form/
+    defaults: { _controller: TestBundle:Task:new }

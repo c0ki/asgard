@@ -1,0 +1,18 @@
+{# src/TestBundle/Resources/views/Task/new.html.twig #}
+
+{# ... #}
+
+{{ form_start(form) }}
+    {# render the task's only field: description #}
+    {{ form_row(form.description) }}
+
+<h3>Tags</h3>
+<ul class="tags">
+    {# iterate over each existing tag and render its only field: name #}
+    {% for tag in form.tags %}
+        <li>{{ form_row(tag.name) }}</li>
+    {% endfor %}
+</ul>
+{{ form_end(form) }}
+
+{# ... #}
