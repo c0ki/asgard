@@ -3,23 +3,26 @@
 namespace Core\CoreBundle\Form\Type;
 
 use Doctrine\ORM\EntityNotFoundException;
-use Doctrine\ORM\ORMInvalidArgumentException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class GenericEntityType extends AbstractType
 {
+    /**
+     * @var RegistryInterface
+     */
+    private $doctrine;
 
     /**
      * @var OptionsResolverInterface
      */
     private $resolver;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(RegistryInterface $doctrine)
     {
-        $this->container = $container;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -28,48 +31,45 @@ class GenericEntityType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $this->resolver = $resolver;
-        $resolver->setRequired(array('entity'));
-//        $resolver->setDefaults(array(
-//                                   'data_class' => 'Core\ProjectBundle\Entity\Project'
-//                               ));
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Check entity
-        $ORMmanager = $this->container->get('doctrine')->getManager();
+        $ORMmanager = $this->doctrine->getManager();
         try {
-            $entityMetadata = $ORMmanager->getClassMetadata($options['entity']);
+            $entityMetadata = $ORMmanager->getClassMetadata($options['data_class']);
         }
         catch (\Exception $e) {
-            throw EntityNotFoundException::fromClassNameAndIdentifier($options['entity'], array());
+            throw EntityNotFoundException::fromClassNameAndIdentifier($options['data_class'], array());
         }
 
         // Add defaults data_class
         $this->resolver->setDefaults(array(
-                                         'data_class' => $options['entity']
+                                         'data_class' => $options['data_class']
                                      ));
 
-        foreach ($entityMetadata->fieldMappings as $fieldName => $fieldMetadata) {
+        // Add fields
+        foreach ($entityMetadata->getFieldNames() as $fieldName) {
             if ($entityMetadata->isIdentifier($fieldName) && $entityMetadata->isIdGeneratorIdentity()) {
                 continue;
             }
             $builder->add($fieldName);
+        }
 
-//            $options = array('label' => ucfirst($fieldName));
-//            if (array_key_exists('nullable', $fieldMetadata) && $fieldMetadata['nullable']) {
-//                $options['required'] = false;
-//            }
-//            switch ($fieldMetadata['type']) {
-//                case 'string':
-//                    $builder->add($fieldName, 'text', $options);
-//                    break;
-//                case 'text':
-//                    $builder->add($fieldName, 'textarea', $options);
-//                    break;
-//                default:
-//                    throw new ORMInvalidArgumentException("TODO type '{$entityMetadata->getTypeOfField($fieldName)}' no register");
-//            }
+        // Add associations fields
+        foreach ($entityMetadata->getAssociationNames() as $associationName) {
+            if (!$entityMetadata->isAssociationInverseSide($associationName)) {
+                continue;
+            }
+            $targetClass = $entityMetadata->getAssociationTargetClass($associationName);
+            $builder->add($associationName,
+                          'collection',
+                          array(
+                              'type' => new self($this->doctrine),
+                              'allow_add' => true,
+                              'options' => array('data_class' => $targetClass)
+                          ));
         }
     }
 

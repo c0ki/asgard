@@ -167,4 +167,8 @@ class Environment
     {
         return $this->project;
     }
+
+    public function __toString() {
+        return $this->getLabel();
+    }
 }

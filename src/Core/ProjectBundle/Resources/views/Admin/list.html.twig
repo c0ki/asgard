@@ -10,7 +10,9 @@
             {% for project in projects %}
                 <li class="icon-{{ project.logo|default('no') }}">
                     <a href="{{ path('core_project_admin_project', {'project': project.name}) }}">{{ project.label }}</a>
-                    [<a href="{{ path('core_project_admin_environment', {'project': project.name}) }}">{{ project.environments.count }}</a>]
+                    {% if project.environments.count > 0 %}
+                        [{{ project.environments.count }} environment{% if project.environments.count > 1 %}s{% endif %}]
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
