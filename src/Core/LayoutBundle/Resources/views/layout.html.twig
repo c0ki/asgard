@@ -47,10 +47,14 @@
     </footer>
 {% endblock %}
 
-{% if asgard_has_message %}
-{% block message %}
-    <section class="message">
-
+{% if has_alert() %}
+{% block alert %}
+    <section id="alert">
+        <ul>
+        {% for alert in get_alerts() %}
+            <li class="{{ alert.type }}">{{ alert.text }}</li>
+        {% endfor %}
+        </ul>
     </section>
 {% endblock %}
 {% endif %}

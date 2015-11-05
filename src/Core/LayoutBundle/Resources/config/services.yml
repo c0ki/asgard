@@ -1,7 +1,20 @@
 parameters:
     tool_helper.class: Core\LayoutBundle\Component\Helper\ToolHelper
+    alert_helper.class: Core\LayoutBundle\Component\Helper\AlertHelper
+
+    core.twig.alert_extension.class: Core\LayoutBundle\Twig\AlertExtension
 
 services:
     tool_helper:
         class: %tool_helper.class%
         arguments: [ @service_container ]
+
+    alert_helper:
+        class: %alert_helper.class%
+        arguments: [ @request_stack ]
+
+    core.twig.alert_extension:
+        class: %core.twig.alert_extension.class%
+        arguments: [ @alert_helper ]
+        tags:
+            - { name: twig.extension }
