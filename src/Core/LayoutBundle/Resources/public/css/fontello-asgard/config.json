@@ -49,6 +49,12 @@
       ]
     },
     {
+      "uid": "9bc2902722abb366a213a052ade360bc",
+      "css": "progress",
+      "code": 59409,
+      "src": "fontelico"
+    },
+    {
       "uid": "dc3f1d5b1d006f7f7b3b6295eccab9da",
       "css": "camera",
       "code": 59413,
@@ -56,13 +62,13 @@
     },
     {
       "uid": "12f4ece88e46abd864e40b35e05b11cd",
-      "css": "ok",
+      "css": "success",
       "code": 59392,
       "src": "fontawesome"
     },
     {
       "uid": "5211af474d3a9848f67f945e2ccaf143",
-      "css": "cancel",
+      "css": "error",
       "code": 59393,
       "src": "fontawesome"
     },
@@ -97,14 +103,32 @@
       "src": "fontawesome"
     },
     {
+      "uid": "9a76bc135eac17d2c8b8ad4a5774fc87",
+      "css": "download",
+      "code": 59410,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "eeec3208c90b7b48e804919d0d2d4a41",
+      "css": "upload",
+      "code": 59411,
+      "src": "fontawesome"
+    },
+    {
       "uid": "c76b7947c957c9b78b11741173c8349b",
-      "css": "attention",
+      "css": "warning",
       "code": 59404,
       "src": "fontawesome"
     },
     {
+      "uid": "bbfb51903f40597f0b70fd75bc7b5cac",
+      "css": "trash",
+      "code": 59412,
+      "src": "fontawesome"
+    },
+    {
       "uid": "e99461abfef3923546da8d745372c995",
-      "css": "cog",
+      "css": "pref",
       "code": 59403,
       "src": "fontawesome"
     },

@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'asgard';
-    src: url('font/asgard.eot?22858888');
-    src: url('font/asgard.eot?22858888#iefix') format('embedded-opentype'),
-    url('font/asgard.woff?22858888') format('woff'),
-    url('font/asgard.ttf?22858888') format('truetype'),
-    url('font/asgard.svg?22858888#asgard') format('svg');
+    src: url('font/asgard.eot?39237166');
+    src: url('font/asgard.eot?39237166#iefix') format('embedded-opentype'),
+    url('font/asgard.woff?39237166') format('woff'),
+    url('font/asgard.ttf?39237166') format('truetype'),
+    url('font/asgard.svg?39237166#asgard') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'asgard';
-    src: url('../font/asgard.svg?22858888#asgard') format('svg');
+    src: url('../font/asgard.svg?39237166#asgard') format('svg');
   }
 }
 */
@@ -107,11 +107,11 @@ nav.icon a {
     content: '\00a0';
 }
 
-.icon-ok:before, nav.icon .ok a:before, .inputicon input[value="ok"] + label:before {
+.icon-success:before, nav.icon .success a:before, .inputicon input[value="success"] + label:before {
     content: '\e800';
 }
 
-.icon-cancel:before, nav.icon .cancel a:before, .inputicon input[value="cancel"] + label:before {
+.icon-error:before, nav.icon .error a:before, .inputicon input[value="error"] + label:before {
     content: '\e801';
 }
 
@@ -152,11 +152,11 @@ nav.icon a {
     content: '\e80a';
 }
 
-.icon-cog:before, nav.icon .cog a:before, .inputicon input[value="cog"] + label:before {
+.icon-pref:before, nav.icon .pref a:before, .inputicon input[value="pref"] + label:before {
     content: '\e80b';
 }
 
-.icon-attention:before, nav.icon .attention a:before, .inputicon input[value="attention"] + label:before {
+.icon-warning:before, nav.icon .warning a:before, .inputicon input[value="warning"] + label:before {
     content: '\e80c';
 }
 
@@ -179,6 +179,20 @@ nav.icon a {
 
 .icon-desktop:before, nav.icon .desktop a:before, .inputicon input[value="desktop"] + label:before {
     content: '\e810';
+}
+
+.icon-progress:before, nav.icon .progress a:before, .inputicon input[value="progress"] + label:before {
+    content: '\e811';
+}
+
+.icon-download:before, nav.icon .download a:before, .inputicon input[value="download"] + label:before {
+    content: '\e812';
+}
+.icon-upload:before, nav.icon .upload a:before, .inputicon input[value="upload"] + label:before {
+    content: '\e813';
+}
+.icon-trash:before, nav.icon .trash a:before, .inputicon input[value="trash"] + label:before {
+    content: '\e814';
 }
 
 .icon-camera:before, nav.icon .camera a:before, .inputicon input[value="camera"] + label:before {
