@@ -2,9 +2,9 @@
 
 namespace Core\LayoutBundle\Component\Helper;
 
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Cookie;
 
 class AlertHelper
 {
@@ -16,10 +16,13 @@ class AlertHelper
     const CookieName = 'asgard_core_alert';
 
     private static $alertTypes = [
-        'error' => '#',
-        'warning' => '@',
-        'info' => '',
+        'error' => '¤',
+        'warning' => '!',
+        'info' => '%',
+        'success' => '$',
+        'help' => '?',
     ];
+    private static $defaultAlertType = 'info';
 
     public function __construct(RequestStack $requestStack)
     {
@@ -36,6 +39,7 @@ class AlertHelper
             $alerts = $this->unserialize($this->request->cookies->get(self::CookieName));
             $this->purge();
         }
+
         return $alerts;
     }
 
@@ -74,19 +78,11 @@ class AlertHelper
         return $this;
     }
 
-    public function error($message)
+    public function __call($function, $params)
     {
-        return $this->add($message, 'error');
-    }
-
-    public function info($message)
-    {
-        return $this->add($message, 'info');
-    }
-
-    public function warning($message)
-    {
-        return $this->add($message, 'warning');
+        if (array_key_exists($function, self::$alertTypes)) {
+            return $this->add($params[0], $function);
+        }
     }
 
     public function has()
@@ -101,23 +97,29 @@ class AlertHelper
         return false;
     }
 
-    protected function unserialize($alerts) {
+    protected function unserialize($alerts)
+    {
         $alerts = unserialize($alerts);
+        $alertPrefix = array_flip(self::$alertTypes);
         foreach ($alerts as &$alert) {
-            foreach (self::$alertTypes as $type => $prefix) {
-                if (preg_match("/^{$prefix}(.*)$/", $alert, $matches)) {
-                    $alert = [
-                        'type' => $type,
-                        'text' => $matches[1],
-                    ];
-                    break;
-                }
+            if (array_key_exists($alert[0], $alertPrefix)) {
+                $type = $alertPrefix[$alert[0]];
+                $alert = substr($alert, 1);
             }
+            else {
+                $type = self::$defaultAlertType;
+            }
+            $alert = [
+                'type' => $type,
+                'text' => $alert,
+            ];
         }
+
         return $alerts;
     }
 
-    protected function serialize(array $alerts) {
+    protected function serialize(array $alerts)
+    {
         foreach ($alerts as &$alert) {
             if (array_key_exists($alert['type'], self::$alertTypes)) {
                 $alert['text'] = self::$alertTypes[$alert['type']] . $alert['text'];
@@ -125,6 +127,7 @@ class AlertHelper
             $alert = $alert['text'];
         }
         $alerts = serialize($alerts);
+
         return $alerts;
     }
 

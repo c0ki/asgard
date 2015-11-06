@@ -8,6 +8,7 @@
         'bundles/corelayout/css/icon.css'
         'bundles/corelayout/css/simplenav.css'
         'bundles/corelayout/css/default.css'
+        'bundles/corelayout/css/alert.css'
         filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
@@ -52,7 +53,7 @@
     <section id="alert">
         <ul>
         {% for alert in get_alerts() %}
-            <li class="{{ alert.type }}">{{ alert.text }}</li>
+            <li class="icon-{{ alert.type }} {{ alert.type }}">{{ alert.text }}</li>
         {% endfor %}
         </ul>
     </section>

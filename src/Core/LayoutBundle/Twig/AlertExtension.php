@@ -5,7 +5,7 @@ namespace Core\LayoutBundle\Twig;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
 use Core\LayoutBundle\Component\Helper\AlertHelper;
 
-class AlertExtension extends RoutingExtension
+class AlertExtension extends \Twig_Extension
 {
 
     /**

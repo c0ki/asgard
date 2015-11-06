@@ -12,9 +12,6 @@ class AdminController extends Controller
 
     public function projectsAction(Request $request, $project = null)
     {
-
-        $this->container->get('alert_helper')->add('Message OK ' . time());
-
         $projectHelper = $this->container->get('project_helper');
 
         $projects = $projectHelper->all();
@@ -43,10 +40,11 @@ class AdminController extends Controller
                 $OrmManager->persist($projectEntity);
                 $OrmManager->flush();
 
-                $this->container->get('message_helper')->add('Message OK');
-                $msg = 'Create OK';
                 if ($editProject) {
-                    $msg = 'Edit OK';
+                    $this->container->get('alert_helper')->success('Modification OK');
+                }
+                else {
+                    $this->container->get('alert_helper')->success('Creation OK');
                 }
 
                 return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
