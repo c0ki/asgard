@@ -1,0 +1,55 @@
+{% use "form_div_layout.html.twig" %}
+
+{%- block form_start -%}
+    {%- set attr = attr|merge({'class': (attr.class|default('') ~ ' form_theme_default')|trim }) -%}
+    {{ parent() }}
+{%- endblock form_start -%}
+
+{%- block collection_widget -%}
+    {%- set attr = attr|merge({'class': (attr.class|default('') ~ ' collection')|trim }) -%}
+    {{ parent() }}
+{%- endblock collection_widget -%}
+
+{%- block form_widget_compound -%}
+    {% if form.parent.parent|default(null) %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' subform')|trim}) %}
+    {% endif %}
+    <div {{ block('widget_container_attributes') }}>
+        {% if 'collection' in attr.class|default %}
+            {{- block('form_labels') -}}
+        {% endif %}
+        {%- if form.parent is empty -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    </div>
+{%- endblock form_widget_compound -%}
+
+{%- block form_rows -%}
+    {% if form.parent.parent|default(null) %}
+        <ul>
+    {% endif %}
+    {{ parent() }}
+    {% if form.parent.parent|default(null) %}
+        </ul>
+    {% endif %}
+{%- endblock form_rows -%}
+
+{%- block form_labels -%}
+    <ul>
+        {% for child in form.children.0 %}
+            <li class="form_col_{{ child.parent.children|length }} form_col_{{ child.vars.name }}">{{- form_label(child) -}}</li>
+        {% endfor %}
+    </ul>
+{%- endblock form_labels -%}
+
+{%- block form_row -%}
+    {% if form.parent.parent.parent|default %}
+        <li class="form_col_{{ form.parent.children|length }} form_col_{{ form.vars.name }}">
+    {% endif %}
+    {{ parent() }}
+    {% if form.parent.parent.parent|default %}
+        </li>
+    {% endif %}
+{%- endblock form_row -%}

@@ -1,0 +1,14 @@
+form.form_theme_default {}
+
+form.form_theme_default .collection div > label {
+    display: none !important;
+}
+
+form.form_theme_default .collection li {
+    list-style: none;
+    display: inline-block;
+}
+
+form.form_theme_default li.form_col_4 {
+    width: calc(100% / 4);
+}
