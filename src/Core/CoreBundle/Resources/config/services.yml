@@ -1,5 +1,6 @@
 parameters:
     templating.globals.class: Core\CoreBundle\Component\Templating\GlobalVariables
+    router.options.matcher_dumper_class: Core\CoreBundle\Component\Routing\Matcher\Dumper\PhpMatcherDumper
 
     asgard.eventlistener.console.pid_file.class: Core\CoreBundle\EventListener\ConsolePidFileListener
     form.type.generic_entity.class: Core\CoreBundle\Form\Type\GenericEntityType
