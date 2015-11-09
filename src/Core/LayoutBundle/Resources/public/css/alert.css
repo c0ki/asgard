@@ -30,6 +30,7 @@
     99.9% {
         opacity: 0;
         width: 50%;
+        left: 25%;
     }
     100% {
         opacity: 0;
