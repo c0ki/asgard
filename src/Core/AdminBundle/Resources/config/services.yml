@@ -1,0 +1,9 @@
+parameters:
+    event_subscriber.admin.router.class: Core\AdminBundle\EventSubscriber\RouterSubscriber
+
+services:
+    event_subscriber.admin.router:
+            class: %event_subscriber.admin.router.class%
+            arguments: [ @router, @?router.request_context ]
+            tags:
+                - { name: kernel.event_subscriber }

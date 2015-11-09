@@ -14,6 +14,10 @@ log_analyser:
     resource: "@LogAnalyserBundle/Resources/config/routing.yml"
     prefix:   /loganalyser/
 
+core_admin:
+    resource: "@CoreAdminBundle/Resources/config/routing.yml"
+    prefix:   /
+
 core_project:
     resource: "@CoreProjectBundle/Resources/config/routing.yml"
     prefix:   /
