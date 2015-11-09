@@ -68,7 +68,9 @@ class GenericEntityType extends AbstractType
                           array(
                               'type' => new self($this->doctrine),
                               'allow_add' => true,
-                              'options' => array('data_class' => $targetClass)
+                              'allow_delete' => true,
+                              'options' => array('data_class' => $targetClass),
+                              'by_reference' => false,
                           ));
         }
     }
