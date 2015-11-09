@@ -1,14 +1,40 @@
 form.form_theme_default {}
 
+form.form_theme_default label {
+    font-weight: bold;
+}
+
 form.form_theme_default .collection div > label {
     display: none !important;
+}
+
+form.form_theme_default .collection ul.labels li {
+    text-align: center;
 }
 
 form.form_theme_default .collection li {
     list-style: none;
     display: inline-block;
+    vertical-align: middle;
 }
 
-form.form_theme_default li.form_col_4 {
-    width: calc(100% / 4);
+form.form_theme_default .collection li.col_4 {
+    width: calc(100% / 4 - 2em / 4);
+}
+
+form.form_theme_default .collection li.col_5 {
+    width: calc(100% / 5 - 2em / 5);
+}
+
+form.form_theme_default a {
+    text-decoration: none;
+}
+
+form.form_theme_default textarea {
+    margin-top: 0;
+}
+
+form.form_theme_default .subform input,
+form.form_theme_default .subform textarea {
+    width: 100%;
 }

@@ -6,6 +6,9 @@
 {%- endblock form_start -%}
 
 {%- block collection_widget -%}
+    {% if prototype is defined %}
+        {%- set attr = attr|merge({'data-index': form.children|length }) -%}
+    {% endif %}
     {%- set attr = attr|merge({'class': (attr.class|default('') ~ ' collection')|trim }) -%}
     {{ parent() }}
 {%- endblock collection_widget -%}
@@ -22,6 +25,11 @@
             {{ form_errors(form) }}
         {%- endif -%}
         {{- block('form_rows') -}}
+        {% if prototype is defined %}
+            <ul>
+                <li><a href="#" class="icon-plus"></a></li>
+            </ul>
+        {% endif %}
         {{- form_rest(form) -}}
     </div>
 {%- endblock form_widget_compound -%}
@@ -32,21 +40,26 @@
     {% endif %}
     {{ parent() }}
     {% if form.parent.parent|default(null) %}
+        <li class="col_{{ form.children|length + 1 }} col_buttons">
+            <a href="#" class="icon-minus"></a>
+        </li>
         </ul>
     {% endif %}
 {%- endblock form_rows -%}
 
 {%- block form_labels -%}
-    <ul>
-        {% for child in form.children.0 %}
-            <li class="form_col_{{ child.parent.children|length }} form_col_{{ child.vars.name }}">{{- form_label(child) -}}</li>
-        {% endfor %}
-    </ul>
+    {% if prototype is defined %}
+        <ul class="labels">
+            {% for child in prototype.children %}
+                <li class="col_{{ prototype.children|length + 1 }} col_{{ child.vars.name }}">{{- form_label(child) -}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {%- endblock form_labels -%}
 
 {%- block form_row -%}
     {% if form.parent.parent.parent|default %}
-        <li class="form_col_{{ form.parent.children|length }} form_col_{{ form.vars.name }}">
+        <li class="col_{{ form.parent.children|length + 1 }} col_{{ form.vars.name }}">
     {% endif %}
     {{ parent() }}
     {% if form.parent.parent.parent|default %}
