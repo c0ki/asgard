@@ -1,1 +1,5 @@
 parameters:
+
+#twig:
+#    form_themes:
+#        - 'CoreLayoutBundle:Form:form_theme_default.html.twig'

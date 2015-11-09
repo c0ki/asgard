@@ -1,4 +1,3 @@
-{%- form_theme form 'CoreLayoutBundle:Form:form_theme_default.html.twig' -%}
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,7 +63,8 @@
 {% block foot_css %}{% endblock %}
 {% block foot_js %}
     {% javascripts
-    '@CoreLayoutBundle/Resources/public/js/simplenav.js' %}
+    '@CoreLayoutBundle/Resources/public/js/simplenav.js'
+    '@CoreLayoutBundle/Resources/public/js/form_theme_default.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
