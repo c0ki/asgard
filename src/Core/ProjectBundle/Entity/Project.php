@@ -142,6 +142,7 @@ class Project
      */
     public function addEnvironment(\Core\ProjectBundle\Entity\Environment $environment)
     {
+        $environment->setProject($this);
         $this->environments[] = $environment;
 
         return $this;

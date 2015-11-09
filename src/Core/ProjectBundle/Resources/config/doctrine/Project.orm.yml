@@ -24,3 +24,4 @@ Core\ProjectBundle\Entity\Project:
         environments:
             targetEntity: Core\ProjectBundle\Entity\Environment
             mappedBy: project
+            cascade: [ persist ]
