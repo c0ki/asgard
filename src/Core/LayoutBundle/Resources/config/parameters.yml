@@ -1,4 +1,5 @@
 parameters:
+    theme_layout: CoreLayoutBundle::layout.html.twig
 
 #twig:
 #    form_themes:

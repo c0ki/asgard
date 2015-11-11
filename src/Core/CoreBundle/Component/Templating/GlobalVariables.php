@@ -28,4 +28,16 @@ class GlobalVariables extends FrameworkGlobalVariables
         }
     }
 
+    public function getLayoutTheme()
+    {
+        if ($this->container->hasParameter('theme_layout')) {
+            return $this->container->getParameter('theme_layout');
+        }
+    }
+
+    public function getAttributes()
+    {
+        return $this->getMasterRequest()->attributes->all();
+    }
+
 }
