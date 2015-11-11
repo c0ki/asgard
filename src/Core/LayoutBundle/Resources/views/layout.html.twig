@@ -7,9 +7,9 @@
         'bundles/corelayout/css/knacss.css'
         'bundles/corelayout/css/icon.css'
         'bundles/corelayout/css/simplenav.css'
-        'bundles/corelayout/css/default.css'
-        'bundles/corelayout/css/alert.css'
         'bundles/corelayout/css/form_theme_default.css'
+        'bundles/corelayout/css/alert.css'
+        'bundles/corelayout/css/default.css'
         filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
@@ -21,7 +21,7 @@
 {% block header %}
     <header class="flex-container-h">
         <div class="logo flex-item-first">
-            <a href="{{ path('core_layout_root') }}" class="icon-logo icon-only">Apps</a>
+            <a href="{{ path('core_layout_root') }}" class="icon-logo icon-only">Asgard</a>
         </div>
         {% block projects_nav %}
             {{ render(controller('CoreLayoutBundle:Layout:headerNav')) }}

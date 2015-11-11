@@ -2,33 +2,37 @@
 
 namespace Core\ProjectBundle\Component\Routing\Generator;
 
-use Symfony\Component\Routing\Generator\UrlGenerator as ComponentUrlGenerator;
+use Core\CoreBundle\Component\Routing\Generator\UrlGenerator as CoreUrlGenerator;
 
-class UrlGenerator extends ComponentUrlGenerator
+class UrlGenerator extends CoreUrlGenerator
 {
     /**
      * {@inheritdoc}
      */
     protected function doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $referenceType, $hostTokens, array $requiredSchemes = array())
     {
-        $url = parent::doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $referenceType, $hostTokens, $requiredSchemes);
-        if (!preg_match('/^core_/', $name) &&
-            (array_key_exists('project', $parameters) || $this->getContext()->hasParameter('_project'))
-        ) {
+        if ($name{0} != '_' && (array_key_exists('_project', $parameters) || $this->getContext()->hasParameter('_project'))) {
             $project = null;
-            if ($this->getContext()->hasParameter('_project')) {
-                $project = $this->getContext()->getParameter('_project');
+            if (!empty($defaults) && array_key_exists('_project', $defaults)) {
+                $project = $defaults['_project'];
+                if (array_key_exists('_project', $parameters)) {
+                    unset($parameters['_project']);
+                }
             }
-            if (array_key_exists('project', $parameters)) {
-                $project = $parameters['project'];
+            else {
+                if ($this->getContext()->hasParameter('_project')) {
+                    $project = $this->getContext()->getParameter('_project');
+                }
+                if (array_key_exists('_project', $parameters)) {
+                    $project = $parameters['_project'];
+                    unset($parameters['_project']);
+                }
             }
-            if ($referenceType == self::ABSOLUTE_PATH) {
-                $url = "/{$project}{$url}";
-            } else {
-                $infoUrl = parse_url($url);
-                $url = str_replace($infoUrl['path'], "/{$project}{$infoUrl['path']}", $url);
+            if (!empty($project)) {
+                array_push($tokens, array('text', "/{$project}"));
             }
         }
+        $url = parent::doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $referenceType, $hostTokens, $requiredSchemes);
 
         return $url;
     }
