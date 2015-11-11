@@ -203,3 +203,6 @@ nav.icon a {
     content: '\e816';
 }
 
+.icon-pref-alt:before, nav.icon .pref-alt a:before, .inputicon input[value="pref-alt"] + label:before {
+    content: '\e817';
+}
