@@ -1,6 +1,6 @@
-core_admin_homepage:
-    path:     /
-    defaults: { _controller: CoreAdminBundle:Default:index }
-    requirements:
-        _site: admin
+#core_admin_homepage:
+#    path:     /
+#    defaults: { _controller: CoreAdminBundle:Default:index }
+#    requirements:
+#        _site: admin
 #    condition: "request.attributes.get('_site') == 'admin'"

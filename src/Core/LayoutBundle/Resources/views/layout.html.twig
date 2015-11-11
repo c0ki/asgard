@@ -16,7 +16,7 @@
     {% endblock %}
     {% block head_js %}{% endblock %}
 </head>
-<body class="flex-container-v">
+<body class="{% block bodyclass %}flex-container-v{% endblock %}">
 
 {% block header %}
     <header class="flex-container-h">

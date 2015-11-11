@@ -1,0 +1,24 @@
+body > header .logo-admin a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+body > header .logo-admin a:before {
+    color: transparent;
+    font-size: 2rem;
+}
+
+body > header .logo-admin a:hover:before {
+    color: #fff;
+}
+
+body > header .logo-admin a:hover {
+    background-color: #B8860B;
+    mix-blend-mode: hard-light;
+}
+
+body.site-admin > header,
+body.site-admin > footer {
+    mix-blend-mode: difference;
+}
