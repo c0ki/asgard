@@ -1,1 +1,13 @@
-Hello {{ name }}!
+{% extends "TestBundle:Default:layout_skeleton.html.twig" %}
+
+{% block content %}
+    {% embed "TestBundle:Default:vertical_boxes_skeleton.html.twig" %}
+        {% block top %}
+            Some content for the top box
+        {% endblock %}
+
+        {% block bottom %}
+            Some content for the bottom box
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
