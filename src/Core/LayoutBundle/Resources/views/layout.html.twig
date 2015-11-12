@@ -2,6 +2,9 @@
 <html>
 <head>
     <title></title>
+    {% block favicon %}
+        <link rel="shortcut icon" href="/asgard-dark.png" type="image/png" sizes="16x16 24x24 32x32 64x64 128x128"/>
+    {% endblock %}
     {% block head_css %}
         {% stylesheets
         'bundles/corelayout/css/knacss.css'
@@ -49,15 +52,15 @@
 {% endblock %}
 
 {% if has_alert() %}
-{% block alert %}
-    <section id="alert">
-        <ul>
-        {% for alert in get_alerts() %}
-            <li class="icon-{{ alert.type }} {{ alert.type }}">{{ alert.text }}</li>
-        {% endfor %}
-        </ul>
-    </section>
-{% endblock %}
+    {% block alert %}
+        <section id="alert">
+            <ul>
+                {% for alert in get_alerts() %}
+                    <li class="icon-{{ alert.type }} {{ alert.type }}">{{ alert.text }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endblock %}
 {% endif %}
 
 {% block foot_css %}{% endblock %}

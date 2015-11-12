@@ -1,5 +1,13 @@
 {% extends "CoreLayoutBundle::layout.html.twig" %}
 
+{% block favicon %}
+    {% if app.attributes._site|default == 'admin' %}
+        <link rel="shortcut icon" href="/asgard-light.png" type="image/png" sizes="16x16 24x24 32x32 64x64 128x128"/>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
 {% block head_css %}
     {{ parent() }}
     {% stylesheets
