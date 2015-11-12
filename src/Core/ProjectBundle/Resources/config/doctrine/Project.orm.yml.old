@@ -20,14 +20,8 @@ Core\ProjectBundle\Entity\Project:
             length: 20
             nullable: true
 
-    manyToMany:
+    oneToMany:
         environments:
             targetEntity: Core\ProjectBundle\Entity\Environment
-            joinTable:
-                name: project_environment
-                joinColumns:
-                    project_id:
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    environment_id:
-                        referencedColumnName: id
+            mappedBy: project
+            cascade: [ persist ]

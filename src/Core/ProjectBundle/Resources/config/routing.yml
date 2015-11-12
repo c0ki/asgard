@@ -1,13 +1,20 @@
 core_project_admin:
     path:     /
-    defaults: { _controller: CoreProjectBundle:Admin:projects }
+    defaults:
+        _controller: CoreProjectBundle:Admin:list
+        _project: null
     requirements:
         _site: admin
 
-
 core_project_admin_project:
     path:     /{project}/
-    defaults: { _controller: CoreProjectBundle:Admin:projects }
+    defaults: { _controller: CoreProjectBundle:Admin:project, _project: null }
+    requirements:
+        _site: admin
+
+core_project_admin_environment:
+    path:     /environments/{environment}/
+    defaults: { _controller: CoreProjectBundle:Admin:environment, _project: null }
     requirements:
         _site: admin
 
@@ -20,4 +27,4 @@ core_project_home:
 
 core_project_project:
     path:     /{project}/
-    defaults: { _controller: CoreProjectBundle:Default:indexProject }
+    defaults: { _controller: CoreProjectBundle:Default:indexProject, _project: null }

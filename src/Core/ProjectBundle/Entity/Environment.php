@@ -2,11 +2,11 @@
 
 namespace Core\ProjectBundle\Entity;
 
-
+/**
+ * Environment
+ */
 class Environment
 {
-
-
     /**
      * @var integer
      */
@@ -33,10 +33,17 @@ class Environment
     private $logo;
 
     /**
-     * @var \Core\ProjectBundle\Entity\Project
+     * @var \Doctrine\Common\Collections\Collection
      */
-    private $project;
+    private $projects;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -145,30 +152,47 @@ class Environment
     }
 
     /**
-     * Set project
+     * Add project
      *
      * @param \Core\ProjectBundle\Entity\Project $project
      *
      * @return Environment
      */
-    public function setProject(Project $project = null)
+    public function addProject(\Core\ProjectBundle\Entity\Project $project)
     {
-        $this->project = $project;
+        $this->projects[] = $project;
 
         return $this;
     }
 
     /**
-     * Get project
+     * Remove project
      *
-     * @return \Core\ProjectBundle\Entity\Project
+     * @param \Core\ProjectBundle\Entity\Project $project
      */
-    public function getProject()
+    public function removeProject(\Core\ProjectBundle\Entity\Project $project)
     {
-        return $this->project;
+        $this->projects->removeElement($project);
     }
 
-    public function __toString() {
-        return $this->getLabel();
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjects()
+    {
+        return $this->projects;
+    }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "{$this->getLabel()} [{$this->getName()}]";
     }
 }
+

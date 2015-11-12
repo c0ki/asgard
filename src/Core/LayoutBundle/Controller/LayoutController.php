@@ -12,7 +12,7 @@ class LayoutController extends Controller
         $masterRequest = $requestStack->getMasterRequest();
 
         $projectHelper = $this->container->get('project_helper');
-        $projects = $projectHelper->all();
+        $projects = $projectHelper->listProjects();
         return $this->render('CoreLayoutBundle:Layout:header_nav.html.twig',
             array('projects' => $projects)
         );

@@ -3,49 +3,83 @@
 namespace Core\ProjectBundle\Component\Helper;
 
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class ProjectHelper
 {
 
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var \Symfony\Bridge\Doctrine\RegistryInterface
      */
     protected $container = null;
 
     /**
      * @var \Doctrine\Common\Persistence\ObjectRepository
      */
-    protected $repository;
+    protected $projectRepository;
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var \Doctrine\Common\Persistence\ObjectRepository
+     */
+    protected $environmentRepository;
+
+    public function __construct(RegistryInterface $doctrine)
     {
-        $this->container = $container;
-        $this->repository = $this->container->get('doctrine')->getRepository('CoreProjectBundle:Project');
+        $this->doctrine = $doctrine;
+        $this->projectRepository = $this->doctrine->getRepository('CoreProjectBundle:Project');
+        $this->environmentRepository = $this->doctrine->getRepository('CoreProjectBundle:Environment');
     }
 
     /**
      * @return array
      */
-    public function all()
+    public function listProjects()
     {
-        return $this->repository->findAll();
+        return $this->projectRepository->findAll();
     }
 
     /**
      * @return \Core\ProjectBundle\Entity\Project
      */
-    public function getByName($name)
+    public function getProjectByName($name)
     {
-        return $this->repository->findOneBy(array('name' => $name));
+        return $this->projectRepository->findOneBy(array('name' => $name));
     }
 
     /**
      * @return \Core\ProjectBundle\Entity\Project
      */
-    public function hasByName($name)
+    public function hasProjectByName($name)
     {
-        return ($this->getByName($name) ? true : false);
+        return ($this->getProjectByName($name) ? true : false);
     }
+
+
+    /**
+     * @return array
+     */
+    public function listEnvironments()
+    {
+        return $this->environmentRepository->findAll();
+    }
+
+
+    /**
+     * @return \Core\ProjectBundle\Entity\Project
+     */
+    public function getEnvironmentByName($name)
+    {
+        return $this->environmentRepository->findOneBy(array('name' => $name));
+    }
+
+    /**
+     * @return \Core\ProjectBundle\Entity\Project
+     */
+    public function hasEnvironmentByName($name)
+    {
+        return ($this->getEnvironmentByName($name) ? true : false);
+    }
+
+
 
 }

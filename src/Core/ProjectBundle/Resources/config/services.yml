@@ -8,4 +8,4 @@ parameters:
 services:
     project_helper:
         class: %project_helper.class%
-        arguments: [ @service_container ]
+        arguments: [ @doctrine ]

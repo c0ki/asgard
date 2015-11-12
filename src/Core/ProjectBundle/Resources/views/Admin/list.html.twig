@@ -1,20 +1,41 @@
 {% extends 'CoreProjectBundle::layout.html.twig' %}
 
 {% block content %}
-    <section id="default-projectlist">
-        <h2>Projects list</h2>
-        <ul>
-            <li class="icon-new">
-                <a href="{{ path('core_project_admin_project', {'project': 'new'}) }}">Add project</a>
-            </li>
-            {% for project in projects %}
-                <li class="icon-{{ project.logo|default('no') }}">
-                    <a href="{{ path('core_project_admin_project', {'project': project.name}) }}">{{ project.label }}</a>
-                    {% if project.environments.count > 0 %}
-                        [{{ project.environments.count }} environment{% if project.environments.count > 1 %}s{% endif %}]
-                    {% endif %}
+    {% block projects %}
+        <section id="default-projectlist">
+            <h2>Projects list</h2>
+            <ul>
+                <li class="icon-new">
+                    <a href="{{ path('core_project_admin_project', {'project': 'new'}) }}">Add project</a>
                 </li>
-            {% endfor %}
-        </ul>
-    </section>
+                {% for project in projects %}
+                    <li class="icon-{{ project.logo|default('no') }}">
+                        <a href="{{ path('core_project_admin_project', {'project': project.name}) }}">{{ project.label }}</a>
+                        {% if project.environments.count > 0 %}
+                            [{{ project.environments.count }} environment{% if project.environments.count > 1 %}s{% endif %}]
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endblock %}
+
+    {% block environments %}
+        <section id="default-environmentlist">
+            <h2>Environments list</h2>
+            <ul>
+                <li class="icon-new">
+                    <a href="{{ path('core_project_admin_environment', {'environment': 'new'}) }}">Add environment</a>
+                </li>
+                {% for environment in environments %}
+                    <li class="icon-{{ environment.logo|default('no') }}">
+                        <a href="{{ path('core_project_admin_environment', {'environment': environment.name}) }}">{{ environment.label }}</a>
+                        {% if environment.projects.count > 0 %}
+                            [{{ environment.projects.count }} project{% if environment.projects.count > 1 %}s{% endif %}]
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endblock %}
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'CoreProjectBundle:Admin:list.html.twig' %}
 
-{% block content %}
+{% block projects %}
     {{ parent() }}
 
     <section id="project-edit">
@@ -8,3 +8,5 @@
         {{ form(form) }}
     </section>
 {% endblock %}
+
+{% block environments %}{% endblock %}

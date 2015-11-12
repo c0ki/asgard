@@ -2,18 +2,48 @@
 
 namespace Core\ProjectBundle\Entity;
 
-
+/**
+ * Project
+ */
 class Project
 {
-    protected $name;
-    protected $label;
-    protected $description;
-    protected $logo;
     /**
      * @var integer
      */
     private $id;
 
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $label;
+
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @var string
+     */
+    private $logo;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $environments;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->environments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -50,30 +80,6 @@ class Project
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Project
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
      * Set label
      *
      * @param string $label
@@ -95,6 +101,30 @@ class Project
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Project
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**
@@ -120,18 +150,6 @@ class Project
     {
         return $this->logo;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $environments;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->environments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add environment
@@ -142,7 +160,6 @@ class Project
      */
     public function addEnvironment(\Core\ProjectBundle\Entity\Environment $environment)
     {
-        $environment->setProject($this);
         $this->environments[] = $environment;
 
         return $this;
@@ -167,4 +184,15 @@ class Project
     {
         return $this->environments;
     }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "{$this->getLabel()} [{$this->getName()}]";
+    }
 }
+
