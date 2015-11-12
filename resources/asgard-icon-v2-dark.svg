@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 729.80276 724.08289"
+   height="724.08289"
+   width="729.8028"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="asgard-icon-v2-dark.svg"
+   inkscape:export-filename="D:\DONNEES\S0087741\Images\asgard-icon-v1.png"
+   inkscape:export-xdpi="16.457144"
+   inkscape:export-ydpi="16.457144">
+  <metadata
+     id="metadata12">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1028"
+     id="namedview8"
+     showgrid="false"
+     inkscape:zoom="0.92186794"
+     inkscape:cx="67.515781"
+     inkscape:cy="409.21693"
+     inkscape:window-x="1592"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <path
+     style="opacity:1;fill:#0c447f;fill-opacity:0.94117647;stroke:#ffffff;stroke-width:1.02410305;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 360.70898 8.8242188 A 349.48795 349.48795 0 0 0 11.945312 358.79297 A 349.48795 349.48795 0 0 0 361.67383 707.79883 A 349.48795 349.48795 0 0 0 710.91992 358.3125 L 710.91797 357.34766 A 349.48795 349.48795 0 0 0 360.70898 8.8242188 z M 458.43945 103.74805 L 456.05078 241.08594 L 599.36328 103.74805 L 592.19727 242.28125 L 454.85547 379.62109 L 583.83594 525.32227 L 453.66211 654.30273 L 315.12695 653.10938 L 319.9043 379.62109 L 175.23047 517.17969 A 12.467285 54.266552 10.163623 0 1 176.05078 571.47852 L 176.02539 571.625 A 12.467285 54.266552 10.163623 0 1 154.1875 622.8418 A 12.467285 54.266552 10.163623 0 1 151.4707 567.29883 A 12.467285 54.266552 10.163623 0 1 169.78711 517.31055 L 81.697266 500.44141 A 23.596578 23.596578 0 0 1 67.548828 505.19531 A 23.596578 23.596578 0 0 1 43.935547 481.63086 A 23.596578 23.596578 0 0 1 67.482422 458.00195 A 23.596578 23.596578 0 0 1 87.765625 469.50781 L 177.78711 374.8457 L 177.78711 236.31055 L 317.51562 231.5332 L 458.43945 103.74805 z M 434.55469 158.68359 L 382.00586 212.42578 L 392.75586 220.78516 L 434.55469 158.68359 z M 564.72852 190.92969 L 485.9082 269.75195 L 499.04492 280.49805 L 564.72852 190.92969 z M 252.10938 288.28906 L 239.32812 335.23242 L 257.22266 335.81055 L 252.10938 288.28906 z "
+     transform="translate(-3.0517578e-5,0)"
+     id="path4148" />
+</svg>
