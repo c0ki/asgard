@@ -6,7 +6,7 @@ namespace DisplayBundle\Entity;
 class DisplayMode
 {
     protected $project_id;
-    protected $mode;
+    protected $mode_id;
     protected $width;
     protected $height;
 
