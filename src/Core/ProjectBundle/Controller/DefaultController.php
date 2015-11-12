@@ -10,7 +10,7 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $projectHelper = $this->container->get('project_helper');
-        $projects = $projectHelper->all();
+        $projects = $projectHelper->listProjects();
         return $this->render('CoreProjectBundle:Default:index.html.twig',
             array('projects' => $projects)
         );
