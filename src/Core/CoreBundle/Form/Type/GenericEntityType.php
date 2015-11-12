@@ -59,7 +59,8 @@ class GenericEntityType extends AbstractType
 
         // Add associations fields
         foreach ($entityMetadata->getAssociationNames() as $associationName) {
-            if (!$entityMetadata->isAssociationInverseSide($associationName)) {
+            if ($entityMetadata->isCollectionValuedAssociation($associationName)) {
+                $builder->add($associationName);
                 continue;
             }
             $targetClass = $entityMetadata->getAssociationTargetClass($associationName);
