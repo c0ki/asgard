@@ -103,6 +103,10 @@ nav.icon a {
     color: transparent;
 }
 
+.icon-only:hover, .inputicon input + label:hover {
+    color: transparent;
+}
+
 .icon-no:before, nav.icon .no a:before, .inputicon input[value="no"] + label:before {
     content: '\00a0';
 }
