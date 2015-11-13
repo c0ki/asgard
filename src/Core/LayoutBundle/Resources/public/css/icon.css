@@ -83,6 +83,10 @@ nav.icon a {
     }
 }
 
+option[class^="icon-"]:before, option[class*=" icon-"]:before {
+    margin-right: .1em;
+}
+
 .inputicon input + label:before {
     font-family: "asgard";
     font-size: 3rem;
@@ -132,7 +136,7 @@ nav.icon a {
 .icon-tabletlandscape:before, .inputicon input[value="tabletlandscape"] + label:before { content: '\e80e'; transform: rotate(-90deg); }
 .icon-laptop:before, .inputicon input[value="laptop"] + label:before { content: '\e80f'; }
 .icon-desktop:before, .inputicon input[value="desktop"] + label:before { content: '\e810'; }
-.icon-progress:before, .inputicon input[value="progress"] + label:before { content: '\e811'; }
+.icon-progress:before, .inputicon input[value="progress"] + label:before { content: '\e811'; animation: spin 2s infinite linear; }
 .icon-download:before, .inputicon input[value="download"] + label:before { content: '\e812'; }
 .icon-upload:before, .inputicon input[value="upload"] + label:before { content: '\e813'; }
 .icon-trash:before, .inputicon input[value="trash"] + label:before { content: '\e814'; }
@@ -141,4 +145,3 @@ nav.icon a {
 .icon-pref-alt:before, .inputicon input[value="pref-alt"] + label:before { content: '\e817'; }
 .icon-minus-circle:before, .inputicon input[value="minus-circle"] + label:before { content: '\e818'; }
 .icon-plus-circle:before, .inputicon input[value="plus-circle"] + label:before { content: '\e819'; }
-

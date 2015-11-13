@@ -2,11 +2,23 @@
     {% set route = app.masterRequest.attributes.get('_route') %}
     {% set params = params|default({})|merge(app.masterRequest.attributes.get('_route_params')) %}
 {% endif %}
-<ul>
-    {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
-        {% set params = params|default({})|merge({'@domain': domain.name}) %}
-        <li{% if app.domain == domain %} class="selected"{% endif %}>
-            <a href="{{ path(route, params) }}" class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</a>
-        </li>
-    {% endfor %}
-</ul>
+{% if select|default %}
+    <select onchange="window.location=this.value">
+        {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
+            {% set params = params|default({})|merge({'@domain': domain.name}) %}
+            <option value="{{ path(route, params) }}"{% if app.domain == domain %} selected="selected"{% endif %}
+                    class="icon-{{ domain.logo|default('no') }}">
+                {{ domain.label }}
+            </option>
+        {% endfor %}
+    </select>
+{% else %}
+    <ul>
+        {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
+            {% set params = params|default({})|merge({'@domain': domain.name}) %}
+            <li{% if app.domain == domain %} class="selected"{% endif %}>
+                <a href="{{ path(route, params) }}" class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

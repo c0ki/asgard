@@ -92,6 +92,14 @@ body > footer, body > footer a {
     color: white;
 }
 
+aside nav select {
+    width: 100%;
+}
+
+aside nav ul {
+    padding: 0;
+}
+
 aside nav li {
     list-style: none;
 }
