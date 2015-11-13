@@ -42,16 +42,34 @@ class ProjectHelper
      */
     public function listProjects()
     {
-        return $this->projectRepository->findAll();
+        if (empty($this->projects)) {
+            $this->projects = $this->projectRepository->findAll();
+        }
+
+        return $this->projects;
     }
+
+    /**
+     * @var \Core\ProjectBundle\Entity\Project[]
+     */
+    private $projects = array();
 
     /**
      * @return \Core\ProjectBundle\Entity\Project
      */
     public function getProjectByName($name)
     {
-        return $this->projectRepository->findOneBy(array('name' => $name));
+        if (!array_key_exists($name, $this->projectsByName)) {
+            $this->projectsByName[$name] = $this->projectRepository->findOneBy(array('name' => $name));
+        }
+
+        return $this->projectsByName[$name];
     }
+
+    /**
+     * @var \Core\ProjectBundle\Entity\Project[]
+     */
+    private $projectsByName = array();
 
     /**
      * @return boolean
@@ -69,6 +87,7 @@ class ProjectHelper
         if ($this->masterRequest->attributes->has('@project')) {
             return $this->getProjectByName($this->masterRequest->attributes->get('@project'));
         }
+
         return null;
     }
 
@@ -86,8 +105,17 @@ class ProjectHelper
      */
     public function listDomains()
     {
-        return $this->domainRepository->findAll();
+        if (empty($this->domains)) {
+            $this->domains = $this->domainRepository->findAll();
+        }
+
+        return $this->domains;
     }
+
+    /**
+     * @var \Core\ProjectBundle\Entity\Domain[]
+     */
+    private $domains = array();
 
 
     /**
@@ -95,8 +123,17 @@ class ProjectHelper
      */
     public function getDomainByName($name)
     {
-        return $this->domainRepository->findOneBy(array('name' => $name));
+        if (!array_key_exists($name, $this->domainsByName)) {
+            $this->domainsByName[$name] = $this->domainRepository->findOneBy(array('name' => $name));
+        }
+
+        return $this->domainsByName[$name];
     }
+
+    /**
+     * @var \Core\ProjectBundle\Entity\Domain[]
+     */
+    private $domainsByName = array();
 
     /**
      * @return boolean
@@ -114,6 +151,7 @@ class ProjectHelper
         if ($this->masterRequest->attributes->has('@domain')) {
             return $this->getDomainByName($this->masterRequest->attributes->get('@domain'));
         }
+
         return null;
     }
 
@@ -124,7 +162,6 @@ class ProjectHelper
     {
         return $this->masterRequest->attributes->has('@domain');
     }
-
 
 
 }

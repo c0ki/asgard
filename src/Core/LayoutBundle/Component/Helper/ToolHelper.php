@@ -23,30 +23,39 @@ class ToolHelper
      */
     public function listTools()
     {
-        $listTools = array();
-        $routes = $this->container->get('router')->getRouteCollection()->all();
-        foreach ($routes as $name => $route) {
-            if (preg_match('/_tool_homepage$/', $name)) {
-                if (preg_match_all('/{([^}]+)}/', $route->getPath(), $matches)) {
-                    foreach ($matches[1] as $param) {
-                        if (is_null($route->getDefault($param))) {
-                            continue 2;
+        if (empty($this->tools)) {
+            $routes = $this->container->get('router')->getRouteCollection()->all();
+            foreach ($routes as $name => $route) {
+                if (preg_match('/_tool_homepage$/', $name)) {
+                    if (preg_match_all('/{([^}]+)}/', $route->getPath(), $matches)) {
+                        foreach ($matches[1] as $param) {
+                            if (is_null($route->getDefault($param))) {
+                                continue 2;
+                            }
                         }
                     }
-                }
-                $listTools[$name]['route_name'] = $name;
-                if ($route->hasOption('class')) {
-                    $listTools[$name]['class'] = $route->getOption('class');
-                }
-                if ($route->hasOption('label')) {
-                    $listTools[$name]['label'] = $route->getOption('label');
-                }
-                else {
-                    $listTools[$name]['label'] = ucwords(str_replace('_', ' ', str_replace('_tool_homepage', '', $name)));
+                    $this->tools[$name]['route_name'] = $name;
+                    if ($route->hasOption('class')) {
+                        $this->tools[$name]['class'] = $route->getOption('class');
+                    }
+                    if ($route->hasOption('label')) {
+                        $this->tools[$name]['label'] = $route->getOption('label');
+                    }
+                    else {
+                        $this->tools[$name]['label'] = ucwords(str_replace('_',
+                                                                           ' ',
+                                                                           str_replace('_tool_homepage', '', $name)));
+                    }
                 }
             }
         }
-        return $listTools;
+
+        return $this->tools;
     }
+
+    /**
+     * @var array
+     */
+    private $tools = array();
 
 }
