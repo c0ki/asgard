@@ -1,4 +1,4 @@
 parameters:
     theme_layout: CoreAdminBundle::layout.html.twig
-    asgard.sites:
+    asgard.siteaccesses:
         - admin

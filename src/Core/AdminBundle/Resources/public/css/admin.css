@@ -18,7 +18,7 @@ body > header .logo-admin a:hover {
     mix-blend-mode: hard-light;
 }
 
-body.site-admin > header,
-body.site-admin > footer {
+body.siteaccess-admin > header,
+body.siteaccess-admin > footer {
     mix-blend-mode: difference;
 }

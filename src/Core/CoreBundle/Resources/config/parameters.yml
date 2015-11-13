@@ -1,2 +1,2 @@
 parameters:
-    asgard.sites: [ ]
+    asgard.siteaccesses: [ ]

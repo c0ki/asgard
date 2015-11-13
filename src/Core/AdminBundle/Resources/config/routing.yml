@@ -2,5 +2,5 @@
 #    path:     /
 #    defaults: { _controller: CoreAdminBundle:Default:index }
 #    requirements:
-#        @site: admin
-#    condition: "request.attributes.get('@site') == 'admin'"
+#        @siteaccess: admin
+#    condition: "request.attributes.get('@siteaccess') == 'admin'"

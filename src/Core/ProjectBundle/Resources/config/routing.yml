@@ -2,27 +2,27 @@ core_project_admin_project_edit:
     path:     /
     defaults: { _controller: CoreProjectBundle:Admin:project, @environment: null }
     requirements:
-        @site: admin
+        @siteaccess: admin
         @project: %
 
 core_project_admin_project_add:
     path:     /newproject
     defaults: { _controller: CoreProjectBundle:Admin:project, @project: null, @environment: null }
     requirements:
-        @site: admin
+        @siteaccess: admin
 
 core_project_admin_environment_edit:
     path:     /
     defaults: { _controller: CoreProjectBundle:Admin:environment, @project: null }
     requirements:
-        @site: admin
+        @siteaccess: admin
         @environment: %
 
 core_project_admin_environment_add:
     path:     /newenvironment/
     defaults: { _controller: CoreProjectBundle:Admin:environment, @project: null, @environment: null }
     requirements:
-        @site: admin
+        @siteaccess: admin
 
 core_project_admin:
     path:     /
@@ -31,7 +31,7 @@ core_project_admin:
         @project: null
         @environment: null
     requirements:
-        @site: admin
+        @siteaccess: admin
 
 core_project_project:
     path:     /

@@ -4,14 +4,14 @@ parameters:
     router.options.generator_class: Core\CoreBundle\Component\Routing\Generator\UrlGenerator
     router.options.generator_base_class: Core\CoreBundle\Component\Routing\Generator\UrlGenerator
 
-    event_subscriber.site.router.class: Core\CoreBundle\EventSubscriber\RouterSubscriber
+    event_subscriber.siteaccess.router.class: Core\CoreBundle\EventSubscriber\RouterSubscriber
     event_listener.console.pid_file.class: Core\CoreBundle\EventListener\ConsolePidFileListener
     form.type.generic_entity.class: Core\CoreBundle\Form\Type\GenericEntityType
 
 services:
-    event_subscriber.site.router:
-            class: %event_subscriber.site.router.class%
-            arguments: [ @router, @?router.request_context, %asgard.sites% ]
+    event_subscriber.siteaccess.router:
+            class: %event_subscriber.siteaccess.router.class%
+            arguments: [ @router, @?router.request_context, %asgard.siteaccesses% ]
             tags:
                 - { name: kernel.event_subscriber }
 

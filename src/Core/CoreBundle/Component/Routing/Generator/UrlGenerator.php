@@ -11,25 +11,25 @@ class UrlGenerator extends ComponentUrlGenerator
      */
     protected function doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $referenceType, $hostTokens, array $requiredSchemes = array())
     {
-        if ($name{0} != '_' && (array_key_exists('@site', $parameters) || $this->getContext()->hasParameter('@site'))) {
-            $site = null;
-            if (!empty($defaults) && array_key_exists('@site', $defaults)) {
-                $site = $defaults['@site'];
-                if (array_key_exists('@site', $parameters)) {
-                    unset($parameters['@site']);
+        if ($name{0} != '_' && (array_key_exists('@siteaccess', $parameters) || $this->getContext()->hasParameter('@siteaccess'))) {
+            $siteaccess = null;
+            if (!empty($defaults) && array_key_exists('@siteaccess', $defaults)) {
+                $siteaccess = $defaults['@siteaccess'];
+                if (array_key_exists('@siteaccess', $parameters)) {
+                    unset($parameters['@siteaccess']);
                 }
             }
             else {
-                if ($this->getContext()->hasParameter('@site')) {
-                    $site = $this->getContext()->getParameter('@site');
+                if ($this->getContext()->hasParameter('@siteaccess')) {
+                    $siteaccess = $this->getContext()->getParameter('@siteaccess');
                 }
-                if (array_key_exists('@site', $parameters)) {
-                    $site = $parameters['@site'];
-                    unset($parameters['@site']);
+                if (array_key_exists('@siteaccess', $parameters)) {
+                    $siteaccess = $parameters['@siteaccess'];
+                    unset($parameters['@siteaccess']);
                 }
             }
-            if (!empty($site)) {
-                array_push($tokens, array('text', "/{$site}"));
+            if (!empty($siteaccess)) {
+                array_push($tokens, array('text', "/{$siteaccess}"));
             }
         }
 

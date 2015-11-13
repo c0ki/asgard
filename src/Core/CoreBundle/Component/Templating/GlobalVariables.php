@@ -29,16 +29,16 @@ class GlobalVariables extends FrameworkGlobalVariables
         return $this->getMasterRequest()->attributes->all();
     }
 
-    public function getSites()
+    public function getSiteaccesses()
     {
-        if ($this->container->hasParameter('asgard.sites')) {
-            return $this->container->getParameter('asgard.sites');
+        if ($this->container->hasParameter('asgard.siteaccesses')) {
+            return $this->container->getParameter('asgard.siteaccesses');
         }
     }
 
-    public function getSite() {
-        if ($this->getMasterRequest()->attributes->has('@site')) {
-            return $this->getMasterRequest()->attributes->get('@site');
+    public function getSiteaccess() {
+        if ($this->getMasterRequest()->attributes->has('@siteaccess')) {
+            return $this->getMasterRequest()->attributes->get('@siteaccess');
         }
     }
 

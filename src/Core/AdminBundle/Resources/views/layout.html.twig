@@ -1,7 +1,7 @@
 {% extends "CoreLayoutBundle::layout.html.twig" %}
 
 {% block favicon %}
-    {% if app.site == 'admin' %}
+    {% if app.siteaccess == 'admin' %}
         <link rel="shortcut icon" href="/asgard-light.png" type="image/png" sizes="16x16 24x24 32x32 64x64 128x128"/>
     {% else %}
         {{ parent() }}
@@ -19,19 +19,19 @@
 
 {%- block bodyclass -%}
     {{ parent() }}
-    {%- if app.site -%}
-        {{ ' site-' ~ app.site }}
+    {%- if app.siteaccess -%}
+        {{ ' siteaccess-' ~ app.siteaccess }}
     {%- endif -%}
 {%- endblock -%}
 
 {% block header_content %}
     {{ parent() }}
-    <div class="logo-admin flex-item-last{% if app.site == 'admin' %} selected{% endif %}">
-        {% if app.site != 'admin' %}
-            <a href="{{ path('core_layout_root', {'@site': 'admin'}) }}"
+    <div class="logo-admin flex-item-last{% if app.siteaccess == 'admin' %} selected{% endif %}">
+        {% if app.siteaccess != 'admin' %}
+            <a href="{{ path('core_layout_root', {'@siteaccess': 'admin'}) }}"
                class="icon-pref-alt icon-only">Back</a>
         {% else %}
-            <a href="{{ path('core_layout_root', {'@site': null}) }}"
+            <a href="{{ path('core_layout_root', {'@siteaccess': null}) }}"
                class="icon-pref-alt icon-only">Front</a>
         {% endif %}
     </div>

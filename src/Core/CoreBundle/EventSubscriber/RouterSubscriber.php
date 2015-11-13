@@ -17,17 +17,17 @@ class RouterSubscriber implements EventSubscriberInterface
     /**
      * @var array
      */
-    protected $sites;
+    protected $siteaccesses;
 
     /**
      * @param RouterInterface     $matcher
      * @param RequestContext|null $context
-     * @param array               $sites
+     * @param array               $siteaccesses
      */
-    public function __construct(RouterInterface $matcher, RequestContext $context = null, $sites = array())
+    public function __construct(RouterInterface $matcher, RequestContext $context = null, $siteaccesses = array())
     {
         $this->context = $context ?: $matcher->getContext();
-        $this->sites = $sites;
+        $this->siteaccesses = $siteaccesses;
     }
 
     public static function getSubscribedEvents()
@@ -46,11 +46,11 @@ class RouterSubscriber implements EventSubscriberInterface
             return;
         }
 
-        foreach ($this->sites as $site) {
-            if (preg_match("#^/{$site}\b(.*)$#", $event->getRequest()->server->get('REQUEST_URI'), $matches)) {
+        foreach ($this->siteaccesses as $siteaccess) {
+            if (preg_match("#^/{$siteaccess}\b(.*)$#", $event->getRequest()->server->get('REQUEST_URI'), $matches)) {
                 $event->getRequest()->server->set('REQUEST_URI', $matches[1]);
-                $event->getRequest()->attributes->set('@site', $site);
-                $this->context->setParameter('@site', $site);
+                $event->getRequest()->attributes->set('@siteaccess', $siteaccess);
+                $this->context->setParameter('@siteaccess', $siteaccess);
                 break;
             }
         }
