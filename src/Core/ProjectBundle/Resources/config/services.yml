@@ -1,4 +1,5 @@
 parameters:
+    templating.globals.class: Core\ProjectBundle\Component\Templating\GlobalVariables
     router_listener.class: Core\ProjectBundle\EventListener\RouterListener
     router.options.generator_class: Core\ProjectBundle\Component\Routing\Generator\UrlGenerator
     router.options.generator_base_class: Core\ProjectBundle\Component\Routing\Generator\UrlGenerator
