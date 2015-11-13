@@ -39,6 +39,6 @@ core_project_project:
     requirements:
         @project: %
 
-core_project_home:
+core_project_default:
     path:     /
     defaults: { _controller: CoreProjectBundle:Default:index }

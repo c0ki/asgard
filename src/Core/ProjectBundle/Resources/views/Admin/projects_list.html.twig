@@ -7,6 +7,9 @@
         {% set params = params|default({})|merge({'@project': project.name}) %}
         <li{% if app.masterRequest.attributes.get('@project')|default() == project.name %} class="selected"{% endif %}>
             <a href="{{ path(route, params) }}" class="icon-{{ project.logo|default('no') }}">{{ project.label }}</a>
+            {% if project.domains.count > 0 %}
+                [{{ project.domains.count }} domain{% if project.domains.count > 1 %}s{% endif %}]
+            {% endif %}
         </li>
     {% endfor %}
 </ul>

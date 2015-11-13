@@ -1,14 +1,13 @@
 {% extends 'CoreProjectBundle::layout.html.twig' %}
 
 {% block content %}
-    <section id="default-projectlist">
+    <section id="projects">
         <h2>Projects list</h2>
-        <ul>
-            {% for project in projects %}
-                <li class="icon-{{ project.logo|default('no') }}">
-                    <a href="{{ path('core_project_home', {'@project': project.name}) }}">{{ project.label }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+        {% include 'CoreProjectBundle:Default:projects_list.html.twig' with {'route': 'core_project_default'} only %}
+    </section>
+
+    <section id="domains">
+        <h2>Domains list</h2>
+        {% include 'CoreProjectBundle:Default:domains_list.html.twig' with {'route': 'core_project_default'} only %}
     </section>
 {% endblock %}
