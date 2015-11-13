@@ -56,11 +56,11 @@ class RouterSubscriber implements EventSubscriberInterface
             }
         }
 
-        foreach ($this->projectHelper->listEnvironments() as $environment) {
-            if (preg_match("#^/@{$environment->getName()}\b(.*)$#", $event->getRequest()->server->get('REQUEST_URI'), $matches)) {
+        foreach ($this->projectHelper->listDomains() as $domain) {
+            if (preg_match("#^/@{$domain->getName()}\b(.*)$#", $event->getRequest()->server->get('REQUEST_URI'), $matches)) {
                 $event->getRequest()->server->set('REQUEST_URI', $matches[1]);
-                $event->getRequest()->attributes->set('@environment', $environment->getName());
-                $this->context->setParameter('@environment', $environment->getName());
+                $event->getRequest()->attributes->set('@domain', $domain->getName());
+                $this->context->setParameter('@domain', $domain->getName());
                 break;
             }
         }

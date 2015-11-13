@@ -3,9 +3,9 @@
 namespace Core\ProjectBundle\Entity;
 
 /**
- * Environment
+ * Domain
  */
-class Environment
+class Domain
 {
     /**
      * @var integer
@@ -60,7 +60,7 @@ class Environment
      *
      * @param string $name
      *
-     * @return Environment
+     * @return Domain
      */
     public function setName($name)
     {
@@ -84,7 +84,7 @@ class Environment
      *
      * @param string $label
      *
-     * @return Environment
+     * @return Domain
      */
     public function setLabel($label)
     {
@@ -108,7 +108,7 @@ class Environment
      *
      * @param string $description
      *
-     * @return Environment
+     * @return Domain
      */
     public function setDescription($description)
     {
@@ -132,7 +132,7 @@ class Environment
      *
      * @param string $logo
      *
-     * @return Environment
+     * @return Domain
      */
     public function setLogo($logo)
     {
@@ -156,7 +156,7 @@ class Environment
      *
      * @param \Core\ProjectBundle\Entity\Project $project
      *
-     * @return Environment
+     * @return Domain
      */
     public function addProject(\Core\ProjectBundle\Entity\Project $project)
     {

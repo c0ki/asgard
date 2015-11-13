@@ -3,4 +3,4 @@ core_layout_root:
     defaults:
         _controller: CoreLayoutBundle:Default:index
         @project: null
-        @environment: null
+        @domain: null

@@ -2,11 +2,11 @@
 
 {% block projects %}{% endblock %}
 
-{% block environments %}
+{% block domains %}
     {{ parent() }}
 
-    <section id="environment-edit">
-        <h2>Environment {% if edit_mode %}edition{% else %}creation{% endif %}</h2>
+    <section id="domain-edit">
+        <h2>Domain {% if edit_mode %}edition{% else %}creation{% endif %}</h2>
         {{ form(form) }}
     </section>
 {% endblock %}

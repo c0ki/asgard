@@ -21,7 +21,7 @@ Core\ProjectBundle\Entity\Project:
             nullable: true
 
     oneToMany:
-        environments:
-            targetEntity: Core\ProjectBundle\Entity\Environment
+        domains:
+            targetEntity: Core\ProjectBundle\Entity\Domain
             mappedBy: project
             cascade: [ persist ]

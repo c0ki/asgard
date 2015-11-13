@@ -1,6 +1,6 @@
-Core\ProjectBundle\Entity\Environment:
+Core\ProjectBundle\Entity\Domain:
     type: entity
-    table: environment
+    table: domain
     id:
         id:
             type: integer
@@ -9,7 +9,6 @@ Core\ProjectBundle\Entity\Environment:
         name:
             type: string
             length: 20
-            unique: true
         label:
             type: string
             length: 50
@@ -20,14 +19,10 @@ Core\ProjectBundle\Entity\Environment:
             length: 20
             nullable: true
 
-    manyToMany:
-        projects:
+    manyToOne:
+        project:
             targetEntity: Core\ProjectBundle\Entity\Project
-            joinTable:
-                name: project_environment
-                joinColumns:
-                    environment_id:
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    project_id:
-                        referencedColumnName: id
+            inversedBy: domains
+            joinColumn:
+                name: project_id
+                referencedColumnName: id

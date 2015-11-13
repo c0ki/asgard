@@ -17,14 +17,14 @@ class GlobalVariables extends CoreGlobalVariables
         return $this->container->get('project_helper')->getProject();
     }
 
-    public function getEnvironments()
+    public function getDomains()
     {
-        return $this->container->get('project_helper')->listEnvironments();
+        return $this->container->get('project_helper')->listDomains();
     }
 
-    public function getEnvironment()
+    public function getDomain()
     {
-        return $this->container->get('project_helper')->getEnvironment();
+        return $this->container->get('project_helper')->getDomain();
     }
 
 }

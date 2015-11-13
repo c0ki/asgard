@@ -2,7 +2,7 @@
 
 namespace Core\ProjectBundle\Controller;
 
-use Core\ProjectBundle\Entity\Environment;
+use Core\ProjectBundle\Entity\Domain;
 use Core\ProjectBundle\Entity\Project;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,12 +17,12 @@ class AdminController extends Controller
         $projectHelper = $this->container->get('project_helper');
 
         $projects = $projectHelper->listProjects();
-        $environments = $projectHelper->listEnvironments();
+        $domains = $projectHelper->listDomains();
 
         return $this->render('CoreProjectBundle:Admin:list.html.twig',
                              array(
                                  'projects' => $projects,
-                                 'environments' => $environments,
+                                 'domains' => $domains,
                              ));
     }
 
@@ -41,10 +41,10 @@ class AdminController extends Controller
             $entity->setDescription('Describe project here');
         }
 
-        // Create an ArrayCollection of the current Environment objects in the database
-//        $originalEnvironments = new ArrayCollection();
-//        foreach ($projectEntity->getEnvironments() as $environment) {
-//            $originalEnvironments->add($environment);
+        // Create an ArrayCollection of the current Domain objects in the database
+//        $originalDomains = new ArrayCollection();
+//        foreach ($projectEntity->getDomains() as $domain) {
+//            $originalDomains->add($domain);
 //        }
 
         $form = $this->createForm('generic_entity',
@@ -59,15 +59,15 @@ class AdminController extends Controller
             $OrmManager = $this->getDoctrine()->getManager();
             $entity = $form->getData();
 
-            // remove the relationship between the environment and the project
-//            foreach ($originalEnvironments as $environment) {
-//                if (!$entity->getEnvironments()->contains($environment)) {
+            // remove the relationship between the domain and the project
+//            foreach ($originalDomains as $domain) {
+//                if (!$entity->getDomains()->contains($domain)) {
 //                    // if it was a many-to-one relationship, remove the relationship like this
-//                    $environment->setProject(null);
+//                    $domain->setProject(null);
 //
-//                    $OrmManager->persist($environment);
+//                    $OrmManager->persist($domain);
 //                    // if you wanted to delete the Tag entirely, you can also do that
-//                    $OrmManager->remove($environment);
+//                    $OrmManager->remove($domain);
 //                }
 //            }
 
@@ -92,24 +92,24 @@ class AdminController extends Controller
                              ));
     }
 
-    public function environmentAction(Request $request)
+    public function domainAction(Request $request)
     {
         $projectHelper = $this->container->get('project_helper');
 
-        $environments = $projectHelper->listEnvironments();
+        $domains = $projectHelper->listDomains();
 
         $edit = true;
-        $entity = $projectHelper->getEnvironment();
+        $entity = $projectHelper->getDomain();
         if (!$entity) {
             $edit = false;
-            $entity = new Environment();
+            $entity = new Domain();
             $entity->setName('new');
-            $entity->setDescription('Describe environment here');
+            $entity->setDescription('Describe domain here');
         }
 
         $form = $this->createForm('generic_entity',
                                   $entity,
-                                  array('data_class' => 'Core\ProjectBundle\Entity\Environment'));
+                                  array('data_class' => 'Core\ProjectBundle\Entity\Domain'));
         $form->add('send', 'submit', array('label' => 'Submit'));
         $form->add('cancel', 'reset', array('label' => 'Cancel'));
 
@@ -132,9 +132,9 @@ class AdminController extends Controller
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
         }
 
-        return $this->render('CoreProjectBundle:Admin:environment_edit.html.twig',
+        return $this->render('CoreProjectBundle:Admin:domain_edit.html.twig',
                              array(
-                                 'environments' => $environments,
+                                 'domains' => $domains,
                                  'edit_mode' => $edit,
                                  'form' => $form->createView(),
                              ));

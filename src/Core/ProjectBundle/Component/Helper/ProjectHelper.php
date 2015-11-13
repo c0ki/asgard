@@ -27,14 +27,14 @@ class ProjectHelper
     /**
      * @var \Doctrine\Common\Persistence\ObjectRepository
      */
-    protected $environmentRepository;
+    protected $domainRepository;
 
     public function __construct(RequestStack $request, RegistryInterface $doctrine)
     {
         $this->masterRequest = $request->getMasterRequest();
         $this->doctrine = $doctrine;
         $this->projectRepository = $this->doctrine->getRepository('CoreProjectBundle:Project');
-        $this->environmentRepository = $this->doctrine->getRepository('CoreProjectBundle:Environment');
+        $this->domainRepository = $this->doctrine->getRepository('CoreProjectBundle:Domain');
     }
 
     /**
@@ -82,37 +82,37 @@ class ProjectHelper
 
 
     /**
-     * @return \Core\ProjectBundle\Entity\Environment[]
+     * @return \Core\ProjectBundle\Entity\Domain[]
      */
-    public function listEnvironments()
+    public function listDomains()
     {
-        return $this->environmentRepository->findAll();
+        return $this->domainRepository->findAll();
     }
 
 
     /**
-     * @return \Core\ProjectBundle\Entity\Environment
+     * @return \Core\ProjectBundle\Entity\Domain
      */
-    public function getEnvironmentByName($name)
+    public function getDomainByName($name)
     {
-        return $this->environmentRepository->findOneBy(array('name' => $name));
+        return $this->domainRepository->findOneBy(array('name' => $name));
     }
 
     /**
      * @return boolean
      */
-    public function hasEnvironmentByName($name)
+    public function hasDomainByName($name)
     {
-        return ($this->getEnvironmentByName($name) ? true : false);
+        return ($this->getDomainByName($name) ? true : false);
     }
 
     /**
-     * @return null|\Core\ProjectBundle\Entity\Environment
+     * @return null|\Core\ProjectBundle\Entity\Domain
      */
-    public function getEnvironment()
+    public function getDomain()
     {
-        if ($this->masterRequest->attributes->has('@environment')) {
-            return $this->getEnvironmentByName($this->masterRequest->attributes->get('@environment'));
+        if ($this->masterRequest->attributes->has('@domain')) {
+            return $this->getDomainByName($this->masterRequest->attributes->get('@domain'));
         }
         return null;
     }
@@ -120,9 +120,9 @@ class ProjectHelper
     /**
      * @return boolean
      */
-    public function hasEnvironment()
+    public function hasDomain()
     {
-        return $this->masterRequest->attributes->has('@environment');
+        return $this->masterRequest->attributes->has('@domain');
     }
 
 

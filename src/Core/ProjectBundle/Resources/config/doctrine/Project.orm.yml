@@ -21,13 +21,13 @@ Core\ProjectBundle\Entity\Project:
             nullable: true
 
     manyToMany:
-        environments:
-            targetEntity: Core\ProjectBundle\Entity\Environment
+        domains:
+            targetEntity: Core\ProjectBundle\Entity\Domain
             joinTable:
-                name: project_environment
+                name: project_domain
                 joinColumns:
                     project_id:
                         referencedColumnName: id
                 inverseJoinColumns:
-                    environment_id:
+                    domain_id:
                         referencedColumnName: id

@@ -1,0 +1,12 @@
+{% if route is not defined %}
+    {% set route = app.masterRequest.attributes.get('_route') %}
+    {% set params = params|default({})|merge(app.masterRequest.attributes.get('_route_params')) %}
+{% endif %}
+<ul>
+    {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
+        {% set params = params|default({})|merge({'@domain': domain.name}) %}
+        <li class="{{ domain.logo|default() }}{% if app.domain == domain %} selected{% endif %}">
+            <a href="{{ path(route, params) }}">{{ domain.label }}</a>
+        </li>
+    {% endfor %}
+</ul>

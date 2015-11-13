@@ -11,25 +11,25 @@ class UrlGenerator extends CoreUrlGenerator
      */
     protected function doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $referenceType, $hostTokens, array $requiredSchemes = array())
     {
-        if ($name{0} != '_' && (array_key_exists('@environment', $parameters) || $this->getContext()->hasParameter('@environment'))) {
-            $environment = null;
-            if (!empty($defaults) && array_key_exists('@environment', $defaults)) {
-                $environment = $defaults['@environment'];
-                if (array_key_exists('@environment', $parameters)) {
-                    unset($parameters['@environment']);
+        if ($name{0} != '_' && (array_key_exists('@domain', $parameters) || $this->getContext()->hasParameter('@domain'))) {
+            $domain = null;
+            if (!empty($defaults) && array_key_exists('@domain', $defaults)) {
+                $domain = $defaults['@domain'];
+                if (array_key_exists('@domain', $parameters)) {
+                    unset($parameters['@domain']);
                 }
             }
             else {
-                if ($this->getContext()->hasParameter('@environment')) {
-                    $environment = $this->getContext()->getParameter('@environment');
+                if ($this->getContext()->hasParameter('@domain')) {
+                    $domain = $this->getContext()->getParameter('@domain');
                 }
-                if (array_key_exists('@environment', $parameters)) {
-                    $environment = $parameters['@environment'];
-                    unset($parameters['@environment']);
+                if (array_key_exists('@domain', $parameters)) {
+                    $domain = $parameters['@domain'];
+                    unset($parameters['@domain']);
                 }
             }
-            if (!empty($environment)) {
-                array_push($tokens, array('text', "/@{$environment}"));
+            if (!empty($domain)) {
+                array_push($tokens, array('text', "/@{$domain}"));
             }
         }
 

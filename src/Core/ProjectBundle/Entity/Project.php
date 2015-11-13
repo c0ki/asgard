@@ -35,14 +35,14 @@ class Project
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $environments;
+    private $domains;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->environments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->domains = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -152,37 +152,37 @@ class Project
     }
 
     /**
-     * Add environment
+     * Add domain
      *
-     * @param \Core\ProjectBundle\Entity\Environment $environment
+     * @param \Core\ProjectBundle\Entity\Domain $domain
      *
      * @return Project
      */
-    public function addEnvironment(\Core\ProjectBundle\Entity\Environment $environment)
+    public function addDomain(\Core\ProjectBundle\Entity\Domain $domain)
     {
-        $this->environments[] = $environment;
+        $this->domains[] = $domain;
 
         return $this;
     }
 
     /**
-     * Remove environment
+     * Remove domain
      *
-     * @param \Core\ProjectBundle\Entity\Environment $environment
+     * @param \Core\ProjectBundle\Entity\Domain $domain
      */
-    public function removeEnvironment(\Core\ProjectBundle\Entity\Environment $environment)
+    public function removeDomain(\Core\ProjectBundle\Entity\Domain $domain)
     {
-        $this->environments->removeElement($environment);
+        $this->domains->removeElement($domain);
     }
 
     /**
-     * Get environments
+     * Get domains
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getEnvironments()
+    public function getDomains()
     {
-        return $this->environments;
+        return $this->domains;
     }
 
     /**
