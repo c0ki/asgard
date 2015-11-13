@@ -38,7 +38,13 @@
     {% block aside %}
         <aside class="flex-item-last">
             <nav id="tools">
-                {% block tools_navbar %}{% endblock %}
+                {% block tools_navbar %}
+                    <ul>
+                        {% for tool in app.tools %}
+                            <li><a href="{{ path(tool.route_name) }}" class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endblock %}
             </nav>
         </aside>
     {% endblock %}

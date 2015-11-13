@@ -2,9 +2,9 @@
 
 namespace Core\ProjectBundle\Component\Templating;
 
-use Core\CoreBundle\Component\Templating\GlobalVariables as CoreGlobalVariables;
+use Core\LayoutBundle\Component\Templating\GlobalVariables as LayoutGlobalVariables;
 
-class GlobalVariables extends CoreGlobalVariables
+class GlobalVariables extends LayoutGlobalVariables
 {
 
     public function getProjects()

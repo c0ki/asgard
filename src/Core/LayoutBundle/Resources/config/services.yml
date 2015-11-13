@@ -1,4 +1,5 @@
 parameters:
+    templating.globals.class: Core\LayoutBundle\Component\Templating\GlobalVariables
     tool_helper.class: Core\LayoutBundle\Component\Helper\ToolHelper
     alert_helper.class: Core\LayoutBundle\Component\Helper\AlertHelper
 
