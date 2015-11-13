@@ -1,24 +1,27 @@
 @font-face {
     font-family: 'asgard';
-    src: url('font/asgard.eot?9727618');
-    src: url('font/asgard.eot?9727618#iefix') format('embedded-opentype'),
-    url('font/asgard.woff?9727618') format('woff'),
-    url('font/asgard.ttf?9727618') format('truetype'),
-    url('font/asgard.svg?9727618#asgard') format('svg');
+    src: url('font/asgard.eot?47020123');
+    src: url('font/asgard.eot?47020123#iefix') format('embedded-opentype'),
+    url('font/asgard.woff?47020123') format('woff'),
+    url('font/asgard.ttf?47020123') format('truetype'),
+    url('font/asgard.svg?47020123#asgard') format('svg');
     font-weight: normal;
     font-style: normal;
 }
-
 /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
 /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
 /*
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'asgard';
-    src: url('../font/asgard.svg?9727618#asgard') format('svg');
+    src: url('../font/asgard.svg?47020123#asgard') format('svg');
   }
 }
 */
+
+a[class^="icon-"], a[class*=" icon-"] {
+    text-decoration: none;
+}
 
 [class^="icon-"]:before, [class*=" icon-"]:before {
     font-family: "asgard";
@@ -45,7 +48,7 @@
     margin-left: .2em;
 
     /* you can be more comfortable with increased icons size */
-    /* font-size: 120%; */
+     font-size: 120%;
 
     /* Font smoothing. That was taken from TWBS */
     -webkit-font-smoothing: antialiased;
@@ -55,11 +58,14 @@
     /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-nav.icon a:before {
-    font-family: "asgard";
-    font-size: 2rem;
-    display: block;
-    margin: -0.5rem;
+@media (min-width: 641px) {
+    nav.icon [class^="icon-"]:before, nav.icon [class*=" icon-"]:before {
+        font-size: 1.8rem;
+        display: block;
+        margin: -0.5rem;
+        width: auto;
+        line-height: 3rem;
+    }
 }
 
 nav.icon a {
@@ -68,7 +74,7 @@ nav.icon a {
 
 @media (max-width: 640px) {
     nav.icon a {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 
     nav.icon a:before {
@@ -87,7 +93,7 @@ nav.icon a {
 
 .inputicon input + label:after {
     position: absolute;
-    content: attr(tooltip);
+ content: attr(tooltip);
     opacity: 0;
     font-size: 3rem;
 }
@@ -107,106 +113,32 @@ nav.icon a {
     color: transparent;
 }
 
-.icon-no:before, nav.icon .no a:before, .inputicon input[value="no"] + label:before {
-    content: '\00a0';
-}
+.icon-no:before, .inputicon input[value="no"] + label:before { content: '\00a0'; }
+.icon-success:before, .inputicon input[value="success"] + label:before { content: '\e800'; }
+.icon-error:before, .inputicon input[value="error"] + label:before { content: '\e801'; }
+.icon-minus:before, .inputicon input[value="minus"] + label:before { content: '\e802'; }
+.icon-plus:before, .inputicon input[value="plus"] + label:before { content: '\e803'; }
+.icon-help:before, .inputicon input[value="help"] + label:before { content: '\e804'; }
+.icon-info:before, .inputicon input[value="info"] + label:before { content: '\e805'; }
+.icon-ez:before, .inputicon input[value="ez"] + label:before { content: '\e806'; }
+.icon-globe:before, .inputicon input[value="globe"] + label:before { content: '\e807'; }
+.icon-ez-colorful:before, .inputicon input[value="ez-colorful"] + label:before { content: '\e808'; }
+.icon-tasks:before, .inputicon input[value="tasks"] + label:before { content: '\e809'; }
+.icon-logo:before, .inputicon input[value="logo"] + label:before { content: '\e80a'; }
+.icon-pref:before, .inputicon input[value="pref"] + label:before { content: '\e80b'; }
+.icon-warning:before, .inputicon input[value="warning"] + label:before { content: '\e80c'; }
+.icon-mobile:before, .inputicon input[value="mobile"] + label:before { content: '\e80d'; }
+.icon-tablet:before, .inputicon input[value="tablet"] + label:before { content: '\e80e'; }
+.icon-tabletlandscape:before, .inputicon input[value="tabletlandscape"] + label:before { content: '\e80e'; transform: rotate(-90deg); }
+.icon-laptop:before, .inputicon input[value="laptop"] + label:before { content: '\e80f'; }
+.icon-desktop:before, .inputicon input[value="desktop"] + label:before { content: '\e810'; }
+.icon-progress:before, .inputicon input[value="progress"] + label:before { content: '\e811'; }
+.icon-download:before, .inputicon input[value="download"] + label:before { content: '\e812'; }
+.icon-upload:before, .inputicon input[value="upload"] + label:before { content: '\e813'; }
+.icon-trash:before, .inputicon input[value="trash"] + label:before { content: '\e814'; }
+.icon-camera:before, .inputicon input[value="camera"] + label:before { content: '\e815'; }
+.icon-home:before, .inputicon input[value="home"] + label:before { content: '\e816'; }
+.icon-pref-alt:before, .inputicon input[value="pref-alt"] + label:before { content: '\e817'; }
+.icon-minus-circle:before, .inputicon input[value="minus-circle"] + label:before { content: '\e818'; }
+.icon-plus-circle:before, .inputicon input[value="plus-circle"] + label:before { content: '\e819'; }
 
-.icon-success:before, nav.icon .success a:before, .inputicon input[value="success"] + label:before {
-    content: '\e800';
-}
-
-.icon-error:before, nav.icon .error a:before, .inputicon input[value="error"] + label:before {
-    content: '\e801';
-}
-
-.icon-minus:before, nav.icon .minus a:before, .inputicon input[value="minus"] + label:before {
-    content: '\e802';
-}
-
-.icon-plus:before, nav.icon .plus a:before, .inputicon input[value="plus"] + label:before {
-    content: '\e803';
-}
-
-.icon-help:before, nav.icon .help a:before, .inputicon input[value="help"] + label:before {
-    content: '\e804';
-}
-
-.icon-info:before, nav.icon .info a:before, .inputicon input[value="info"] + label:before {
-    content: '\e805';
-}
-
-.icon-ez:before, nav.icon .ez a:before, .inputicon input[value="ez"] + label:before {
-    content: '\e806';
-}
-
-.icon-globe:before, nav.icon .globe a:before, .inputicon input[value="globe"] + label:before {
-    content: '\e807';
-}
-
-.icon-ez-colorful:before, nav.icon .ez-colorful a:before, .inputicon input[value="ez-colorful"] + label:before {
-    content: '\e808';
-}
-
-
-.icon-tasks:before, nav.icon .tasks a:before, .inputicon input[value="tasks"] + label:before {
-    content: '\e809';
-}
-
-.icon-logo:before, nav.icon .logo a:before, .inputicon input[value="logo"] + label:before {
-    content: '\e80a';
-}
-
-.icon-pref:before, nav.icon .pref a:before, .inputicon input[value="pref"] + label:before {
-    content: '\e80b';
-}
-
-.icon-warning:before, nav.icon .warning a:before, .inputicon input[value="warning"] + label:before {
-    content: '\e80c';
-}
-
-.icon-mobile:before, nav.icon .mobile a:before, .inputicon input[value="mobile"] + label:before {
-    content: '\e80d';
-}
-
-.icon-tablet:before, nav.icon .tablet a:before, .inputicon input[value="tablet"] + label:before {
-    content: '\e80e';
-}
-
-.icon-tabletlandscape:before, nav.icon .tabletlandscape a:before, .inputicon input[value="tabletlandscape"] + label:before {
-    content: '\e80e';
-    transform: rotate(-90deg);
-}
-
-.icon-laptop:before, nav.icon .laptop a:before, .inputicon input[value="laptop"] + label:before {
-    content: '\e80f';
-}
-
-.icon-desktop:before, nav.icon .desktop a:before, .inputicon input[value="desktop"] + label:before {
-    content: '\e810';
-}
-
-.icon-progress:before, nav.icon .progress a:before, .inputicon input[value="progress"] + label:before {
-    content: '\e811';
-}
-
-.icon-download:before, nav.icon .download a:before, .inputicon input[value="download"] + label:before {
-    content: '\e812';
-}
-.icon-upload:before, nav.icon .upload a:before, .inputicon input[value="upload"] + label:before {
-    content: '\e813';
-}
-.icon-trash:before, nav.icon .trash a:before, .inputicon input[value="trash"] + label:before {
-    content: '\e814';
-}
-
-.icon-camera:before, nav.icon .camera a:before, .inputicon input[value="camera"] + label:before {
-    content: '\e815';
-}
-
-.icon-home:before, nav.icon .home a:before, .inputicon input[value="home"] + label:before {
-    content: '\e816';
-}
-
-.icon-pref-alt:before, nav.icon .pref-alt a:before, .inputicon input[value="pref-alt"] + label:before {
-    content: '\e817';
-}

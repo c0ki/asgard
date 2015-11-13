@@ -82,7 +82,6 @@ body > header nav ul {
         background-color: darkgoldenrod;
         mix-blend-mode : hard-light;
     }
-
 }
 
 body > footer {
@@ -113,10 +112,18 @@ aside nav a {
     margin-bottom: 0.5rem;
 }
 
+#main h2 [class^="icon-"]:before, #main h2 [class*=" icon-"]:before {
+    font-size: 2rem;
+}
+
 #main h3 {
     font-size: 1.5rem;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
+}
+
+#main h3 [class^="icon-"]:before, #main h2 [class*=" icon-"]:before {
+    font-size: 1.2rem;
 }
 
 #main form {

@@ -173,6 +173,18 @@
       "css": "tasks",
       "code": 59401,
       "src": "fontawesome"
+    },
+    {
+      "uid": "59ba4f90d2ca2a843f4f930b03270362",
+      "css": "plus-circle",
+      "code": 59417,
+      "src": "iconic"
+    },
+    {
+      "uid": "4062c0e99a3540f6c261bd08ef0fb63f",
+      "css": "minus-circle",
+      "code": 59416,
+      "src": "iconic"
     }
   ]
 }
