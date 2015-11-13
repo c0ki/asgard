@@ -23,11 +23,13 @@
 
 {% block header %}
     <header class="flex-container-h">
+        {% block header_content %}
         <div class="logo flex-item-first">
             <a href="{{ path('core_layout_root') }}" class="icon-logo icon-only">Asgard</a>
         </div>
-        {% block projects_nav %}
-            {{ render(controller('CoreLayoutBundle:Layout:headerNav')) }}
+        <nav id="navigation" class="flex-item-fluid icon">
+            {% block header_navbar %}{% endblock %}
+        </nav>
         {% endblock %}
     </header>
 {% endblock %}
@@ -35,9 +37,9 @@
 <div class="flex-item-fluid flex-container-h">
     {% block aside %}
         <aside class="flex-item-last">
-            {% block tools_nav %}
-                {{ render(controller('CoreLayoutBundle:Layout:asideNav')) }}
-            {% endblock %}
+            <nav id="tools">
+                {% block tools_navbar %}{% endblock %}
+            </nav>
         </aside>
     {% endblock %}
     <section id="main" class="flex-item-fluid">

@@ -8,3 +8,11 @@
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 {% endblock %}
+
+{% block header_navbar %}
+    {% include 'CoreProjectBundle:Default:projects_list.html.twig' with {'route': 'core_project_home'} only %}
+{% endblock %}
+
+{% block tools_navbar %}
+    {% include 'CoreProjectBundle:Default:environments_list.html.twig' only %}
+{% endblock %}

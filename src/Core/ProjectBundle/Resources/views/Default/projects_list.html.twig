@@ -1,0 +1,12 @@
+{% if route is not defined %}
+    {% set route = app.masterRequest.attributes.get('_route') %}
+    {% set params = params|default({})|merge(app.masterRequest.attributes.get('_route_params')) %}
+{% endif %}
+<ul>
+    {% for project in app.projects %}
+        {% set params = params|default({})|merge({'_project': project.name}) %}
+        <li class="{{ project.logo|default() }}{% if app.masterRequest.attributes.get('_project')|default() == project.name %} selected{% endif %}">
+            <a href="{{ path(route, params) }}">{{ project.label }}</a>
+        </li>
+    {% endfor %}
+</ul>

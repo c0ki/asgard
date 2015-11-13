@@ -24,7 +24,7 @@
     {%- endif -%}
 {%- endblock -%}
 
-{% block projects_nav %}
+{% block header_content %}
     {{ parent() }}
     <div class="logo-admin flex-item-last{% if app.attributes._site|default == 'admin' %} selected{% endif %}">
         {% if app.attributes._site|default != 'admin' %}

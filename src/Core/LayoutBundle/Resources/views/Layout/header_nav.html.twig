@@ -1,9 +1,0 @@
-<nav id="navigation" class="flex-item-fluid icon">
-    <ul>
-        {% for project in projects %}
-            <li class="{{ project.logo|default() }}{% if app.masterrequest.attributes.get('_project')|default() == project.name %} selected{% endif %}">
-                <a href="{{ path('core_project_home', {'_project': project.name}) }}">{{ project.label }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-</nav>

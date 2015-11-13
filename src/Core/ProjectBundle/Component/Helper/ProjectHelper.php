@@ -31,7 +31,7 @@ class ProjectHelper
     }
 
     /**
-     * @return array
+     * @return \Core\ProjectBundle\Entity\Project[]
      */
     public function listProjects()
     {
@@ -56,7 +56,7 @@ class ProjectHelper
 
 
     /**
-     * @return array
+     * @return \Core\ProjectBundle\Entity\Environment[]
      */
     public function listEnvironments()
     {
@@ -65,7 +65,7 @@ class ProjectHelper
 
 
     /**
-     * @return \Core\ProjectBundle\Entity\Project
+     * @return \Core\ProjectBundle\Entity\Environment
      */
     public function getEnvironmentByName($name)
     {
@@ -73,7 +73,7 @@ class ProjectHelper
     }
 
     /**
-     * @return \Core\ProjectBundle\Entity\Project
+     * @return \Core\ProjectBundle\Entity\Environment
      */
     public function hasEnvironmentByName($name)
     {
