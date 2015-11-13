@@ -6,11 +6,11 @@
             <h2>Projects list</h2>
             <ul>
                 <li class="icon-new">
-                    <a href="{{ path('core_project_admin_project', {'project': 'new'}) }}">Add project</a>
+                    <a href="{{ path('core_project_admin_project_add') }}">Add project</a>
                 </li>
                 {% for project in projects %}
                     <li class="icon-{{ project.logo|default('no') }}">
-                        <a href="{{ path('core_project_admin_project', {'project': project.name}) }}">{{ project.label }}</a>
+                        <a href="{{ path('core_project_admin_project_edit', {'@project': project.name}) }}">{{ project.label }}</a>
                         {% if project.environments.count > 0 %}
                             [{{ project.environments.count }} environment{% if project.environments.count > 1 %}s{% endif %}]
                         {% endif %}
@@ -25,11 +25,11 @@
             <h2>Environments list</h2>
             <ul>
                 <li class="icon-new">
-                    <a href="{{ path('core_project_admin_environment', {'environment': 'new'}) }}">Add environment</a>
+                    <a href="{{ path('core_project_admin_environment_add') }}">Add environment</a>
                 </li>
                 {% for environment in environments %}
                     <li class="icon-{{ environment.logo|default('no') }}">
-                        <a href="{{ path('core_project_admin_environment', {'environment': environment.name}) }}">{{ environment.label }}</a>
+                        <a href="{{ path('core_project_admin_environment_edit', {'@environment': environment.name}) }}">{{ environment.label }}</a>
                         {% if environment.projects.count > 0 %}
                             [{{ environment.projects.count }} project{% if environment.projects.count > 1 %}s{% endif %}]
                         {% endif %}

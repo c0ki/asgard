@@ -50,17 +50,17 @@ class RouterSubscriber implements EventSubscriberInterface
         foreach ($this->projectHelper->listProjects() as $project) {
             if (preg_match("#^/{$project->getName()}\b(.*)$#", $event->getRequest()->server->get('REQUEST_URI'), $matches)) {
                 $event->getRequest()->server->set('REQUEST_URI', $matches[1]);
-                $event->getRequest()->attributes->set('_project', $project->getName());
-                $this->context->setParameter('_project', $project->getName());
+                $event->getRequest()->attributes->set('@project', $project->getName());
+                $this->context->setParameter('@project', $project->getName());
                 break;
             }
         }
 
         foreach ($this->projectHelper->listEnvironments() as $environment) {
-            if (preg_match("#^/_{$environment->getName()}\b(.*)$#", $event->getRequest()->server->get('REQUEST_URI'), $matches)) {
+            if (preg_match("#^/@{$environment->getName()}\b(.*)$#", $event->getRequest()->server->get('REQUEST_URI'), $matches)) {
                 $event->getRequest()->server->set('REQUEST_URI', $matches[1]);
-                $event->getRequest()->attributes->set('_environment', $environment->getName());
-                $this->context->setParameter('_environment', $environment->getName());
+                $event->getRequest()->attributes->set('@environment', $environment->getName());
+                $this->context->setParameter('@environment', $environment->getName());
                 break;
             }
         }

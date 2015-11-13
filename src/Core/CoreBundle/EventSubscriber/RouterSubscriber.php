@@ -49,8 +49,8 @@ class RouterSubscriber implements EventSubscriberInterface
         foreach ($this->sites as $site) {
             if (preg_match("#^/{$site}\b(.*)$#", $event->getRequest()->server->get('REQUEST_URI'), $matches)) {
                 $event->getRequest()->server->set('REQUEST_URI', $matches[1]);
-                $event->getRequest()->attributes->set('_site', $site);
-                $this->context->setParameter('_site', $site);
+                $event->getRequest()->attributes->set('@site', $site);
+                $this->context->setParameter('@site', $site);
                 break;
             }
         }

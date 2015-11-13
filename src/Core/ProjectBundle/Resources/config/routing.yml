@@ -1,30 +1,44 @@
+core_project_admin_project_edit:
+    path:     /
+    defaults: { _controller: CoreProjectBundle:Admin:project, @environment: null }
+    requirements:
+        @site: admin
+        @project: %
+
+core_project_admin_project_add:
+    path:     /newproject
+    defaults: { _controller: CoreProjectBundle:Admin:project, @project: null, @environment: null }
+    requirements:
+        @site: admin
+
+core_project_admin_environment_edit:
+    path:     /
+    defaults: { _controller: CoreProjectBundle:Admin:environment, @project: null }
+    requirements:
+        @site: admin
+        @environment: %
+
+core_project_admin_environment_add:
+    path:     /newenvironment/
+    defaults: { _controller: CoreProjectBundle:Admin:environment, @project: null, @environment: null }
+    requirements:
+        @site: admin
+
 core_project_admin:
     path:     /
     defaults:
         _controller: CoreProjectBundle:Admin:list
-        _project: null
+        @project: null
+        @environment: null
     requirements:
-        _site: admin
+        @site: admin
 
-core_project_admin_project:
-    path:     /{project}/
-    defaults: { _controller: CoreProjectBundle:Admin:project, _project: null }
-    requirements:
-        _site: admin
-
-core_project_admin_environment:
-    path:     /environments/{environment}/
-    defaults: { _controller: CoreProjectBundle:Admin:environment, _project: null }
-    requirements:
-        _site: admin
-
-core_project_homepage:
+core_project_project:
     path:     /
-    defaults: { _controller: CoreProjectBundle:Default:index }
+    defaults: { _controller: CoreProjectBundle:Default:indexProject, @environment: null }
+    requirements:
+        @project: %
 
 core_project_home:
     path:     /
-
-core_project_project:
-    path:     /{project}/
-    defaults: { _controller: CoreProjectBundle:Default:indexProject, _project: null }
+    defaults: { _controller: CoreProjectBundle:Default:index }

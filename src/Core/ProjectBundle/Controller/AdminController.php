@@ -26,20 +26,18 @@ class AdminController extends Controller
                              ));
     }
 
-    public function projectAction(Request $request, $project)
+    public function projectAction(Request $request)
     {
         $projectHelper = $this->container->get('project_helper');
 
         $projects = $projectHelper->listProjects();
 
-        $edit = false;
-        if ($projectHelper->hasProjectByName($project)) {
-            $edit = true;
-            $entity = $projectHelper->getProjectByName($project);
-        }
-        else {
+        $edit = true;
+        $entity = $projectHelper->getProject();
+        if (!$entity) {
+            $edit = false;
             $entity = new Project();
-            $entity->setName($project);
+            $entity->setName('new');
             $entity->setDescription('Describe project here');
         }
 
@@ -94,20 +92,18 @@ class AdminController extends Controller
                              ));
     }
 
-    public function environmentAction(Request $request, $environment)
+    public function environmentAction(Request $request)
     {
         $projectHelper = $this->container->get('project_helper');
 
         $environments = $projectHelper->listEnvironments();
 
-        $edit = false;
-        if ($projectHelper->hasEnvironmentByName($environment)) {
-            $edit = true;
-            $entity = $projectHelper->getEnvironmentByName($environment);
-        }
-        else {
+        $edit = true;
+        $entity = $projectHelper->getEnvironment();
+        if (!$entity) {
+            $edit = false;
             $entity = new Environment();
-            $entity->setName($environment);
+            $entity->setName('new');
             $entity->setDescription('Describe environment here');
         }
 

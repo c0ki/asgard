@@ -4,8 +4,8 @@
 {% endif %}
 <ul>
     {% for project in app.projects %}
-        {% set params = params|default({})|merge({'_project': project.name}) %}
-        <li class="{{ project.logo|default() }}{% if app.masterRequest.attributes.get('_project')|default() == project.name %} selected{% endif %}">
+        {% set params = params|default({})|merge({'@project': project.name}) %}
+        <li class="{{ project.logo|default() }}{% if app.masterRequest.attributes.get('@project')|default() == project.name %} selected{% endif %}">
             <a href="{{ path(route, params) }}">{{ project.label }}</a>
         </li>
     {% endfor %}

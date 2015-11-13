@@ -28,10 +28,10 @@
     {{ parent() }}
     <div class="logo-admin flex-item-last{% if app.site == 'admin' %} selected{% endif %}">
         {% if app.site != 'admin' %}
-            <a href="{{ path('core_layout_root', {'_site': 'admin'}) }}"
+            <a href="{{ path('core_layout_root', {'@site': 'admin'}) }}"
                class="icon-pref-alt icon-only">Back</a>
         {% else %}
-            <a href="{{ path('core_layout_root', {'_site': null}) }}"
+            <a href="{{ path('core_layout_root', {'@site': null}) }}"
                class="icon-pref-alt icon-only">Front</a>
         {% endif %}
     </div>

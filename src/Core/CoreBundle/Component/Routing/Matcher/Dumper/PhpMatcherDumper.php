@@ -15,7 +15,7 @@ class PhpMatcherDumper extends FrameworkPhpMatcherDumper
             if (!$route->getRequirements()) {
                 continue;
             }
-            $internalRequirementNames = preg_grep("/^_\w+/", array_keys($route->getRequirements()));
+            $internalRequirementNames = preg_grep("/^@\w+/", array_keys($route->getRequirements()));
             if (!$internalRequirementNames) {
                 continue;
             }

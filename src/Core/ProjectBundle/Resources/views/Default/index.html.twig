@@ -6,7 +6,7 @@
         <ul>
             {% for project in projects %}
                 <li class="icon-{{ project.logo|default('no') }}">
-                    <a href="{{ path('core_project_home', {'_project': project.name}) }}">{{ project.label }}</a>
+                    <a href="{{ path('core_project_home', {'@project': project.name}) }}">{{ project.label }}</a>
                 </li>
             {% endfor %}
         </ul>

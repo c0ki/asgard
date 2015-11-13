@@ -37,8 +37,8 @@ class GlobalVariables extends FrameworkGlobalVariables
     }
 
     public function getSite() {
-        if ($this->getMasterRequest()->attributes->has('_site')) {
-            return $this->getMasterRequest()->attributes->get('_site');
+        if ($this->getMasterRequest()->attributes->has('@site')) {
+            return $this->getMasterRequest()->attributes->get('@site');
         }
     }
 

@@ -15,4 +15,4 @@ services:
 
     project_helper:
         class: %project_helper.class%
-        arguments: [ @doctrine ]
+        arguments: [ @request_stack, @doctrine ]

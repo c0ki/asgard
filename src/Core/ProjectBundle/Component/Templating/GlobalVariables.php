@@ -14,9 +14,7 @@ class GlobalVariables extends CoreGlobalVariables
 
     public function getProject()
     {
-        if ($this->getMasterRequest()->attributes->has('_project')) {
-            return $this->container->get('project_helper')->getProjectByName($this->getMasterRequest()->attributes->get('_project'));
-        }
+        return $this->container->get('project_helper')->getProject();
     }
 
     public function getEnvironments()
@@ -26,9 +24,7 @@ class GlobalVariables extends CoreGlobalVariables
 
     public function getEnvironment()
     {
-        if ($this->getMasterRequest()->attributes->has('_environment')) {
-            return $this->container->get('project_helper')->getEnvironmentByName($this->getMasterRequest()->attributes->get('_environment'));
-        }
+        return $this->container->get('project_helper')->getEnvironment();
     }
 
 }

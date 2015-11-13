@@ -11,21 +11,21 @@ class UrlGenerator extends ComponentUrlGenerator
      */
     protected function doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $referenceType, $hostTokens, array $requiredSchemes = array())
     {
-        if ($name{0} != '_' && (array_key_exists('_site', $parameters) || $this->getContext()->hasParameter('_site'))) {
+        if ($name{0} != '_' && (array_key_exists('@site', $parameters) || $this->getContext()->hasParameter('@site'))) {
             $site = null;
-            if (!empty($defaults) && array_key_exists('_site', $defaults)) {
-                $site = $defaults['_site'];
-                if (array_key_exists('_site', $parameters)) {
-                    unset($parameters['_site']);
+            if (!empty($defaults) && array_key_exists('@site', $defaults)) {
+                $site = $defaults['@site'];
+                if (array_key_exists('@site', $parameters)) {
+                    unset($parameters['@site']);
                 }
             }
             else {
-                if ($this->getContext()->hasParameter('_site')) {
-                    $site = $this->getContext()->getParameter('_site');
+                if ($this->getContext()->hasParameter('@site')) {
+                    $site = $this->getContext()->getParameter('@site');
                 }
-                if (array_key_exists('_site', $parameters)) {
-                    $site = $parameters['_site'];
-                    unset($parameters['_site']);
+                if (array_key_exists('@site', $parameters)) {
+                    $site = $parameters['@site'];
+                    unset($parameters['@site']);
                 }
             }
             if (!empty($site)) {
