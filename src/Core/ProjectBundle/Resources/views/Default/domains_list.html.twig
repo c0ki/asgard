@@ -5,8 +5,8 @@
 <ul>
     {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
         {% set params = params|default({})|merge({'@domain': domain.name}) %}
-        <li class="{{ domain.logo|default() }}{% if app.domain == domain %} selected{% endif %}">
-            <a href="{{ path(route, params) }}">{{ domain.label }}</a>
+        <li{% if app.domain == domain %} class="selected"{% endif %}>
+            <a href="{{ path(route, params) }}" class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</a>
         </li>
     {% endfor %}
 </ul>
