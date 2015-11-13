@@ -1,12 +1,18 @@
 parameters:
     templating.globals.class: Core\ProjectBundle\Component\Templating\GlobalVariables
-    router_listener.class: Core\ProjectBundle\EventListener\RouterListener
     router.options.generator_class: Core\ProjectBundle\Component\Routing\Generator\UrlGenerator
     router.options.generator_base_class: Core\ProjectBundle\Component\Routing\Generator\UrlGenerator
 
+    event_subscriber.project.router.class: Core\ProjectBundle\EventSubscriber\RouterSubscriber
     project_helper.class: Core\ProjectBundle\Component\Helper\ProjectHelper
 
 services:
+    event_subscriber.project.router:
+        class: %event_subscriber.project.router.class%
+        arguments: [ @project_helper, @router, @?router.request_context ]
+        tags:
+            - { name: kernel.event_subscriber }
+
     project_helper:
         class: %project_helper.class%
         arguments: [ @doctrine ]
