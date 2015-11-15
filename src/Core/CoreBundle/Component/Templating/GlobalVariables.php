@@ -42,4 +42,11 @@ class GlobalVariables extends FrameworkGlobalVariables
         }
     }
 
+    public function getRoute($name = null) {
+        if (!$name) {
+            $name = $this->getMasterRequest()->attributes->get('_route');
+        }
+        return $this->container->get('router')->getRouteCollection()->get($name);
+    }
+
 }
