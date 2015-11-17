@@ -31,6 +31,9 @@ class GenericEntityType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $this->resolver = $resolver;
+        $resolver->setDefaults(array(
+                                   'fixed_values' => array()
+                               ));
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -45,13 +48,25 @@ class GenericEntityType extends AbstractType
         }
 
         // Add defaults data_class
-        $this->resolver->setDefaults(array(
-                                         'data_class' => $options['data_class']
-                                     ));
+        $this->resolver->setDefaults(
+            array(
+                'data_class' => $options['data_class']
+            ));
 
         // Add fields
         foreach ($entityMetadata->getFieldNames() as $fieldName) {
             if ($entityMetadata->isIdentifier($fieldName) && $entityMetadata->isIdGeneratorIdentity()) {
+                continue;
+            }
+            if (array_key_exists($fieldName,
+                                 $options['fixed_values']) && !is_null($options['fixed_values'][$fieldName])
+            ) {
+                $builder->add($fieldName,
+                              'text',
+                              array(
+                                  'data' => $options['fixed_values'][$fieldName],
+                                  'read_only' => true,
+                              ));
                 continue;
             }
             $builder->add($fieldName);
@@ -59,11 +74,35 @@ class GenericEntityType extends AbstractType
 
         // Add associations fields
         foreach ($entityMetadata->getAssociationNames() as $associationName) {
+            $targetClass = $entityMetadata->getAssociationTargetClass($associationName);
+            if (array_key_exists($associationName,
+                                 $options['fixed_values']) && !is_null($options['fixed_values'][$associationName])
+            ) {
+                $builder->add($associationName . '_disabled',
+                              'entity',
+                              array(
+                                  'data' => $options['fixed_values'][$associationName],
+                                  'disabled' => true,
+//                                  'read_only' => true,
+                                  'class' => $targetClass,
+                                  'mapped' => false,
+                              ));
+                $builder->add($associationName,
+                              'hidden',
+                              array(
+                                  'data' => $options['fixed_values'][$associationName],
+                                  'data_class' => $targetClass,
+                              ));
+                continue;
+            }
             if ($entityMetadata->isCollectionValuedAssociation($associationName)) {
                 $builder->add($associationName);
                 continue;
             }
-            $targetClass = $entityMetadata->getAssociationTargetClass($associationName);
+            elseif ($entityMetadata->isSingleValuedAssociation($associationName)) {
+                $builder->add($associationName);
+                continue;
+            }
             $builder->add($associationName,
                           'collection',
                           array(

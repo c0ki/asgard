@@ -11,7 +11,7 @@ class DefaultController extends Controller
     {
         $projectHelper = $this->container->get('project_helper');
         $projects = $projectHelper->listProjects();
-        return $this->render('CoreProjectBundle:Default:index.html.twig',
+        return $this->render('CoreProjectBundle:Default:list.html.twig',
             array('projects' => $projects)
         );
     }

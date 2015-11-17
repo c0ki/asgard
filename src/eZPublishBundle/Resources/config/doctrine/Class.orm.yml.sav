@@ -1,6 +1,6 @@
-DisplayBundle\Entity\DisplayMode:
+eZPublishBundle\Entity\Class:
     type: entity
-    table: display_mode
+    table: ezpublish_class
     id:
         id:
             type: integer
@@ -8,9 +8,11 @@ DisplayBundle\Entity\DisplayMode:
     fields:
         project_id:
             type: integer
-        mode_id:
+        domain_id:
             type: integer
-        width:
+        label:
+            type: string
+            length: 50
+        code:
             type: integer
-        height:
-            type: integer
+

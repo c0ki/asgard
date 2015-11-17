@@ -23,11 +23,13 @@ Core\ProjectBundle\Entity\Project:
     manyToMany:
         domains:
             targetEntity: Core\ProjectBundle\Entity\Domain
-            joinTable:
-                name: project_domain
-                joinColumns:
-                    project_id:
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    domain_id:
-                        referencedColumnName: id
+            mappedBy: projects
+            cascade: [ persist ]
+#            joinTable:
+#                name: project_domain
+#                joinColumns:
+#                    project_id:
+#                        referencedColumnName: id
+#                inverseJoinColumns:
+#                    domain_id:
+#                        referencedColumnName: id

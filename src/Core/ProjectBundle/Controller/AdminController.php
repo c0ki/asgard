@@ -14,16 +14,7 @@ class AdminController extends Controller
 
     public function listAction()
     {
-        $projectHelper = $this->container->get('project_helper');
-
-        $projects = $projectHelper->listProjects();
-        $domains = $projectHelper->listDomains();
-
-        return $this->render('CoreProjectBundle:Admin:list.html.twig',
-                             array(
-                                 'projects' => $projects,
-                                 'domains' => $domains,
-                             ));
+        return $this->render('CoreProjectBundle:Admin:list.html.twig');
     }
 
     public function projectAction(Request $request)

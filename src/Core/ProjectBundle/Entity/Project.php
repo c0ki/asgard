@@ -160,6 +160,7 @@ class Project
      */
     public function addDomain(\Core\ProjectBundle\Entity\Domain $domain)
     {
+        $domain->addProject($this);
         $this->domains[] = $domain;
 
         return $this;
