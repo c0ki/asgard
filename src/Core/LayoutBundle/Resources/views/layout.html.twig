@@ -20,7 +20,7 @@
     {% endblock %}
     {% block head_js %}{% endblock %}
 </head>
-<body class="{% block bodyclass %}flex-container-v{% endblock %}">
+<body class="{% block bodyclass %}flex-container-v{% if app.siteaccess %} {{ ' siteaccess-' ~ app.siteaccess }}{% endif %}{% endblock %}">
 
 {% block header %}
     <header class="flex-container-h">

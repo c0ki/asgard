@@ -17,13 +17,6 @@
     {% endstylesheets %}
 {% endblock %}
 
-{%- block bodyclass -%}
-    {{ parent() }}
-    {%- if app.siteaccess -%}
-        {{ ' siteaccess-' ~ app.siteaccess }}
-    {%- endif -%}
-{%- endblock -%}
-
 {% block header_content %}
     {{ parent() }}
     <div class="logo-admin flex-item-last{% if app.siteaccess == 'admin' %} selected{% endif %}">
