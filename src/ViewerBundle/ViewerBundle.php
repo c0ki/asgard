@@ -1,9 +1,9 @@
 <?php
 
-namespace DisplayBundle;
+namespace ViewerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class DisplayBundle extends Bundle
+class ViewerBundle extends Bundle
 {
 }

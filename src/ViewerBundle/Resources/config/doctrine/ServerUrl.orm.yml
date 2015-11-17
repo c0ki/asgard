@@ -1,0 +1,29 @@
+ViewerBundle\Entity\ServerUrl:
+    type: entity
+    table: viewer_serverurl
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        url:
+            type: string
+            length: 255
+        label:
+            type: string
+            length: 50
+            nullable: true
+
+    manyToOne:
+        project:
+            targetEntity: Core\ProjectBundle\Entity\Project
+#            inversedBy: server
+            joinColumn:
+                name: project_id
+                referencedColumnName: id
+        domain:
+            targetEntity: Core\ProjectBundle\Entity\Domain
+#            inversedBy: server
+            joinColumn:
+                name: domain_id
+                referencedColumnName: id

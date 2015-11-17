@@ -1,6 +1,6 @@
 <?php
 
-namespace DisplayBundle\Controller;
+namespace ViewerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +11,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         //$project
-        $form = $this->createForm('displayurl');
+        $form = $this->createForm('viewerurl');
         $form->add('send', 'submit', array('label' => 'Envoyer'));
 
         $form->handleRequest($request);
@@ -27,7 +27,7 @@ class DefaultController extends Controller
                 }
                 $urls[] = $server . $relativeUrl;
             }
-            $subform = $this->get('form.factory')->createNamedBuilder('changedisplay', 'form')
+            $subform = $this->get('form.factory')->createNamedBuilder('changeviewer', 'form')
                             ->add('mode',
                                   'choice',
                                   array(
@@ -43,7 +43,7 @@ class DefaultController extends Controller
                             ->getForm();
 
 
-            return $this->render('DisplayBundle:Default:result.html.twig',
+            return $this->render('ViewerBundle:Default:result.html.twig',
                                  array(
                                      'form' => $form->createView(),
                                      'subform' => $subform->createView(),
@@ -51,7 +51,7 @@ class DefaultController extends Controller
                                  ));
         }
 
-        return $this->render('DisplayBundle:Default:form.html.twig',
+        return $this->render('ViewerBundle:Default:form.html.twig',
                              array(
                                  'form' => $form->createView(),
                              ));

@@ -1,0 +1,72 @@
+@media (max-width: 640px) {
+    form[name=viewerurl] label {
+        display: block;
+    }
+}
+
+#changeviewer_mode {
+    display: inline-block;
+    margin-left: 3rem;
+}
+
+#viewerurl-result section.result {
+    padding: 1rem;
+    float: left;
+}
+
+#viewerurl-result section.result iframe {
+    border: 1px solid #aaaaaa;
+    border-radius: 10px;
+}
+
+
+#viewerurl-result iframe,
+#viewerurl-result.mobile iframe {
+    width: 330px;
+    height: 480px;
+}
+
+@media (max-width: 619px) {
+    #viewerurl-result [value=tablet],
+    #viewerurl-result [value=tablet] + label {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    #viewerurl-result [value=tabletlandscape],
+    #viewerurl-result [value=tabletlandscape] + label {
+        display: none;
+    }
+}
+
+@media (max-width: 999px) {
+    #viewerurl-result [value=desktop],
+    #viewerurl-result [value=desktop] + label {
+        display: none;
+    }
+}
+
+@media (min-width: 620px) {
+    #viewerurl-result iframe,
+    #viewerurl-result.tablet iframe {
+        width: 650px;
+        height: 800px;
+    }
+}
+
+@media (min-width: 768px) {
+    #viewerurl-result iframe,
+    #viewerurl-result.tabletlandscape iframe {
+        width: 780px;
+        height: 500px;
+    }
+}
+
+@media (min-width: 1000px) {
+    #viewerurl-result iframe,
+    #viewerurl-result.desktop iframe {
+        width: 1005px;
+        height: 750px;
+    }
+}

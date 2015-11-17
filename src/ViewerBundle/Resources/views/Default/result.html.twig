@@ -1,9 +1,9 @@
-{% extends 'DisplayBundle:Default:form.html.twig' %}
+{% extends 'ViewerBundle:Default:form.html.twig' %}
 
 {% block content %}
     {{ parent() }}
 
-    <section id="displayurl-result">
+    <section id="viewerurl-result">
         <h2>Results</h2>
         <div class="inputicon">
         {{ form(subform) }}
@@ -24,7 +24,7 @@
 {% block foot_js %}
     {{ parent() }}
     {% javascripts
-    '@DisplayBundle/Resources/public/js/resultdisplay.js' %}
+    '@ViewerBundle/Resources/public/js/resultviewer.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}

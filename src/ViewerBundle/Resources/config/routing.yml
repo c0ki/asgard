@@ -1,0 +1,20 @@
+viewer_admin:
+    path:   /
+    defaults: { _controller: ViewerBundle:Admin:edit }
+    requirements:
+        @siteaccess: admin
+        @project: %
+        @domain: %
+
+viewer_admin_home:
+    path:   /
+    defaults: { _controller: ViewerBundle:Admin:index }
+    requirements:
+        @siteaccess: admin
+
+viewer_tool_homepage:
+    path:   /
+    defaults: { _controller: ViewerBundle:Default:index }
+    options:
+        class: icon-camera
+        label: Viewer

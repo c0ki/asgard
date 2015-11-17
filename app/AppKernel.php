@@ -22,7 +22,7 @@ class AppKernel extends Kernel
             new Core\ProjectBundle\CoreProjectBundle(),
             new DashboardBundle\DashboardBundle(),
             new LogAnalyserBundle\LogAnalyserBundle(),
-            new DisplayBundle\DisplayBundle(),
+            new ViewerBundle\ViewerBundle(),
             new eZPublishBundle\eZPublishBundle(),
         );
 

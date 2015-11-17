@@ -6,9 +6,9 @@ dashboard:
     resource: "@DashboardBundle/Resources/config/routing.yml"
     prefix:   /dashboard/
 
-display:
-    resource: "@DisplayBundle/Resources/config/routing.yml"
-    prefix:   /display/
+viewer:
+    resource: "@ViewerBundle/Resources/config/routing.yml"
+    prefix:   /viewer/
 
 log_analyser:
     resource: "@LogAnalyserBundle/Resources/config/routing.yml"

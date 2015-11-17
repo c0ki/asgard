@@ -1,9 +1,0 @@
-parameters:
-    display.form.type.displayurl.class: "DisplayBundle\Component\Form\Type\DisplayUrlType"
-
-services:
-    display.form.type.displayurl:
-        class: %display.form.type.displayurl.class%
-        arguments: [ @service_container ]
-        tags:
-            - { name: form.type, alias: displayurl }

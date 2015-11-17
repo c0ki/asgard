@@ -1,0 +1,23 @@
+{% extends 'ViewerBundle::layout.html.twig' %}
+
+{% block content %}
+    <section id="projects">
+        {% if app.project %}
+            <h2>Project</h2>
+            <span class="icon-{{ app.project.logo|default('no') }}">{{ app.project.label }}</span>
+        {% else %}
+            <h2>Projects list</h2>
+            {% include 'CoreProjectBundle:Default:projects_list.html.twig' only %}
+        {% endif %}
+    </section>
+
+    <section id="domains">
+        {% if app.domain %}
+            <h2>Domain</h2>
+            <span class="icon-{{ app.domain.logo|default('no') }}">{{ app.domain.label }}</span>
+        {% else %}
+            <h2>Domains list</h2>
+            {% include 'CoreProjectBundle:Default:domains_list.html.twig' only %}
+        {% endif %}
+    </section>
+{% endblock %}
