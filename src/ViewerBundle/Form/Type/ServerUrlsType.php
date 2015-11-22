@@ -31,6 +31,7 @@ class ServerUrlsType extends AbstractType
         $fixedValues = array();
         $fixedValues['project'] = $this->projectHelper->getProject();
         $fixedValues['domain'] = $this->projectHelper->getDomain();
+        $fixedValues = array_filter($fixedValues);
 
         $builder->add('serverUrls',
                       'collection',
