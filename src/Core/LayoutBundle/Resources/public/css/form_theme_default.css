@@ -35,6 +35,7 @@ form.form_theme_default textarea {
 }
 
 form.form_theme_default .subform input,
-form.form_theme_default .subform textarea {
+form.form_theme_default .subform textarea,
+form.form_theme_default .subform select {
     width: 100%;
 }
