@@ -5,7 +5,8 @@
 {% set enableLink = (not app.route(route).hasdefault('@domain')) %}
 {% if select|default %}
     <select{% if enableLink %} onchange="window.location=this.value"{% endif %}>
-        <option>Choose domain</option>
+        {% set params = params|default({})|merge({'@domain': null }) %}
+        <option value="{{ path(route, params) }}">Choose domain</option>
         {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
             {% set params = params|default({})|merge({'@domain': domain.name}) %}
             <option value="{{ path(route, params) }}"{% if app.domain == domain %} selected="selected"{% endif %}
