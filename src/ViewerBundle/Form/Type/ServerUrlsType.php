@@ -29,7 +29,6 @@ class ServerUrlsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $fixedValues = array();
-        $fixedValues['label'] = 'COUCOU';
         $fixedValues['project'] = $this->projectHelper->getProject();
         $fixedValues['domain'] = $this->projectHelper->getDomain();
 
