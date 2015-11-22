@@ -2,6 +2,7 @@
 
 namespace ViewerBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,12 @@ class AdminController extends Controller
         $entity = array();
         $entity['serverUrls'] = $serverUrls;
 
+        // Create an ArrayCollection of the current serverUrls objects in the database
+        $originalServerUrls = new ArrayCollection();
+        foreach ($serverUrls as $serverUrl) {
+            $originalServerUrls->add($serverUrl);
+        }
+
         $form = $this->createForm('server_urls', $entity);
         $form->add('send', 'submit', array('label' => 'Submit'));
         $form->add('cancel', 'reset', array('label' => 'Cancel'));
@@ -37,24 +44,21 @@ class AdminController extends Controller
             $data = $form->getData();
             $entities = $data['serverUrls'];
 
+            // remove the relationship between the domain and the project
+            foreach ($originalServerUrls as $serverUrl) {
+                if (!in_array($serverUrl, $entities)) {
+                    // if you wanted to delete the Tag entirely, you can also do that
+                    $OrmManager->remove($serverUrl);
+                }
+            }
+
             foreach ($entities as $entity) {
                 $OrmManager->persist($entity);
             }
+
             $OrmManager->flush();
 
-            // remove the relationship between the domain and the project
-//            foreach ($originalDomains as $domain) {
-//                if (!$entity->getDomains()->contains($domain)) {
-//                    // if it was a many-to-one relationship, remove the relationship like this
-//                    $domain->setProject(null);
-//
-//                    $OrmManager->persist($domain);
-//                    // if you wanted to delete the Tag entirely, you can also do that
-//                    $OrmManager->remove($domain);
-//                }
-//            }
-
-            $this->container->get('alert_helper')->success('Creation OK');
+            $this->container->get('alert_helper')->success('Update OK');
 
             return new RedirectResponse($this->generateUrl('viewer_admin_home'), 302);
         }
