@@ -2,7 +2,7 @@
 
 {% block content %}
     <section id="serverurls-edit">
-        <h2>{{ app.project.label }}: Server URLs{% if app.domain %}(domain: {{ app.domain.label }}){% endif %}</h2>
+        <h2>{{ app.project.label }}: Server URLs{% if app.domain %} (domain: {{ app.domain.label }}){% endif %}</h2>
         {{ form(form) }}
     </section>
 {% endblock %}
