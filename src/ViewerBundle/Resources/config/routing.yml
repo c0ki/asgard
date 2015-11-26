@@ -4,7 +4,6 @@ viewer_admin:
     requirements:
         @siteaccess: admin
         @project: %
-        @domain: %
 
 viewer_admin_home:
     path:   /

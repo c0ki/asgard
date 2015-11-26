@@ -1,20 +1,21 @@
 parameters:
-    viewer.form.type.viewerurl.class: "ViewerBundle\Component\Form\Type\ViewerUrlType"
+
 
     viewer_helper.class: ViewerBundle\Component\Helper\ViewerHelper
 
     form.type.server_urls.class: ViewerBundle\Form\Type\ServerUrlsType
+    form.type.viewer_urls.class: ViewerBundle\Form\Type\ViewerUrlsType
 
 services:
-    viewer.form.type.viewerurl:
-        class: %viewer.form.type.viewerurl.class%
-        arguments: [ @service_container ]
-        tags:
-            - { name: form.type, alias: viewerurl }
-
     viewer_helper:
         class: %viewer_helper.class%
-        arguments: [ @doctrine ]
+        arguments: [ @doctrine, @project_helper ]
+
+    form.type.viewerurl:
+        class: %form.type.viewer_urls.class%
+        arguments: [ @viewer_helper ]
+        tags:
+            - { name: form.type, alias: viewer_urls }
 
     form.type.server_urls:
         class: %form.type.server_urls.class%

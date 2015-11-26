@@ -10,8 +10,9 @@ class DefaultController extends Controller
 
     public function indexAction(Request $request)
     {
-        //$project
-        $form = $this->createForm('viewerurl');
+        $viewer_helper = $this->container->get('viewer_helper');
+
+        $form = $this->createForm('viewer_urls');
         $form->add('send', 'submit', array('label' => 'Envoyer'));
 
         $form->handleRequest($request);
@@ -21,12 +22,14 @@ class DefaultController extends Controller
             $relativeUrl = $form->get('relativeurl')->getData();
 
             $urls = array();
-            foreach ($servers as $server) {
-                if (preg_match('#^(.*)/$#', $server, $matches)) {
+            foreach ($servers as $serverId) {
+                $server = $viewer_helper->getServerUrl($serverId);
+                if (preg_match('#^(.*)/$#', $server->getUrl(), $matches)) {
                     $server = $matches[1];
                 }
                 $urls[] = $server . $relativeUrl;
             }
+
             $subform = $this->get('form.factory')->createNamedBuilder('changeviewer', 'form')
                             ->add('mode',
                                   'choice',

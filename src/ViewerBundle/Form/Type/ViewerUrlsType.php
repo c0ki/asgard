@@ -1,35 +1,43 @@
 <?php
 
-namespace ViewerBundle\Component\Form\Type;
+namespace ViewerBundle\Form\Type;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Core\ProjectBundle\Component\Helper\ProjectHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use ViewerBundle\Component\Helper\ViewerHelper;
 
-class ViewerUrlType extends AbstractType
+class ViewerUrlsType extends AbstractType
 {
+    /**
+     * @var ViewerHelper
+     */
+    private $viewerHelper;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ViewerHelper $viewerHelper)
     {
-        $this->container = $container;
+        $this->viewerHelper = $viewerHelper;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $servers = $this->container->getParameter('portail.checker.server');
-        foreach ($servers as $groupId => $group) {
-            $groupServers = array();
-            foreach ($group as $server) {
-                $groupServers[$server] = $server;
+        $serverUrls = $this->viewerHelper->getServerUrls();
+
+        foreach ($serverUrls as $name => $groupServerUrl) {
+            if (is_array($groupServerUrl) && !is_int(key($groupServerUrl))) {
+                foreach ($groupServerUrl as $subname => $serverUrl) {
+                    $serverUrls["{$name} > {$subname}"] = $serverUrl;
+                    unset($serverUrls[$name][$subname]);
+                }
             }
-            $servers[$groupId] = $groupServers;
         }
+        $serverUrls = array_filter($serverUrls);
 
         $builder->add('servers',
                       'choice',
                       array(
                           'label' => "Server",
-                          'choices' => $servers,
+                          'choices' => $serverUrls,
                           'multiple' => true,
                           'expanded' => false,
                       ));
@@ -38,6 +46,7 @@ class ViewerUrlType extends AbstractType
             'text',
             array(
                 'label' => "Relative url",
+                'required' => false,
             ));
 
 //        $builder->add('resulttype',
@@ -60,7 +69,7 @@ class ViewerUrlType extends AbstractType
 
     public function getName()
     {
-        return 'viewerurl';
+        return 'viewer_urls';
     }
 
 }
