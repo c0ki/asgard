@@ -138,5 +138,9 @@ class ServerUrl
     {
         return $this->domain;
     }
+
+    public function __toString() {
+        return $this->getUrl();
+    }
 }
 
