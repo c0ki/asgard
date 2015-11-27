@@ -39,3 +39,9 @@ for (var i = 0; i < listViewerMode.length; i++) {
     listViewerMode[i].addEventListener ("RadioStateChange", toggleviewer, false);
 }
 
+/*
+var listIframe = document.getElementsByTagName('iframe');
+for (var i = 0; i < listIframe.length; i++) {
+    listIframe[i].addEventListener ("RadioStateChange", toggleviewer, false);
+}
+*/
