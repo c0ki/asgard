@@ -2,6 +2,7 @@ parameters:
     templating.globals.class: Core\LayoutBundle\Component\Templating\GlobalVariables
     tool_helper.class: Core\LayoutBundle\Component\Helper\ToolHelper
     alert_helper.class: Core\LayoutBundle\Component\Helper\AlertHelper
+    url_helper.class: Core\LayoutBundle\Component\Helper\UrlHelper
 
     core.twig.alert_extension.class: Core\LayoutBundle\Twig\AlertExtension
 
@@ -13,6 +14,9 @@ services:
     alert_helper:
         class: %alert_helper.class%
         arguments: [ @request_stack ]
+
+    url_helper:
+        class: %url_helper.class%
 
     core.twig.alert_extension:
         class: %core.twig.alert_extension.class%

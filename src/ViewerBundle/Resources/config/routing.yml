@@ -17,7 +17,3 @@ viewer_tool_homepage:
     options:
         class: icon-camera
         label: Viewer
-
-viewer_tool_geturl:
-    path:   /geturl
-    defaults: { _controller: ViewerBundle:Default:getUrl }

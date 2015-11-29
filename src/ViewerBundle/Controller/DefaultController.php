@@ -60,47 +60,5 @@ class DefaultController extends Controller
                              ));
     }
 
-    public function getUrlAction()
-    {
-        $url = $this->container->get('request_stack')->getMasterRequest()->request->get('url');
-        $url = '***REMOVED***particuliers';
-//        var_dump($this->container->get('request_stack')->getMasterRequest()->request->all());
-//        exit();
 
-        $request = new Request();
-
-
-//        $httpKernel = $this->container->get('http_kernel');
-//        $httpKernel->handle();
-//        $response = $buzz->get('http://google.com');
-
-//        echo $response->getContent();
-
-        //curl -X GET -i ***REMOVED***particuliers --max-time 10 --connect-timeout 10 -k
-
-        $c = curl_init();
-        curl_setopt($c, CURLOPT_URL, $url);
-        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($c, CURLOPT_BINARYTRANSFER, true);
-        curl_setopt($c, CURLOPT_HTTPPROXYTUNNEL, true);
-        curl_setopt($c, CURLOPT_SSL_VERIFYHOST,false);
-        curl_setopt($c, CURLOPT_SSL_VERIFYPEER,false);
-        curl_setopt($c, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; rv:33.0) Gecko/20100101 Firefox/33.0");
-        curl_setopt($c, CURLOPT_COOKIE, 'CookieName1=Value;');
-        curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 9);
-        curl_setopt($c, CURLOPT_REFERER, $url);
-        curl_setopt($c, CURLOPT_TIMEOUT, 60);
-        curl_setopt($c, CURLOPT_AUTOREFERER, true);
-        curl_setopt($c, CURLOPT_ENCODING, 'gzip,deflate');
-        $content = curl_exec($c);
-        $info = curl_getinfo($c);
-        $error = curl_error($c);
-        curl_close($c);
-
-        var_dump($info, $error);
-
-//        $content = file_get_contents($url);
-        print($content);
-        exit();
-    }
 }

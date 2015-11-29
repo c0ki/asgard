@@ -4,3 +4,8 @@ core_layout_root:
         _controller: CoreLayoutBundle:Default:index
         @project: null
         @domain: null
+
+core_layout_geturl:
+    path:     /geturl
+    defaults:
+        _controller: CoreLayoutBundle:Default:getUrl
