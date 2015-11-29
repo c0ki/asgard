@@ -39,9 +39,15 @@ for (var i = 0; i < listViewerMode.length; i++) {
     listViewerMode[i].addEventListener ("RadioStateChange", toggleviewer, false);
 }
 
-/*
+
+function needreloadiframe(event) {
+    if (event.target.contentDocument == null) {
+        event.target.src = event.target.dataset.srcerror;
+        console.log('needreloadiframe');
+    }
+}
+
 var listIframe = document.getElementsByTagName('iframe');
 for (var i = 0; i < listIframe.length; i++) {
-    listIframe[i].addEventListener ("RadioStateChange", toggleviewer, false);
+    listIframe[i].addEventListener ("load", needreloadiframe, false);
 }
-*/

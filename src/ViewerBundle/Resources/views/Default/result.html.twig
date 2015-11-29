@@ -13,7 +13,7 @@
             {% for url in urls %}
                 <section class="result">
                     <h3>{{ url }}</h3>
-                    <iframe src="{{ url }}"></iframe>
+                    <iframe src="{{ url }}" data-srcerror="{{ path('core_layout_geturl', { 'url': url }) }}"></iframe>
                 </section>
             {% endfor %}
         </div>
