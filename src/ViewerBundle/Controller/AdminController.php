@@ -20,10 +20,7 @@ class AdminController extends Controller
         $projectHelper = $this->container->get('project_helper');
         $viewHelper = $this->container->get('viewer_helper');
 
-        $project = $projectHelper->getProject();
-        $domain = $projectHelper->getDomain();
-
-        $serverUrls = $viewHelper->getServerUrls($project, $domain);
+        $serverUrls = $viewHelper->getServerUrls(false);
         $entity = array();
         $entity['serverUrls'] = $serverUrls;
 
