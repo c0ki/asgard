@@ -34,26 +34,31 @@ class ViewerHelper
     }
 
     /**
+     * @param bool $format
      * @return \ViewerBundle\Entity\ServerUrl[]
      */
-    public function getServerUrls()
+    public function getServerUrls($format = true)
     {
         $criteria = array();
         $criteria['project'] = $this->projectHelper->getProject();
         $criteria['domain'] = $this->projectHelper->getDomain();
         $criteria = array_filter($criteria);
 
-        $serverUrls = $this->getServerUrlsByCriteria($criteria);
+        $serverUrls = $this->getServerUrlsByCriteria($criteria, $format);
+        if (!$format) {
+            return $serverUrls;
+        }
+
         if (array_key_exists('project', $criteria)) {
-            $serverUrls = $serverUrls[$criteria['project']];
+            $serverUrls = $serverUrls[(string)$criteria['project']];
             if (array_key_exists('domain', $criteria)) {
-                $serverUrls = $serverUrls[$criteria['domain']];
+                $serverUrls = $serverUrls[(string)$criteria['domain']];
             }
         }
         elseif (array_key_exists('domain', $criteria)) {
             foreach ($serverUrls as &$projectServerUrls) {
-                if (array_key_exists($criteria['domain'], $projectServerUrls)) {
-                    $projectServerUrls = $projectServerUrls[$criteria['domain']];
+                if (array_key_exists((string)$criteria['domain'], $projectServerUrls)) {
+                    $projectServerUrls = $projectServerUrls[(string)$criteria['domain']];
                 }
                 else {
                     $projectServerUrls = null;
@@ -81,14 +86,18 @@ class ViewerHelper
     }
 
     /**
-     * @param Array $criteria
+     * @param array $criteria
+     * @param bool $format
      * @return \ViewerBundle\Entity\ServerUrl[]
      */
-    public function getServerUrlsByCriteria(Array $criteria)
+    public function getServerUrlsByCriteria(array $criteria, $format = true)
     {
         $serverUrls = array();
         $criteria = array_filter($criteria);
         $allServerUrls = $this->serverUrlRepository->findBy($criteria);
+        if (!$format) {
+            return $allServerUrls;
+        }
         foreach ($allServerUrls as $serverUrl) {
             $serverUrls[(string)$serverUrl->getProject()][(string)$serverUrl->getDomain()][$serverUrl->getId()] = $serverUrl;
         }
