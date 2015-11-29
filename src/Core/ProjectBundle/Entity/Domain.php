@@ -192,7 +192,7 @@ class Domain
      */
     public function __toString()
     {
-        return "{$this->getLabel()} [{$this->getName()}]";
+        return "{$this->getLabel()}";
     }
 }
 
