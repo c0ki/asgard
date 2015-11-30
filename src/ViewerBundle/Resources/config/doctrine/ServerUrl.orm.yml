@@ -7,7 +7,7 @@ ViewerBundle\Entity\ServerUrl:
             generator: { strategy: AUTO }
     fields:
         url:
-            type: string
+            type: url
             length: 255
         label:
             type: string
