@@ -34,8 +34,8 @@ class GenericEntityType extends AbstractType
     {
         $this->resolver = $resolver;
         $resolver->setDefaults(array(
-            'fixed_values' => array()
-        ));
+                                   'fixed_values' => array()
+                               ));
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -44,7 +44,8 @@ class GenericEntityType extends AbstractType
         $ORMmanager = $this->doctrine->getManager();
         try {
             $entityMetadata = $ORMmanager->getClassMetadata($options['data_class']);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             throw EntityNotFoundException::fromClassNameAndIdentifier($options['data_class'], array());
         }
 
@@ -60,14 +61,18 @@ class GenericEntityType extends AbstractType
                 continue;
             }
             if (array_key_exists($fieldName,
-                    $options['fixed_values']) && !is_null($options['fixed_values'][$fieldName])
+                                 $options['fixed_values']) && !is_null($options['fixed_values'][$fieldName])
             ) {
                 $builder->add($fieldName,
-                    'text',
-                    array(
-                        'data' => $options['fixed_values'][$fieldName],
-                        'read_only' => true,
-                    ));
+                              'text',
+                              array(
+                                  'data' => $options['fixed_values'][$fieldName],
+                                  'read_only' => true,
+                              ));
+                continue;
+            }
+            if ($entityMetadata->getTypeOfField($fieldName) == 'url') {
+                $builder->add($fieldName, 'url');
                 continue;
             }
             $builder->add($fieldName);
@@ -77,15 +82,15 @@ class GenericEntityType extends AbstractType
         foreach ($entityMetadata->getAssociationNames() as $associationName) {
             $targetClass = $entityMetadata->getAssociationTargetClass($associationName);
             if (array_key_exists($associationName,
-                    $options['fixed_values']) && !is_null($options['fixed_values'][$associationName])
+                                 $options['fixed_values']) && !is_null($options['fixed_values'][$associationName])
             ) {
                 $builder->add($associationName,
-                    'entity',
-                    array(
-                        'data' => $options['fixed_values'][$associationName],
-                        'disabled' => true,
-                        'class' => $targetClass,
-                    ));
+                              'entity',
+                              array(
+                                  'data' => $options['fixed_values'][$associationName],
+                                  'disabled' => true,
+                                  'class' => $targetClass,
+                              ));
                 continue;
             }
             if ($entityMetadata->isCollectionValuedAssociation($associationName)) {
@@ -97,14 +102,14 @@ class GenericEntityType extends AbstractType
                 continue;
             }
             $builder->add($associationName,
-                'collection',
-                array(
-                    'type' => new self($this->doctrine),
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'options' => array('data_class' => $targetClass),
-                    'by_reference' => false,
-                ));
+                          'collection',
+                          array(
+                              'type' => new self($this->doctrine),
+                              'allow_add' => true,
+                              'allow_delete' => true,
+                              'options' => array('data_class' => $targetClass),
+                              'by_reference' => false,
+                          ));
         }
 
         if (!empty($options['fixed_values'])) {
