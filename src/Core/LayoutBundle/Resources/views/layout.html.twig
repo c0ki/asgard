@@ -18,7 +18,12 @@
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
     {% endblock %}
-    {% block head_js %}{% endblock %}
+    {% block head_js %}
+        {% javascripts
+        '@CoreLayoutBundle/Resources/public/js/init.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
 </head>
 <body class="{% block bodyclass %}flex-container-v{% if app.siteaccess %} {{ ' siteaccess-' ~ app.siteaccess }}{% endif %}{% endblock %}">
 

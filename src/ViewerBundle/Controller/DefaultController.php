@@ -23,11 +23,8 @@ class DefaultController extends Controller
 
             $urls = array();
             foreach ($servers as $serverId) {
-                $server = $viewer_helper->getServerUrl($serverId);
-                if (preg_match('#^(.*)/$#', $server->getUrl(), $matches)) {
-                    $server = $matches[1];
-                }
-                $urls[] = $server . $relativeUrl;
+                $urls[$serverId]['serverUrl'] = $viewer_helper->getServerUrl($serverId);
+                $urls[$serverId]['url'] = $urls[$serverId]['serverUrl']->getUrl(). preg_replace('#/+#', '/', '/' . $relativeUrl);
             }
 
             $subform = $this->get('form.factory')->createNamedBuilder('changeviewer', 'form')

@@ -12,8 +12,8 @@
         <div>
             {% for url in urls %}
                 <section class="result">
-                    <h3>{{ url }}</h3>
-                    <iframe src="{{ url }}" data-srcerror="{{ path('core_layout_geturl', { 'url': url }) }}"></iframe>
+                    <h3>{{ url.serverUrl }}</h3>
+                    <iframe src="{{ url.url }}" data-srcerror="{{ path('core_layout_geturl', { 'url': url.url }) }}" onload="needreload(event);"></iframe>
                 </section>
             {% endfor %}
         </div>
