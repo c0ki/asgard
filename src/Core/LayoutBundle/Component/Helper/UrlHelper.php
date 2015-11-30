@@ -11,7 +11,6 @@ class UrlHelper
             'header' => array(),
             'content' => null,
             'error' => null);
-        $url = 'https://www.google.fr/';
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -34,7 +33,10 @@ class UrlHelper
             return $result;
         }
         elseif ($info['http_code'] != 200) {
-            $result['error'] = "Error: HTTP Code: {$info['http_code']}";
+            $result['error'] = "HTTP code {$info['http_code']}";
+            if ($info['http_code'] == 302) {
+                $result['error'] .= ": Redirection {$url} to {$info['redirect_url']}";
+            }
             return $result;
         }
 
