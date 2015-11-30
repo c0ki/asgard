@@ -50,8 +50,7 @@ class UrlHelper
         if (array_key_exists('port', $infoUrl)) {
             $baseUrl .= $infoUrl['port'];
         }
-        $baseUrl .= $infoUrl['path'];
-        $content = str_replace('"/', '"' . $baseUrl, $content);
+        $content = preg_replace('#"(/[^>])#', '"' . $baseUrl . "$1", $content);
         $content = str_replace(':url(/', ':url(' . $baseUrl, $content);
 
         $result['content'] = $content;
