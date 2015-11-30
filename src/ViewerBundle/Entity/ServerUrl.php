@@ -140,7 +140,9 @@ class ServerUrl
     }
 
     public function __toString() {
+        if ($this->getLabel()) {
+            return "{$this->getLabel()} [{$this->getUrl()}]";
+        }
         return $this->getUrl();
     }
 }
-
