@@ -47,7 +47,7 @@
                 {% block tools_navbar %}
                     <ul>
                         {% for tool in app.tools %}
-                            <li><a href="{{ path(tool.route_name) }}" class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a></li>
+                            <li{% if app.tool == tool %} class="selected"{% endif %}><a href="{{ path(tool.route_name) }}" class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a></li>
                         {% endfor %}
                     </ul>
                 {% endblock %}

@@ -40,11 +40,10 @@ class ToolHelper
                     }
                     if ($route->hasOption('label')) {
                         $this->tools[$name]['label'] = $route->getOption('label');
-                    }
-                    else {
+                    } else {
                         $this->tools[$name]['label'] = ucwords(str_replace('_',
-                                                                           ' ',
-                                                                           str_replace('_tool_homepage', '', $name)));
+                            ' ',
+                            str_replace('_tool_homepage', '', $name)));
                     }
                 }
             }
@@ -57,5 +56,18 @@ class ToolHelper
      * @var array
      */
     private $tools = array();
+
+    public function getTool()
+    {
+        $router = $this->container->get('router');
+        $currentPath = $router->getContext()->getPathInfo();
+        foreach ($this->listTools() as $tool) {
+            $route = $router->getRouteCollection()->get($tool['route_name']);
+            if (preg_match("#^{$route->getPath()}#", $currentPath)) {
+                return $tool;
+            }
+        }
+        return null;
+    }
 
 }

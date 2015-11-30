@@ -12,4 +12,9 @@ class GlobalVariables extends CoreGlobalVariables
         return $this->container->get('tool_helper')->listTools();
     }
 
+    public function getTool()
+    {
+        return $this->container->get('tool_helper')->getTool();
+    }
+
 }

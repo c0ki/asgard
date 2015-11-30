@@ -107,7 +107,12 @@ aside nav li {
 aside nav a {
     text-decoration: none;
     padding: 0.3rem 1rem;
-    display: inline-block;
+    display: block;
+}
+
+aside nav .selected a {
+    background-color: darkgoldenrod;
+    mix-blend-mode : hard-light;
 }
 
 #main {
