@@ -14,7 +14,7 @@ class DefaultController extends Controller
     public function getUrlAction()
     {
         $urlHelper = $this->container->get('url_helper');
-        $url = $this->container->get('request_stack')->getMasterRequest()->request->get('url');
+        $url = $this->container->get('request_stack')->getMasterRequest()->get('url');
 
         $result = $urlHelper->getContentUrl($url);
 
