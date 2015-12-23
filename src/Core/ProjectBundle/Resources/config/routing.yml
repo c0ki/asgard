@@ -11,6 +11,13 @@ core_project_admin_project_add:
     requirements:
         @siteaccess: admin
 
+core_project_admin_project_del:
+    path:     /delete/{confirm}
+    defaults: { _controller: CoreProjectBundle:Admin:delete, @domain: null, confirm: false }
+    requirements:
+        @siteaccess: admin
+        @project: %
+
 core_project_admin_domain_edit:
     path:     /
     defaults: { _controller: CoreProjectBundle:Admin:domain, @project: null }
@@ -23,6 +30,13 @@ core_project_admin_domain_add:
     defaults: { _controller: CoreProjectBundle:Admin:domain, @project: null, @domain: null }
     requirements:
         @siteaccess: admin
+
+core_project_admin_domain_del:
+    path:     /delete/{confirm}
+    defaults: { _controller: CoreProjectBundle:Admin:delete, @project: null, confirm: false }
+    requirements:
+        @siteaccess: admin
+        @domain: %
 
 core_project_admin:
     path:     /

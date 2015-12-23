@@ -5,6 +5,7 @@ parameters:
     url_helper.class: Core\LayoutBundle\Component\Helper\UrlHelper
 
     core.twig.alert_extension.class: Core\LayoutBundle\Twig\AlertExtension
+    core.twig.global_extension.class: Core\LayoutBundle\Twig\GlobalExtension
 
 services:
     tool_helper:
@@ -21,5 +22,10 @@ services:
     core.twig.alert_extension:
         class: %core.twig.alert_extension.class%
         arguments: [ @alert_helper ]
+        tags:
+            - { name: twig.extension }
+
+    core.twig.global_extension:
+        class: %core.twig.global_extension.class%
         tags:
             - { name: twig.extension }

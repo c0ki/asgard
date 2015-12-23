@@ -4,7 +4,6 @@ namespace Core\ProjectBundle\Controller;
 
 use Core\ProjectBundle\Entity\Domain;
 use Core\ProjectBundle\Entity\Project;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,10 +65,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success('Modification OK');
+                $this->container->get('alert_helper')->success("Project {$entity->getLabel()} updated");
             }
             else {
-                $this->container->get('alert_helper')->success('Creation OK');
+                $this->container->get('alert_helper')->success("Project {$entity->getLabel()} created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -114,10 +113,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success('Modification OK');
+                $this->container->get('alert_helper')->success("Domain {$entity->getLabel()} updated");
             }
             else {
-                $this->container->get('alert_helper')->success('Creation OK');
+                $this->container->get('alert_helper')->success("Domain {$entity->getLabel()} created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -131,4 +130,36 @@ class AdminController extends Controller
                              ));
     }
 
+    public function deleteAction($confirm)
+    {
+        $projectHelper = $this->container->get('project_helper');
+        if (!$confirm) {
+            return $this->render('CoreProjectBundle:Admin:confirm.html.twig',
+                                 array(
+                                     'element_type' => $projectHelper->hasProject() ? 'project' : 'domain',
+                                     'element' => $projectHelper->hasProject() ? $projectHelper->getProject() : $projectHelper->getDomain(),
+                                 ));
+        }
+var_dump($confirm);exit();
+        $ormManager = $this->getDoctrine()->getManager();
+
+        if ($projectHelper->hasProject()) {
+            $project = $projectHelper->getProject();
+            $ormManager->remove($project);
+            $ormManager->flush();
+            $this->container->get('alert_helper')->success("Project {$project->getLabel()} deleted");
+
+            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+        }
+        elseif ($projectHelper->hasDomain()) {
+            $domain = $projectHelper->getDomain();
+            $ormManager->remove($domain);
+            $ormManager->flush();
+            $this->container->get('alert_helper')->success("Domain {$domain->getLabel()} deleted");
+
+            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+        }
+
+        return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+    }
 }
