@@ -14,6 +14,7 @@
         'bundles/corelayout/css/form_theme_default.css'
         'bundles/corelayout/css/alert.css'
         'bundles/corelayout/css/confirm.css'
+        'bundles/corelayout/css/popin.css'
         'bundles/corelayout/css/default.css'
         filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
@@ -31,12 +32,12 @@
 {% block header %}
     <header class="flex-container-h">
         {% block header_content %}
-        <div class="logo flex-item-first">
-            <a href="{{ path('core_layout_root') }}" class="icon-logo icon-only">Asgard</a>
-        </div>
-        <nav id="navigation" class="flex-item-fluid icon">
-            {% block header_navbar %}{% endblock %}
-        </nav>
+            <div class="logo flex-item-first">
+                <a href="{{ path('core_layout_root') }}" class="icon-logo icon-only">Asgard</a>
+            </div>
+            <nav id="navigation" class="flex-item-fluid icon">
+                {% block header_navbar %}{% endblock %}
+            </nav>
         {% endblock %}
     </header>
 {% endblock %}
@@ -48,7 +49,9 @@
                 {% block tools_navbar %}
                     <ul>
                         {% for tool in app.tools %}
-                            <li{% if app.tool == tool %} class="selected"{% endif %}><a href="{{ path(tool.route_name) }}" class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a></li>
+                            <li{% if app.tool == tool %} class="selected"{% endif %}><a
+                                        href="{{ path(tool.route_name) }}"
+                                        class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a></li>
                         {% endfor %}
                     </ul>
                 {% endblock %}
@@ -78,11 +81,26 @@
     {% endblock %}
 {% endif %}
 
+{% block popin %}
+    <section id="popin">
+        <div>
+            <a data-type="close" class="icon-error icon-only">Close</a>
+            <div data-type="progress"><span class="icon-progress"/></div>
+            <div data-type="content"></div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block background %}
+    <div id="background"></div>
+{% endblock %}
+
 {% block foot_css %}{% endblock %}
 {% block foot_js %}
     {% javascripts
     '@CoreLayoutBundle/Resources/public/js/simplenav.js'
-    '@CoreLayoutBundle/Resources/public/js/form_theme_default.js' %}
+    '@CoreLayoutBundle/Resources/public/js/form_theme_default.js'
+    '@CoreLayoutBundle/Resources/public/js/popin.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
