@@ -1,4 +1,5 @@
-{% extends "CoreLayoutBundle::layout.html.twig" %}
+{#{% extends "CoreLayoutBundle::layout.html.twig" %}#}
+{% extends app.layout(_self) %}
 
 {% block favicon %}
     {% if app.siteaccess == 'admin' %}

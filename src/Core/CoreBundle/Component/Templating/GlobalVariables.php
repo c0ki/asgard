@@ -12,25 +12,21 @@ class GlobalVariables extends FrameworkGlobalVariables
      *
      * @return Request|null The HTTP request object
      */
-    public function getMasterRequest()
-    {
+    public function getMasterRequest() {
         return $this->container->get('request_stack')->getMasterRequest();
     }
 
-    public function getLayoutTheme()
-    {
+    public function getLayoutTheme() {
         if ($this->container->hasParameter('theme_layout')) {
             return $this->container->getParameter('theme_layout');
         }
     }
 
-    public function getAttributes()
-    {
+    public function getAttributes() {
         return $this->getMasterRequest()->attributes->all();
     }
 
-    public function getSiteaccesses()
-    {
+    public function getSiteaccesses() {
         if ($this->container->hasParameter('asgard.siteaccesses')) {
             return $this->container->getParameter('asgard.siteaccesses');
         }
@@ -46,7 +42,33 @@ class GlobalVariables extends FrameworkGlobalVariables
         if (!$name) {
             $name = $this->getMasterRequest()->attributes->get('_route');
         }
+
         return $this->container->get('router')->getRouteCollection()->get($name);
     }
 
+    public function getLayout($template) {
+        $prevBundle = array();
+        foreach ($this->container->getParameter('kernel.bundles') as $name => $path) {
+            $prevBundle[] = $name;
+            if (substr($template->getTemplateName(), 0, strlen($name) + 1) === $name . ':') {
+                break;
+            }
+        }
+        $prevBundle = array_reverse($prevBundle);
+        foreach ($prevBundle as $name) {
+            $bundleLayout = "{$name}::layout.html.twig";
+            if ($template->getTemplateName() == $bundleLayout) {
+                continue;
+            }
+            if ($this->container->get('request_stack')->getMasterRequest()->query->has('popin')) {
+                $bundleLayout = "{$name}::layout_popin.html.twig";
+            }
+            if ($template->getTemplateName() == $bundleLayout) {
+                continue;
+            }
+            if ($this->container->get('templating')->exists($bundleLayout)) {
+                return $bundleLayout;
+            }
+        }
+    }
 }
