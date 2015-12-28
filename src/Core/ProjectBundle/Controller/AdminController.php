@@ -11,13 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminController extends Controller
 {
 
-    public function listAction()
-    {
+    public function listAction() {
         return $this->render('CoreProjectBundle:Admin:list.html.twig');
     }
 
-    public function projectAction(Request $request)
-    {
+    public function projectAction(Request $request) {
         $projectHelper = $this->container->get('project_helper');
 
         $projects = $projectHelper->listProjects();
@@ -38,8 +36,8 @@ class AdminController extends Controller
 //        }
 
         $form = $this->createForm('generic_entity',
-                                  $entity,
-                                  array('data_class' => 'Core\ProjectBundle\Entity\Project'));
+            $entity,
+            array('data_class' => 'Core\ProjectBundle\Entity\Project'));
         $form->add('send', 'submit', array('label' => 'Submit'));
         $form->add('cancel', 'reset', array('label' => 'Cancel'));
 
@@ -75,15 +73,14 @@ class AdminController extends Controller
         }
 
         return $this->render('CoreProjectBundle:Admin:project_edit.html.twig',
-                             array(
-                                 'projects' => $projects,
-                                 'edit_mode' => $edit,
-                                 'form' => $form->createView(),
-                             ));
+            array(
+                'projects'  => $projects,
+                'edit_mode' => $edit,
+                'form'      => $form->createView(),
+            ));
     }
 
-    public function domainAction(Request $request)
-    {
+    public function domainAction(Request $request) {
         $projectHelper = $this->container->get('project_helper');
 
         $domains = $projectHelper->listDomains();
@@ -98,8 +95,8 @@ class AdminController extends Controller
         }
 
         $form = $this->createForm('generic_entity',
-                                  $entity,
-                                  array('data_class' => 'Core\ProjectBundle\Entity\Domain'));
+            $entity,
+            array('data_class' => 'Core\ProjectBundle\Entity\Domain'));
         $form->add('send', 'submit', array('label' => 'Submit'));
         $form->add('cancel', 'reset', array('label' => 'Cancel'));
 
@@ -123,24 +120,22 @@ class AdminController extends Controller
         }
 
         return $this->render('CoreProjectBundle:Admin:domain_edit.html.twig',
-                             array(
-                                 'domains' => $domains,
-                                 'edit_mode' => $edit,
-                                 'form' => $form->createView(),
-                             ));
+            array(
+                'domains'   => $domains,
+                'edit_mode' => $edit,
+                'form'      => $form->createView(),
+            ));
     }
 
-    public function deleteAction($confirm)
-    {
+    public function deleteAction($confirm) {
         $projectHelper = $this->container->get('project_helper');
         if (!$confirm) {
             return $this->render('CoreProjectBundle:Admin:confirm.html.twig',
-                                 array(
-                                     'element_type' => $projectHelper->hasProject() ? 'project' : 'domain',
-                                     'element' => $projectHelper->hasProject() ? $projectHelper->getProject() : $projectHelper->getDomain(),
-                                 ));
+                array(
+                    'element_type' => $projectHelper->hasProject() ? 'project' : 'domain',
+                    'element'      => $projectHelper->hasProject() ? $projectHelper->getProject() : $projectHelper->getDomain(),
+                ));
         }
-var_dump($confirm);exit();
         $ormManager = $this->getDoctrine()->getManager();
 
         if ($projectHelper->hasProject()) {
