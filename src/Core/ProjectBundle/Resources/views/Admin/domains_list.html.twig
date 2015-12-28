@@ -10,6 +10,8 @@
             {% if domain.projects.count > 0 %}
                 [{{ domain.projects.count }} project{% if domain.projects.count > 1 %}s{% endif %}]
             {% endif %}
+            <a data-target="popin" href="{{ path('core_project_admin_domain_del', { '@domain': domain.name } ) }}"
+               class="icon-trash icon-only">Delete</a>
         </li>
     {% endfor %}
 </ul>
