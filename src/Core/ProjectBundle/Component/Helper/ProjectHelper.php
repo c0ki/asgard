@@ -84,7 +84,7 @@ class ProjectHelper
      */
     public function getProject()
     {
-        if ($this->masterRequest->attributes->has('@project')) {
+        if ($this->masterRequest->attributes->has('@project') && $this->masterRequest->attributes->get('@project')) {
             return $this->getProjectByName($this->masterRequest->attributes->get('@project'));
         }
 
@@ -96,7 +96,7 @@ class ProjectHelper
      */
     public function hasProject()
     {
-        return $this->masterRequest->attributes->has('@project');
+        return ($this->masterRequest->attributes->has('@project') && $this->masterRequest->attributes->get('@project'));
     }
 
 
