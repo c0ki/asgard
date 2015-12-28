@@ -1,14 +1,37 @@
-#confirm .description {
-    float: left;
+#confirm .confirm-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: stretch;
+    align-content: center;
 }
 
-#confirm .buttons {
-    float: left;
-}
-#confirm .buttons * {
-    display: block;
+#confirm .confirm-description {
+    flex: 0 1 auto;
 }
 
-#confirm .buttons a:before {
-    font-size: 2.5rem;
+#confirm .confirm-buttons {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+}
+
+#confirm .confirm-buttons * {
+    flex: 0 1 auto;
+}
+
+#confirm .confirm-buttons a:before {
+    font-size: 3.5rem;
+}
+
+#confirm .confirm-buttons a.icon-success:before {
+    color: green;
+}
+
+#confirm .confirm-buttons a.icon-error:before {
+    color: red;
 }

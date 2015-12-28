@@ -1,20 +1,27 @@
-{% extends 'CoreProjectBundle::layout.html.twig' %}
+{#{% extends 'CoreProjectBundle::layout.html.twig' %}#}
+{% extends app.layout(_self) %}
+{% if route is not defined %}
+    {% set route = app.masterRequest.attributes.get('_route') %}
+    {% set params = params|default({})|merge(app.masterRequest.attributes.get('_route_params'))|merge({'confirm': 1}) %}
+{% endif %}
+
 
 {% block content %}
     <div id="confirm">
         <h2>Confirm</h2>
-
-        <div class="description">
-            Are you sure to remove this {{ element_type|default('element') }}:
-            <ul>
-                {% for key, value in element|array if not (value starts with 'resource of') %}
-                    <li>{{ key }}: {{ value }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="buttons">
-            <a href="" class="icon-success icon-only">OK</a>
-            <a href="" class="icon-error icon-only">Cancel</a>
+        <div class="confirm-content">
+            <div class="confirm-description">
+                Are you sure to remove this {{ element_type|default('element') }}:
+                <ul>
+                    {% for key, value in element|array if not (value starts with 'resource of') and not value is empty %}
+                        <li>{{ key }}: {{ value }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="confirm-buttons">
+                <a href="{{ path(route, params) }}" class="icon-success icon-only">OK</a>
+                <a href="#" onclick="cancel(event);" class="icon-error icon-only">Cancel</a>
+            </div>
         </div>
     </div>
 {% endblock %}

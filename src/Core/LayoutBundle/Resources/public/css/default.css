@@ -152,3 +152,14 @@ aside nav .selected a {
     width: 10rem;
     margin-top: 0;
 }
+
+#background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    background-color: black;
+    opacity: 0.25;
+    display: none;
+}
