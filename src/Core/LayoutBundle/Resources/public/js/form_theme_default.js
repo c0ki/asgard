@@ -58,3 +58,24 @@ var collectionElementsRemoves = document.querySelectorAll('form.form_theme_defau
 Array.prototype.filter.call(collectionElementsRemoves, function (button) {
     button.addEventListener('click', removeCollectionElementForm);
 });
+
+function formReset(e) {
+    // Stop propagation
+    e.preventDefault();
+
+    var node = e.target;
+    while (node.parentNode && node.parentNode.getAttribute) {
+        console.log(node.parentNode);
+        if (node.parentNode.getAttribute('id') == 'popin') {
+            popinClose(e);
+            return;
+        }
+        node = node.parentNode;
+    }
+    history.back();
+}
+
+var resetButtons = document.querySelectorAll('button[type=reset]');
+Array.prototype.filter.call(resetButtons, function (button) {
+    button.addEventListener('click', formReset);
+});

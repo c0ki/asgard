@@ -8,6 +8,7 @@
     font-weight: normal;
     font-style: normal;
 }
+
 /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
 /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
 /*
@@ -48,7 +49,7 @@ a[class^="icon-"], a[class*=" icon-"] {
     margin-left: .2em;
 
     /* you can be more comfortable with increased icons size */
-     font-size: 120%;
+    font-size: 120%;
 
     /* Font smoothing. That was taken from TWBS */
     -webkit-font-smoothing: antialiased;
@@ -97,9 +98,15 @@ option[class^="icon-"]:before, option[class*=" icon-"]:before {
 
 .inputicon input + label:after {
     position: absolute;
- content: attr(tooltip);
+    content: attr(tooltip);
     opacity: 0;
     font-size: 3rem;
+}
+
+.icon-only, .inputicon input + label {
+    font-size: 0em;
+    letter-spacing: -0.2em;
+    color: transparent;
 }
 
 .icon-only:before {
@@ -107,41 +114,128 @@ option[class^="icon-"]:before, option[class*=" icon-"]:before {
     color: black;
 }
 
-.icon-only, .inputicon input + label {
-    font-size: 0.1em;
-    letter-spacing: -0.2em;
-    color: transparent;
+button.icon-only:before {
+    font-size: 3rem;
+    margin: 0;
+    width: auto;
+    min-width: 3rem;
 }
 
 .icon-only:hover, .inputicon input + label:hover {
     color: transparent;
 }
 
-.icon-no:before, .inputicon input[value="no"] + label:before { content: '\00a0'; }
-.icon-success:before, .inputicon input[value="success"] + label:before { content: '\e800'; }
-.icon-error:before, .inputicon input[value="error"] + label:before { content: '\e801'; }
-.icon-minus:before, .inputicon input[value="minus"] + label:before { content: '\e802'; }
-.icon-plus:before, .inputicon input[value="plus"] + label:before { content: '\e803'; }
-.icon-help:before, .inputicon input[value="help"] + label:before { content: '\e804'; }
-.icon-info:before, .inputicon input[value="info"] + label:before { content: '\e805'; }
-.icon-ez:before, .inputicon input[value="ez"] + label:before { content: '\e806'; }
-.icon-globe:before, .inputicon input[value="globe"] + label:before { content: '\e807'; }
-.icon-ez-colorful:before, .inputicon input[value="ez-colorful"] + label:before { content: '\e808'; }
-.icon-tasks:before, .inputicon input[value="tasks"] + label:before { content: '\e809'; }
-.icon-logo:before, .inputicon input[value="logo"] + label:before { content: '\e80a'; }
-.icon-pref:before, .inputicon input[value="pref"] + label:before { content: '\e80b'; }
-.icon-warning:before, .inputicon input[value="warning"] + label:before { content: '\e80c'; }
-.icon-mobile:before, .inputicon input[value="mobile"] + label:before { content: '\e80d'; }
-.icon-tablet:before, .inputicon input[value="tablet"] + label:before { content: '\e80e'; }
-.icon-tabletlandscape:before, .inputicon input[value="tabletlandscape"] + label:before { content: '\e80e'; transform: rotate(-90deg); }
-.icon-laptop:before, .inputicon input[value="laptop"] + label:before { content: '\e80f'; }
-.icon-desktop:before, .inputicon input[value="desktop"] + label:before { content: '\e810'; }
-.icon-progress:before, .inputicon input[value="progress"] + label:before { content: '\e811'; animation: spin 2s infinite linear; }
-.icon-download:before, .inputicon input[value="download"] + label:before { content: '\e812'; }
-.icon-upload:before, .inputicon input[value="upload"] + label:before { content: '\e813'; }
-.icon-trash:before, .inputicon input[value="trash"] + label:before { content: '\e814'; }
-.icon-camera:before, .inputicon input[value="camera"] + label:before { content: '\e815'; }
-.icon-home:before, .inputicon input[value="home"] + label:before { content: '\e816'; }
-.icon-pref-alt:before, .inputicon input[value="pref-alt"] + label:before { content: '\e817'; }
-.icon-minus-circle:before, .inputicon input[value="minus-circle"] + label:before { content: '\e818'; }
-.icon-plus-circle:before, .inputicon input[value="plus-circle"] + label:before { content: '\e819'; }
+.icon-no:before, .inputicon input[value="no"] + label:before {
+    content: '\00a0';
+}
+
+.icon-success:before, .inputicon input[value="success"] + label:before {
+    content: '\e800';
+}
+
+.icon-error:before, .inputicon input[value="error"] + label:before {
+    content: '\e801';
+}
+
+.icon-minus:before, .inputicon input[value="minus"] + label:before {
+    content: '\e802';
+}
+
+.icon-plus:before, .inputicon input[value="plus"] + label:before {
+    content: '\e803';
+}
+
+.icon-help:before, .inputicon input[value="help"] + label:before {
+    content: '\e804';
+}
+
+.icon-info:before, .inputicon input[value="info"] + label:before {
+    content: '\e805';
+}
+
+.icon-ez:before, .inputicon input[value="ez"] + label:before {
+    content: '\e806';
+}
+
+.icon-globe:before, .inputicon input[value="globe"] + label:before {
+    content: '\e807';
+}
+
+.icon-ez-colorful:before, .inputicon input[value="ez-colorful"] + label:before {
+    content: '\e808';
+}
+
+.icon-tasks:before, .inputicon input[value="tasks"] + label:before {
+    content: '\e809';
+}
+
+.icon-logo:before, .inputicon input[value="logo"] + label:before {
+    content: '\e80a';
+}
+
+.icon-pref:before, .inputicon input[value="pref"] + label:before {
+    content: '\e80b';
+}
+
+.icon-warning:before, .inputicon input[value="warning"] + label:before {
+    content: '\e80c';
+}
+
+.icon-mobile:before, .inputicon input[value="mobile"] + label:before {
+    content: '\e80d';
+}
+
+.icon-tablet:before, .inputicon input[value="tablet"] + label:before {
+    content: '\e80e';
+}
+
+.icon-tabletlandscape:before, .inputicon input[value="tabletlandscape"] + label:before {
+    content: '\e80e';
+    transform: rotate(-90deg);
+}
+
+.icon-laptop:before, .inputicon input[value="laptop"] + label:before {
+    content: '\e80f';
+}
+
+.icon-desktop:before, .inputicon input[value="desktop"] + label:before {
+    content: '\e810';
+}
+
+.icon-progress:before, .inputicon input[value="progress"] + label:before {
+    content: '\e811';
+    animation: spin 2s infinite linear;
+}
+
+.icon-download:before, .inputicon input[value="download"] + label:before {
+    content: '\e812';
+}
+
+.icon-upload:before, .inputicon input[value="upload"] + label:before {
+    content: '\e813';
+}
+
+.icon-trash:before, .inputicon input[value="trash"] + label:before {
+    content: '\e814';
+}
+
+.icon-camera:before, .inputicon input[value="camera"] + label:before {
+    content: '\e815';
+}
+
+.icon-home:before, .inputicon input[value="home"] + label:before {
+    content: '\e816';
+}
+
+.icon-pref-alt:before, .inputicon input[value="pref-alt"] + label:before {
+    content: '\e817';
+}
+
+.icon-minus-circle:before, .inputicon input[value="minus-circle"] + label:before {
+    content: '\e818';
+}
+
+.icon-plus-circle:before, .inputicon input[value="plus-circle"] + label:before {
+    content: '\e819';
+}
+

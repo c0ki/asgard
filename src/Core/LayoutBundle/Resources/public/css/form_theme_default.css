@@ -39,3 +39,15 @@ form.form_theme_default .subform textarea,
 form.form_theme_default .subform select {
     width: 100%;
 }
+
+form.form_theme_default .button_row button {
+    margin: 0 5rem;
+}
+
+form.form_theme_default button[type=submit]:before {
+    color: green;
+}
+
+form.form_theme_default button[type=reset]:before {
+    color: red;
+}
