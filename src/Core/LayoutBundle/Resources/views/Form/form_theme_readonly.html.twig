@@ -1,0 +1,46 @@
+{% use "CoreLayoutBundle:Form:form_theme_default.html.twig" %}
+
+{%- block form_widget_simple -%}
+    {% set required = false %}
+    {% if type|default('text') == 'text' %}
+        <div {{ block('widget_attributes') }}>{{ value }}</div>
+    {% endif %}
+    <input type="hidden" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock form_widget_simple -%}
+
+{%- block textarea_widget -%}
+    {% set required = false %}
+    <div {{ block('widget_attributes') }}>{{ value|nl2br }}</div>
+    <input type="hidden" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock textarea_widget -%}
+
+{%- block choice_widget_collapsed -%}
+    {% set required = false %}
+    <div {{ block('widget_attributes') }}>
+        <ul>
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </ul>
+    </div>
+{%- endblock choice_widget_collapsed -%}
+
+{%- block choice_widget_options -%}
+    {% for group_label, choice in options %}
+        {%- if choice is iterable -%}
+            <li>{{ group_label|trans({}, translation_domain) }}
+                <ul>
+                    {% set options = choice %}
+                    {{- block('choice_widget_options') -}}
+                </ul>
+            </li>
+        {%- else -%}
+            <li>{{ choice.label|trans({}, translation_domain) }}</li>
+        {%- endif -%}
+    {% endfor %}
+{%- endblock choice_widget_options -%}
+
+{%- block form_row -%}
+    {% if form.vars.value is not empty %}
+        {{ parent() }}
+    {% endif %}
+{%- endblock form_row -%}

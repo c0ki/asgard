@@ -1,0 +1,20 @@
+{% extends app.layout(_self) %}
+
+{% block content %}
+    {% form_theme form 'CoreLayoutBundle:Form:form_theme_readonly.html.twig' %}
+    <div id="confirm">
+        <h2>Confirm</h2>
+        <div class="confirm-content">
+            <div class="confirm-description">
+                Are you sure to remove this {{ element_type|default('element') }}:
+            </div>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="button_row">
+                <button type="reset" class="icon-error icon-only">Reset</button>
+                <button type="submit" class="icon-success icon-only">Submit</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

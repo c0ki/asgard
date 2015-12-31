@@ -46,6 +46,13 @@ function popinClose(event) {
 function popinContentLoaded(event) {
     document.querySelector('#popin [data-type=progress]').style.display = 'none';
     document.querySelector('#popin [data-type=content]').insertAdjacentHTML('afterbegin', this.responseText);
+    var scriptNodes = document.querySelectorAll('#popin [data-type=content] script');
+    Array.prototype.filter.call(scriptNodes, function (node) {
+        eval(node.innerHTML);
+    });
+
+    //console.log(document.querySelector('#popin [data-type=content]'));
+    //eval(document.querySelector('#popin [data-type=content]'));
 }
 
 function popinContentProgress(event) {

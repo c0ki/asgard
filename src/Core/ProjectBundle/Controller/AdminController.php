@@ -61,10 +61,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Project {$entity->getLabel()} updated");
+                $this->container->get('alert_helper')->success("Project '{$entity->getLabel()}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Project {$entity->getLabel()} created");
+                $this->container->get('alert_helper')->success("Project '{$entity->getLabel()}' created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -108,10 +108,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Domain {$entity->getLabel()} updated");
+                $this->container->get('alert_helper')->success("Domain '{$entity->getLabel()}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Domain {$entity->getLabel()} created");
+                $this->container->get('alert_helper')->success("Domain '{$entity->getLabel()}' created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -125,34 +125,51 @@ class AdminController extends Controller
             ));
     }
 
-    public function deleteAction($confirm) {
+    public function deleteAction(Request $request) {
         $projectHelper = $this->container->get('project_helper');
-        if (!$confirm) {
-            return $this->render('CoreProjectBundle:Admin:confirm.html.twig',
-                array(
-                    'element_type' => $projectHelper->hasProject() ? 'project' : 'domain',
-                    'element'      => $projectHelper->hasProject() ? $projectHelper->getProject() : $projectHelper->getDomain(),
-                ));
-        }
-        $ormManager = $this->getDoctrine()->getManager();
-
         if ($projectHelper->hasProject()) {
-            $project = $projectHelper->getProject();
-            $ormManager->remove($project);
-            $ormManager->flush();
-            $this->container->get('alert_helper')->success("Project {$project->getLabel()} deleted");
-
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            $entity = $projectHelper->getProject();
+            $form = $this->createForm('generic_entity',
+                $entity,
+                array('data_class' => 'Core\ProjectBundle\Entity\Project', 'read_only' => true));
         }
         elseif ($projectHelper->hasDomain()) {
-            $domain = $projectHelper->getDomain();
-            $ormManager->remove($domain);
-            $ormManager->flush();
-            $this->container->get('alert_helper')->success("Domain {$domain->getLabel()} deleted");
+            $entity = $projectHelper->getDomain();
+            $form = $this->createForm('generic_entity',
+                $entity,
+                array('data_class' => 'Core\ProjectBundle\Entity\Domain', 'read_only' => true));
+        }
+        else {
+            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+        }
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ormManager = $this->getDoctrine()->getManager();
+
+            if ($projectHelper->hasProject()) {
+                $project = $projectHelper->getProject();
+                $ormManager->remove($project);
+                $ormManager->flush();
+                $this->container->get('alert_helper')->success("Project '{$project->getLabel()}' deleted");
+
+                return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            }
+            elseif ($projectHelper->hasDomain()) {
+                $domain = $projectHelper->getDomain();
+                $ormManager->remove($domain);
+                $ormManager->flush();
+                $this->container->get('alert_helper')->success("Domain '{$domain->getLabel()}' deleted");
+
+                return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
         }
 
-        return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+        return $this->render('CoreLayoutBundle:Default:confirm.html.twig',
+            array(
+                'form' => $form->createView(),
+            ));
     }
 }

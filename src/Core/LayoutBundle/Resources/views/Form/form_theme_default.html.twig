@@ -2,6 +2,9 @@
 
 {%- block form_start -%}
     {%- set attr = attr|merge({'class': (attr.class|default('') ~ ' form_theme_default')|trim }) -%}
+    {%- if not action|default() -%}
+        {%- set action = path(app.masterRequest.attributes.get('_route'), app.masterRequest.attributes.get('_route_params')) -%}
+    {%- endif -%}
     {{ parent() }}
 {%- endblock form_start -%}
 

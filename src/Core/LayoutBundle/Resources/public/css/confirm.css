@@ -1,37 +1,60 @@
 #confirm .confirm-content {
+}
+
+#confirm .confirm-content form {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-around;
     align-items: stretch;
     align-content: center;
+    /*background-color: red;*/
+    margin-left: 2rem;
 }
 
-#confirm .confirm-description {
+#confirm .confirm-content form > * {
     flex: 0 1 auto;
 }
 
-#confirm .confirm-buttons {
-    flex: 0 1 auto;
+#confirm .confirm-content form label {
+    display: inline-block;
+    width: 10rem;
+    vertical-align: top;
+    margin-top: 0;
+}
+
+#confirm .confirm-content form label + div {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+#confirm .confirm-content form label + div > ul {
+    padding: 0;
+}
+#confirm .confirm-content form label + div li {
+    list-style: none;
+}
+
+#confirm .confirm-content form textarea[readonly] {
+    overflow: hidden;
+    resize: none;
+    min-height: 0;
+    vertical-align: middle;
+}
+
+#confirm .confirm-content form select[readonly] {
+    overflow: hidden;
+}
+
+#confirm .confirm-content form .button_row {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     align-content: center;
+    margin: 0 1rem;
 }
 
-#confirm .confirm-buttons * {
-    flex: 0 1 auto;
-}
-
-#confirm .confirm-buttons a:before {
-    font-size: 3.5rem;
-}
-
-#confirm .confirm-buttons a.icon-success:before {
-    color: green;
-}
-
-#confirm .confirm-buttons a.icon-error:before {
-    color: red;
+#confirm .confirm-content form .button_row button {
+    margin: 0;
 }
