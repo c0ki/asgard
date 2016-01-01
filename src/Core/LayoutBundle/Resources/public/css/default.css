@@ -5,14 +5,15 @@ body {
 }
 
 body > header, body > footer {
-    background: url('../images/background-dark.jpg');
+    background-image: url('../images/background-dark.jpg');
 }
-
 
 body > header {
     min-height: 4.6rem;
 }
-body > header, body > header a {
+
+body > header, body > header a,
+body > header a:before {
     color: white;
 }
 
@@ -20,7 +21,7 @@ body > header a {
     text-decoration: none;
 }
 
-body > header a:hover {
+body > header a:hover, body > header a:hover:before {
     color: #9ed0ff;
 }
 
@@ -29,10 +30,11 @@ body > header .logo a {
     padding: 0.5rem 1rem;
     margin-right: 3rem;
 }
+
 body > header .logo a:before {
-    color: #ffffff;
     font-size: 5rem;
 }
+
 @media (max-width: 640px) {
     body > header .logo a:before {
         font-size: 3rem;
@@ -51,12 +53,19 @@ body > header nav ul {
 
 @media (max-width: 640px) {
     /* Theming opened nav */
-    body > header nav  {
+    body > header nav {
         position: inherit;
     }
 
     body > header nav ul {
         bottom: auto;
+        border-left: 1px solid #ffffff;
+        border-right: 1px solid #ffffff;
+        background: url('../images/background-dark.jpg');
+    }
+
+    body > header nav ul li {
+        border-bottom: 1px solid #ffffff;
     }
 }
 
@@ -80,7 +89,7 @@ body > header nav ul {
     body > header nav a:active,
     body > header nav .selected a {
         background-color: darkgoldenrod;
-        mix-blend-mode : hard-light;
+        mix-blend-mode: hard-light;
     }
 }
 
@@ -88,8 +97,13 @@ body > footer {
     text-align: right;
 }
 
-body > footer, body > footer a {
+body > footer, body > footer a,
+body > footer a:before {
     color: white;
+}
+
+body > footer a:hover, body > footer a:hover:before {
+    color: #9ed0ff;
 }
 
 aside nav select {
@@ -112,7 +126,7 @@ aside nav a {
 
 aside nav .selected a {
     background-color: darkgoldenrod;
-    mix-blend-mode : hard-light;
+    mix-blend-mode: hard-light;
 }
 
 #main {

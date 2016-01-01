@@ -1,3 +1,19 @@
+body.siteaccess-admin > header,
+body.siteaccess-admin > footer {
+    background-color: #ffffff;
+    background-blend-mode: difference;
+}
+
+body.siteaccess-admin > header, body.siteaccess-admin > header a,
+body.siteaccess-admin > header a:before {
+    color: #000;
+}
+
+body.siteaccess-admin > footer, body.siteaccess-admin > footer a,
+body.siteaccess-admin > footer a:before {
+    color: #000;
+}
+
 body > header .logo-admin a {
     display: inline-block;
     padding: 0.5rem 1rem;
@@ -13,12 +29,25 @@ body > header .logo-admin a:hover:before {
     color: #fff;
 }
 
-body > header .logo-admin a:hover {
-    background-color: #B8860B;
-    mix-blend-mode: hard-light;
+body.siteaccess-admin > header .logo-admin a:hover:before {
+    color: #000;
 }
 
-body.siteaccess-admin > header,
-body.siteaccess-admin > footer {
-    mix-blend-mode: difference;
+body.siteaccess-admin > header nav > button:before,
+body.siteaccess-admin > header nav > button:after {
+    background-color: #000;
+}
+body.siteaccess-admin > header nav > button {
+    border-color: #000;
+}
+
+@media (max-width: 640px) {
+    body.siteaccess-admin > header nav ul {
+        border-color: #000;
+        background-color: #ffffff;
+        background-blend-mode: difference;
+    }
+    body.siteaccess-admin > header nav ul li {
+        border-color: #000;
+    }
 }

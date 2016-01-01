@@ -106,12 +106,11 @@ option[class^="icon-"]:before, option[class*=" icon-"]:before {
 .icon-only, .inputicon input + label {
     font-size: 0em;
     letter-spacing: -0.2em;
-    color: transparent;
+    /*color: transparent;*/
 }
 
 .icon-only:before {
     font-size: 1rem;
-    color: black;
 }
 
 button.icon-only:before {
