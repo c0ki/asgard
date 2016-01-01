@@ -18,8 +18,7 @@
     {% endstylesheets %}
 {% endblock %}
 
-{% block header_content %}
-    {{ parent() }}
+{% block footer_content %}
     <div class="logo-admin flex-item-last{% if app.siteaccess == 'admin' %} selected{% endif %}">
         {% if app.siteaccess != 'admin' %}
             <a href="{{ path('core_layout_root', {'@siteaccess': 'admin'}) }}"
@@ -29,4 +28,5 @@
                class="icon-pref-alt icon-only">Front</a>
         {% endif %}
     </div>
+    {{ parent() }}
 {% endblock %}

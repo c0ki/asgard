@@ -121,7 +121,7 @@ button.icon-only:before {
 }
 
 .icon-only:hover, .inputicon input + label:hover {
-    color: transparent;
+    /*color: transparent;*/
 }
 
 .icon-no:before, .inputicon input[value="no"] + label:before {

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     {% block favicon %}
         <link rel="shortcut icon" href="/asgard-dark.png" type="image/png" sizes="16x16 24x24 32x32 64x64 128x128"/>
     {% endblock %}
@@ -65,7 +66,9 @@
 
 {% block footer %}
     <footer class="flex-item-last">
-        Developped by: bru.guerin.pro@gmail.com
+        {% block footer_content %}
+            Developped by: bru.guerin.pro@gmail.com
+        {% endblock %}
     </footer>
 {% endblock %}
 
