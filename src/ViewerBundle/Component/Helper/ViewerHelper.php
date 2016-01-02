@@ -49,7 +49,7 @@ class ViewerHelper
             return $serverUrls;
         }
 
-        if (array_key_exists('project', $criteria)) {
+        if (array_key_exists('project', $criteria) && array_key_exists((string)$criteria['project'], $serverUrls)) {
             $serverUrls = $serverUrls[(string)$criteria['project']];
             if (array_key_exists('domain', $criteria)) {
                 $serverUrls = $serverUrls[(string)$criteria['domain']];
