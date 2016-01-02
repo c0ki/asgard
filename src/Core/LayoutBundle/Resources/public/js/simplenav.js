@@ -1,21 +1,39 @@
 // config
 var maxBreakpoint = 640; // maximum breakpoint
-var targetID = 'navigation'; // target ID (must be present in DOM)
+var navSelectors = 'header > nav, aside > nav';
 
 // targeting navigation
-var n = document.getElementById(targetID);
-
+var navNodes = document.querySelectorAll(navSelectors);
 // targetID will be initially closed if JS enabled
-n.classList.add('is-closed');
+Array.prototype.filter.call(navNodes, function (node) {
+    node.classList.add('all-closed');
+});
 
 // global navigation function
-function navi() {
+function showNavs() {
     // when small screen, create a switch button, and toggle targetID class
     if (window.matchMedia("(max-width:" + maxBreakpoint + "px)").matches && document.getElementById("toggle-button") == undefined) {
-        n.insertAdjacentHTML('afterBegin', '<button id="toggle-button" aria-label="open/close navigation"></button>');
+        navNodes.item(0).insertAdjacentHTML('afterBegin', '<button id="toggle-button" aria-label="open/close navigation"></button>');
         t = document.getElementById("toggle-button");
-        t.onclick = function() {
-            n.classList.toggle('is-closed');
+        t.onclick = function () {
+            if (navNodes.item(0).classList.contains('all-closed')) {
+                Array.prototype.filter.call(navNodes, function (node) {
+                    node.classList.toggle('all-closed');
+                    node.classList.toggle('main-opened');
+                });
+            }
+            else if (navNodes.item(0).classList.contains('main-opened')) {
+                Array.prototype.filter.call(navNodes, function (node) {
+                    node.classList.toggle('main-opened');
+                    node.classList.toggle('sub-opened');
+                });
+            }
+            else if (navNodes.item(0).classList.contains('sub-opened')) {
+                Array.prototype.filter.call(navNodes, function (node) {
+                    node.classList.toggle('sub-opened');
+                    node.classList.toggle('all-closed');
+                });
+            }
         }
     }
     // when big screen, delete switch button, and toggle navigation class
@@ -24,6 +42,6 @@ function navi() {
         document.getElementById("toggle-button").outerHTML = "";
     }
 }
-navi();
+showNavs();
 // when resize or orientation change, reload function
-window.addEventListener('resize', navi);
+window.addEventListener('resize', showNavs);

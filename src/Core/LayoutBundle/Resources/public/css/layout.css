@@ -1,0 +1,156 @@
+/* Body definition */
+body {
+    position: absolute;
+    min-height: 100%;
+    width: 100%;
+}
+
+/* Body block position */
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+body > header {
+    order: -1;
+    height: 6rem;
+}
+
+@media (max-width: 640px) {
+    body > header {
+        height: 4rem;
+    }
+}
+
+body > aside {
+    position: absolute;
+    top: 6rem;
+    right: 0;
+    width: 15rem;
+}
+
+body > aside.fixed {
+    position: fixed;
+    top: 0;
+}
+
+@media (max-width: 640px) {
+    body > aside {
+        top: 4rem;
+    }
+}
+
+body > main {
+    order: 0;
+    flex: 1;
+    margin-right: 15rem;
+    overflow: auto;
+}
+
+@media (max-width: 640px) {
+    body > main {
+        margin-right: 0;
+    }
+}
+
+#main {
+    max-width: calc(100% - 15rem);
+}
+
+body > footer {
+    order: 1;
+}
+
+/* Header block position */
+body > header {
+    display: flex;
+    flex-direction: row;
+}
+
+body > header .logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+body > header .logo a:before {
+    font-size: 5rem;
+}
+
+@media (max-width: 640px) {
+    body > header .logo a:before {
+        font-size: 3rem;
+    }
+}
+
+body > header nav {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+@media (max-width: 640px) {
+    body > header nav {
+        align-items: center;
+    }
+}
+
+body > header nav ul {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+@media (max-width: 640px) {
+    body > header nav ul {
+        order: -1;
+        align-self: flex-start;
+        z-index: 10;
+        flex-direction: column;
+        align-items: stretch;
+        border-left: 1px solid #ffffff;
+        border-right: 1px solid #ffffff;
+        border-bottom: 1px solid #ffffff;
+    }
+}
+
+body nav ul {
+    padding: 0;
+    margin: 0;
+}
+
+body nav ul li {
+    list-style: none;
+}
+
+@media (max-width: 640px) {
+    body > header nav ul li {
+
+    }
+}
+
+body > header nav li a {
+    display: inline-block;
+    width: 7rem;
+    text-align: center;
+    padding: 0.5rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+@media (max-width: 640px) {
+    body > header nav li a {
+        width: 100%;
+        text-align: left;
+        border-radius: 0;
+    }
+}
+
+body > aside nav li a {
+    display: block;
+    padding: 0.3rem 1rem;
+}
+

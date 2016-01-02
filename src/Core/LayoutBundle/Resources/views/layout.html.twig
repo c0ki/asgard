@@ -9,14 +9,15 @@
     {% block head_css %}
         {% stylesheets
         'bundles/corelayout/css/knacss.css'
+        'bundles/corelayout/css/form_theme_default.css'
         'bundles/corelayout/css/icon-animation.css'
         'bundles/corelayout/css/icon.css'
         'bundles/corelayout/css/simplenav.css'
-        'bundles/corelayout/css/form_theme_default.css'
+        'bundles/corelayout/css/layout.css'
+        'bundles/corelayout/css/default.css'
         'bundles/corelayout/css/alert.css'
         'bundles/corelayout/css/confirm.css'
         'bundles/corelayout/css/popin.css'
-        'bundles/corelayout/css/default.css'
         filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
@@ -28,44 +29,45 @@
         {% endjavascripts %}
     {% endblock %}
 </head>
-<body class="{% block bodyclass %}flex-container-v{% if app.siteaccess %} {{ ' siteaccess-' ~ app.siteaccess }}{% endif %}{% endblock %}">
+<body class="{% block bodyclass %}{% if app.siteaccess %} {{ ' siteaccess-' ~ app.siteaccess }}{% endif %}{% endblock %}">
 
 {% block header %}
-    <header class="flex-container-h">
+    <header>
         {% block header_content %}
-            <div class="logo flex-item-first">
+            <div class="logo">
                 <a href="{{ path('core_layout_root') }}" class="icon-logo icon-only">Asgard</a>
             </div>
-            <nav id="navigation" class="flex-item-fluid icon">
+            <nav id="navigation" class="icon">
                 {% block header_navbar %}{% endblock %}
             </nav>
         {% endblock %}
     </header>
 {% endblock %}
 
-<div class="flex-item-fluid flex-container-h">
-    {% block aside %}
-        <aside class="flex-item-last">
-            <nav id="tools">
-                {% block tools_navbar %}
-                    <ul>
-                        {% for tool in app.tools %}
-                            <li{% if app.tool == tool %} class="selected"{% endif %}><a
-                                        href="{{ path(tool.route_name) }}"
-                                        class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a></li>
-                        {% endfor %}
-                    </ul>
-                {% endblock %}
-            </nav>
-        </aside>
-    {% endblock %}
-    <section id="main" class="flex-item-fluid">
+{% block aside %}
+    <aside>
+        <nav id="tools">
+            {% block tools_navbar %}
+                <ul>
+                    {% for tool in app.tools %}
+                        <li{% if app.tool == tool %} class="selected"{% endif %}><a
+                                    href="{{ path(tool.route_name) }}"
+                                    class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endblock %}
+        </nav>
+    </aside>
+{% endblock %}
+
+<main>
+    <section id="main">
         {% block content %}{% endblock %}
     </section>
-</div>
+</main>
 
 {% block footer %}
-    <footer class="flex-item-last">
+    <footer>
         {% block footer_content %}
             Developped by: bru.guerin.pro@gmail.com
         {% endblock %}
@@ -102,6 +104,7 @@
 {% block foot_js %}
     {% javascripts
     '@CoreLayoutBundle/Resources/public/js/simplenav.js'
+    '@CoreLayoutBundle/Resources/public/js/fixenav.js'
     '@CoreLayoutBundle/Resources/public/js/form_theme_default.js'
     '@CoreLayoutBundle/Resources/public/js/popin.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>

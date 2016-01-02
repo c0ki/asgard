@@ -1,11 +1,10 @@
-body.siteaccess-admin > header,
-body.siteaccess-admin > footer {
+body.siteaccess-admin {
     background-color: #ffffff;
     background-blend-mode: difference;
 }
 
-body.siteaccess-admin > header, body.siteaccess-admin > header a,
-body.siteaccess-admin > header a:before {
+body.siteaccess-admin > header, body.siteaccess-admin > header a, body.siteaccess-admin > header a:before,
+body.siteaccess-admin > aside, body.siteaccess-admin > aside a, body.siteaccess-admin > aside a:before {
     color: #000000;
 }
 
@@ -32,6 +31,12 @@ body.siteaccess-admin > header nav > button {
 
     body.siteaccess-admin > header nav ul li {
         border-color: #000000;
+    }
+
+    body.siteaccess-admin > aside nav {
+        border-color: #000000;
+        background-color: #ffffff;
+        background-blend-mode: difference;
     }
 }
 

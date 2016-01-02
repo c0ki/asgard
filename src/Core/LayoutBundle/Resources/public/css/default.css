@@ -1,96 +1,45 @@
 body {
-    position: absolute;
-    min-height: 100%;
-    width: 100%;
-}
-
-body > header, body > footer {
     background-image: url('../images/background-dark.jpg');
 }
 
-body > header {
-    min-height: 4.6rem;
-}
-
-body > header, body > header a,
-body > header a:before {
+body > header, body > header a, body > header a:before,
+body > aside, body > aside a, body > aside a:before {
     color: white;
 }
 
-body > header a {
+body > header a, body > aside a {
     text-decoration: none;
 }
 
-body > header a:hover, body > header a:hover:before {
+body > header a:hover, body > header a:hover:before,
+body > aside a:hover, body > aside a:hover:before {
     color: #9ed0ff;
 }
 
-body > header .logo a {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    margin-right: 3rem;
-}
-
-body > header .logo a:before {
-    font-size: 5rem;
+body nav a:hover, body nav a:focus,
+body nav a:active, body nav .selected a {
+    background-color: darkgoldenrod;
+    mix-blend-mode: hard-light;
 }
 
 @media (max-width: 640px) {
-    body > header .logo a:before {
-        font-size: 3rem;
-    }
-}
-
-body > header nav {
-    position: relative;
-}
-
-body > header nav ul {
-    position: absolute;
-    bottom: 0;
-    padding-left: 0;
-}
-
-@media (max-width: 640px) {
-    /* Theming opened nav */
-    body > header nav {
-        position: inherit;
-    }
-
     body > header nav ul {
-        bottom: auto;
-        border-left: 1px solid #ffffff;
-        border-right: 1px solid #ffffff;
         background: url('../images/background-dark.jpg');
     }
+}
 
-    body > header nav ul li {
-        border-bottom: 1px solid #ffffff;
+@media (max-width: 640px) {
+    body > aside nav {
+        background: url('../images/background-dark.jpg');
     }
 }
 
-@media (min-width: 641px) {
-    body > header nav ul li {
-        display: inline-block;
-    }
+body > aside nav select {
+    width: 100%;
+}
 
-    body > header nav a {
-        display: inline-block;
-        width: 7rem;
-        text-align: center;
-        padding: 0.5rem;
-        text-decoration: none;
-        border-top-left-radius: 1rem;
-        border-top-right-radius: 1rem;
-    }
-
-    body > header nav a:hover,
-    body > header nav a:focus,
-    body > header nav a:active,
-    body > header nav .selected a {
-        background-color: darkgoldenrod;
-        mix-blend-mode: hard-light;
-    }
+body > main {
+    background-color: #ffffff;
 }
 
 body > footer {
@@ -104,29 +53,6 @@ body > footer a:before {
 
 body > footer a:hover, body > footer a:hover:before {
     color: #9ed0ff;
-}
-
-aside nav select {
-    width: 100%;
-}
-
-aside nav ul {
-    padding: 0;
-}
-
-aside nav li {
-    list-style: none;
-}
-
-aside nav a {
-    text-decoration: none;
-    padding: 0.3rem 1rem;
-    display: block;
-}
-
-aside nav .selected a {
-    background-color: darkgoldenrod;
-    mix-blend-mode: hard-light;
 }
 
 #main {
