@@ -49,6 +49,8 @@ class ToolHelper
             }
         }
 
+        ksort($this->tools);
+
         return $this->tools;
     }
 
