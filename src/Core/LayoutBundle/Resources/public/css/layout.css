@@ -117,6 +117,10 @@ body > header nav ul {
     }
 }
 
+body > header nav ul li {
+    margin: 0 .2rem;
+}
+
 body nav ul {
     padding: 0;
     margin: 0;
