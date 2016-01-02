@@ -3,6 +3,12 @@
 {% block content %}
     <section id="serverurls-edit">
         <h2>{{ app.project.label }}: Server URLs{% if app.domain %} (domain: {{ app.domain.label }}){% endif %}</h2>
-        {{ form(form) }}
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="button_row">
+                <button type="reset" class="icon-error icon-only">Reset</button>
+                <button type="submit" class="icon-success icon-only">Submit</button>
+            </div>
+        {{ form_end(form) }}
     </section>
 {% endblock %}

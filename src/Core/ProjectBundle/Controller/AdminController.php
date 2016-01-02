@@ -95,8 +95,6 @@ class AdminController extends Controller
         $form = $this->createForm('generic_entity',
             $entity,
             array('data_class' => 'Core\ProjectBundle\Entity\Domain'));
-        $form->add('send', 'submit', array('label' => 'Submit'));
-        $form->add('cancel', 'reset', array('label' => 'Cancel'));
 
         $form->handleRequest($request);
 

@@ -31,8 +31,6 @@ class AdminController extends Controller
         }
 
         $form = $this->createForm('server_urls', $entity);
-        $form->add('send', 'submit', array('label' => 'Submit'));
-        $form->add('cancel', 'reset', array('label' => 'Cancel'));
 
         $form->handleRequest($request);
 
