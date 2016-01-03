@@ -1,8 +1,14 @@
 /* Body definition */
+html, body {
+    overflow-x:hidden
+}
+
 body {
     position: absolute;
     min-height: 100%;
     width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 /* Body block position */
@@ -51,10 +57,6 @@ body > main {
     body > main {
         margin-right: 0;
     }
-}
-
-#main {
-    max-width: calc(100% - 15rem);
 }
 
 body > footer {
