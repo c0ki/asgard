@@ -29,6 +29,7 @@ a[class^="icon-"], a[class*=" icon-"] {
     font-style: normal;
     font-weight: normal;
     speak: none;
+    content: '\00a0';
 
     display: inline-block;
     text-decoration: inherit;
