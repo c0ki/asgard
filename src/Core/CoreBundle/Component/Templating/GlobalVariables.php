@@ -50,7 +50,11 @@ class GlobalVariables extends FrameworkGlobalVariables
         $prevBundle = array();
         foreach ($this->container->getParameter('kernel.bundles') as $name => $path) {
             $prevBundle[] = $name;
-            if (substr($template->getTemplateName(), 0, strlen($name) + 1) === $name . ':') {
+            $path = substr($path, 0, strrpos($path, '\\'));
+            if (substr($this->getMasterRequest()->attributes->get('_controller'), 0, strlen($path)) === $path) {
+                break;
+            }
+            elseif ($template->getTemplateName() === $name . '::layout.html.twig') {
                 break;
             }
         }
