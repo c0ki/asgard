@@ -2,9 +2,10 @@
     <dataSource type="FileDataSource" encoding="UTF-8" name="fds"/>
     <document>
         <!--<entity name="f" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes" fileName=".*log"-->
-                <!--newerThan="'NOW-3DAYS'" recursive="true" rootEntity="false" dataSource="null">-->
-        <entity name="f" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes" fileName=".*log"
-                rootEntity="false" dataSource="null" transformer="TemplateTransformer" >
+        <!--newerThan="'NOW-3DAYS'" recursive="true" rootEntity="false" dataSource="null">-->
+        <entity name="f" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
+                fileName=".*log"
+                rootEntity="false" dataSource="null" transformer="TemplateTransformer">
             <entity onError="skip" name="jc"
                     processor="LineEntityProcessor"
                     acceptLineRegex="^.+$"
@@ -13,30 +14,33 @@
                     rootEntity="true"
                     transformer="RegexTransformer,DateFormatTransformer,TemplateTransformer"
                     dataSource="fds"
-            >
-            <!--dataSource="myURIreader1"-->
+                    >
+                <!--dataSource="myURIreader1"-->
                 <!--<field column="rawLine" name="line"/>-->
-                <field column="line" template="hello${f.fileAbsolutePath},${jc.rawLine}" />
-                <!--<field column="rawLine" name="rawLine"
-                regex="^([^\-]*)\s*-\s*([^\-]*)\s*-\s*\[([^\]]*)\] (.*)$ "
-                groupNames="fromip_s,unknown_s,date_str,req_s"/>-->
-                <field column="id" template="tutu"/>
-                <field column="rawLine" name="rawLine"/>
-                <field column="date_str" regex="\[([^\]]+)\]" sourceColName="rawLine"/>
-                <field column="date_dt" sourceColName="date_str" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss Z" />
-                <field column="fromip_s" regex="^([\d\.]*)" sourceColName="rawLine"/>
-                <field column="allreq_s" regex="^[^\]]+\] (.*)$" sourceColName="rawLine"/>
-                <field column="req_s" regex="^&quot;([^&quot;]+)&quot;" sourceColName="allreq_s"/>
-                <field column="codehttp_s" regex="^&quot;[^&quot;]+&quot;\s(\d+)" sourceColName="allreq_s"/>
-                <field column="size_s" regex="^&quot;[^&quot;]+&quot;\s\d+\s(\d+)" sourceColName="allreq_s"/>
-                <field column="referrer_s" regex="^&quot;[^&quot;]+&quot;[^&quot;]+&quot;([^&quot;]+)&quot;" sourceColName="allreq_s"/>
-                <field column="browser_s" regex="^&quot;[^&quot;]+&quot;[^&quot;]+&quot;[^&quot;]+&quot;[^&quot;]+&quot;([^&quot;]+)&quot;" sourceColName="allreq_s"/>
-                <field column="method_s" regex="^&quot;([^\s]+)" sourceColName="req_s"/>
-                <field column="url_s" regex="^[^\s]+\s([^\s]+)" sourceColName="req_s"/>
-                <field column="vhttp_s" regex="(HTTP[^&quot;]+)&quot;" sourceColName="req_s"/>
+                <field column="line" template="${f.fileAbsolutePath}:${jc.rowId}"/>
+
+                <!--126.6.101.81 - - [23/Oct/2015:10:20:08 +0200] "GET /portail/display/ HTTP/1.1" 500 206 "http://126.7.113.72:8080/portail/display/" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
+
+                <field column="rawLine" name="rawLine"
+                       regex="^([^\s]+) - (.*)- \[([^\]]+)\] &quot;(\w+) ([^\s]+) ([^\s]+)&quot; (\d+) (\d+) &quot;([^&quot;]+)&quot; &quot;([^&quot;]+)&quot;"
+                       groupNames="fromip_s,unknown_s,date_s,method_s,url_s,vhttp_s,codehttp_s,size_s,referer_s,browser_s"/>
+                <!--<field column="id" template="tutu"/>-->
+                <!--<field column="rawLine" name="rawLine"/>-->
+                <!--<field column="date_str" regex="\[([^\]]+)\]" sourceColName="rawLine"/>-->
+                <!--<field column="date_dt" sourceColName="date_str" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss Z" />-->
+                <!--<field column="fromip_s" regex="^([\d\.]*)" sourceColName="rawLine"/>-->
+                <!--<field column="allreq_s" regex="^[^\]]+\] (.*)$" sourceColName="rawLine"/>-->
+                <!--<field column="req_s" regex="^&quot;([^&quot;]+)&quot;" sourceColName="allreq_s"/>-->
+                <!--<field column="codehttp_s" regex="^&quot;[^&quot;]+&quot;\s(\d+)" sourceColName="allreq_s"/>-->
+                <!--<field column="size_s" regex="^&quot;[^&quot;]+&quot;\s\d+\s(\d+)" sourceColName="allreq_s"/>-->
+                <!--<field column="referrer_s" regex="^&quot;[^&quot;]+&quot;[^&quot;]+&quot;([^&quot;]+)&quot;" sourceColName="allreq_s"/>-->
+                <!--<field column="browser_s" regex="^&quot;[^&quot;]+&quot;[^&quot;]+&quot;[^&quot;]+&quot;[^&quot;]+&quot;([^&quot;]+)&quot;" sourceColName="allreq_s"/>-->
+                <!--<field column="method_s" regex="^&quot;([^\s]+)" sourceColName="req_s"/>-->
+                <!--<field column="url_s" regex="^[^\s]+\s([^\s]+)" sourceColName="req_s"/>-->
+                <!--<field column="vhttp_s" regex="(HTTP[^&quot;]+)&quot;" sourceColName="req_s"/>-->
             </entity>
             <!--<entity name="x" processor="XPathEntityProcessor" forEach="/the/record/xpath" url="${f.fileAbsolutePath}">-->
-                <!--<field column="full_name" xpath="/field/xpath"/>-->
+            <!--<field column="full_name" xpath="/field/xpath"/>-->
             <!--</entity>-->
         </entity>
     </document>
