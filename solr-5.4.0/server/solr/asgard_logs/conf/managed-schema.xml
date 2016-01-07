@@ -121,11 +121,13 @@
     <!--<field name="type" type="string" indexed="true" stored="true" required="true" multiValued="false" />-->
     <!--<field name="line" type="string" indexed="true" stored="true" required="true" multiValued="false" />-->
 
-  <!--<field name="id" type="string" indexed="true" stored="true" multiValued="false" />-->
-  <!--<field name="date" type="date" indexed="true" stored="true" multiValued="false" />-->
-  <field name="date_str" type="string" indexed="true" stored="true" multiValued="false" />
+  <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+  <field name="server" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+  <field name="type" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+  <field name="date" type="date" indexed="true" stored="true" required="false" multiValued="false" />
+  <!--<field name="date_str" type="string" indexed="true" stored="true" multiValued="false" />-->
   <field name="line" type="string" indexed="true" stored="true" required="true" multiValued="false" />
-  <field name="rawLine" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+  <!--<field name="rawLine" type="string" indexed="true" stored="true" required="true" multiValued="false" />-->
 
 
     <field name="_version_" type="long" indexed="true" stored="true"/>
@@ -196,8 +198,7 @@
   <!-- Field to use to determine and enforce document uniqueness. 
       Unless this field is marked with required="false", it will be a required field
    -->
-  <!--<uniqueKey>id</uniqueKey>-->
-  <uniqueKey>line</uniqueKey>
+  <uniqueKey>id</uniqueKey>
 
   <!-- copyField commands copy one field to another at the time a document
        is added to the index.  It's used either to index the same field differently,
