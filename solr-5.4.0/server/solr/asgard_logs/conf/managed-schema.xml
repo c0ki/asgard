@@ -122,9 +122,10 @@
     <!--<field name="line" type="string" indexed="true" stored="true" required="true" multiValued="false" />-->
 
   <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
-  <field name="server" type="string" indexed="true" stored="true" required="false" multiValued="false" />
-  <field name="type" type="string" indexed="true" stored="true" required="false" multiValued="false" />
-  <field name="date" type="date" indexed="true" stored="true" required="false" multiValued="false" />
+  <field name="server" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+  <field name="server_type" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+  <field name="log_type" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+  <field name="date" type="date" indexed="true" stored="true" required="true" multiValued="false" />
   <!--<field name="date_str" type="string" indexed="true" stored="true" multiValued="false" />-->
   <field name="line" type="string" indexed="true" stored="true" required="true" multiValued="false" />
   <!--<field name="rawLine" type="string" indexed="true" stored="true" required="true" multiValued="false" />-->
