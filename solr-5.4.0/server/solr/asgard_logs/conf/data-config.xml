@@ -1,43 +1,56 @@
 <dataConfig>
     <dataSource type="FileDataSource" encoding="UTF-8" name="file-datasource"/>
-    <!--<script><![CDATA[-->
-        <!--function parse(row)-->
-        <!--{-->
-            <!--var rawLine = row.get("rawLine")-->
-            <!--// Split the rawLine-->
-            <!--// And for each field-->
-            <!--row.put('server_s', row.get('filename_s'));-->
-            <!--return row;-->
-        <!--}-->
-    <!--]]></script>-->
     <document>
-        <!--<entity name="f" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes" fileName=".*log"-->
-        <!--newerThan="'NOW-3DAYS'" recursive="true" rootEntity="false" dataSource="null">-->
-        <entity name="file" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
-                fileName=".*log"
+        <entity name="file_apache_access" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
+                fileName=".*access\.log"
                 rootEntity="false" dataSource="null" transformer="TemplateTransformer">
             <entity onError="skip" name="line"
                     processor="LineEntityProcessor"
                     acceptLineRegex="^.+$"
                     skipLineRegex="^\s*$"
-                    url="${file.fileAbsolutePath}"
+                    url="${file_apache_access.fileAbsolutePath}"
                     rootEntity="true"
                     transformer="TemplateTransformer,RegexTransformer,DateFormatTransformer"
                     dataSource="fds"
-                    >
-                <!--script:parse-->
-                <field column="id" template="${file.file}:${line.rawLine}"/>
-                <field column="filename_s" template="${file.file}" regex="^(.*)\.(.*)\.log$" groupNames="server,type"/>
+            >
+                <field column="id" template="${file_apache_access.file}:${line.rawLine}"/>
+                <field column="filename_s" template="${file_apache_access.file}" regex="^(.*)\.(.*)\.log$" groupNames="server,type"/>
 
                 <!--126.6.101.81 - - [23/Oct/2015:10:20:08 +0200] "GET /portail/display/ HTTP/1.1" 500 206 "http://126.7.113.72:8080/portail/display/" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
+                <!--10.0.3.1 - - [14/Oct/2015:21:44:13 +0000] "GET / HTTP/1.1" 500 185 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
                 <field column="rawLine" name="line"
                        regex="^([^\s]+) - (.*)- \[([^\]]+)\] &quot;(\w+) ([^\s]+) ([^\s]+)&quot; (\d+) (\d+) &quot;([^&quot;]+)&quot; &quot;([^&quot;]+)&quot;"
-                       groupNames="fromip_s,unknown_s,date_s,method_s,url_s,vhttp_s,codehttp_s,size_s,referer_s,browser_s"/>
-                <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss Z" />
+                       groupNames="clientip_s,unknown_s,date_s,method_s,url_s,vhttp_s,codehttp_s,size_s,referer_s,browser_s"/>
+                <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss Z"/>
             </entity>
-            <!--<entity name="x" processor="XPathEntityProcessor" forEach="/the/record/xpath" url="${f.fileAbsolutePath}">-->
-            <!--<field column="full_name" xpath="/field/xpath"/>-->
-            <!--</entity>-->
+        </entity>
+        <entity name="file_apache_error" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
+                fileName=".*error\.log"
+                rootEntity="false" dataSource="null" transformer="TemplateTransformer">
+            <entity onError="skip" name="line"
+                    processor="LineEntityProcessor"
+                    acceptLineRegex="^.+$"
+                    skipLineRegex="^\s*$"
+                    url="${file_apache_error.fileAbsolutePath}"
+                    rootEntity="true"
+                    transformer="TemplateTransformer,RegexTransformer,DateFormatTransformer"
+                    dataSource="fds"
+            >
+                <field column="id" template="${file_apache_error.file}:${line.rawLine}"/>
+                <field column="filename_s" template="${file_apache_error.file}" regex="^(.*)\.(.*)\.log$" groupNames="server,type"/>
+
+                <!--[Wed Oct 14 21:45:03.708867 2015] [:error] [pid 3745] [client 10.0.3.1:43508] PHP Notice:  Undefined index: route_path in /var/www/asgard/src/Core/LayoutBundle/Controller/LayoutController.php on line 45, referer: http://itceapps.lxc:8080/-->
+                <!--[Wed Oct 14 21:44:08.718767 2015] [:error] [pid 3742] [client 10.0.3.1:43506] PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Failed to write cache file \"/var/www/asgard/app/cache/dev/classes.php\".' in /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php:239\\nStack trace:\\n#0 /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php(122): Symfony\\\\Component\\\\ClassLoader\\\\ClassCollectionLoader::writeCacheFile('/var/www/asgard...', '<?php \\\\nnamespac...')\\n#1 /var/www/asgard/app/bootstrap.php.cache(2534): Symfony\\\\Component\\\\ClassLoader\\\\ClassCollectionLoader::load(Array, '/var/www/asgard...', 'classes', false, false, '.php')\\n#2 /var/www/asgard/app/bootstrap.php.cache(2370): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->doLoadClassCache('classes', '.php')\\n#3 /var/www/asgard/app/bootstrap.php.cache(2404): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->boot()\\n#4 /var/www/asgard/web/app.php(28): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->handle(Object(Symfony\\\\Component\\\\HttpFoundation\\\\Request))\\n#5 {main}\\n  thrown in /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php on line 239",-->
+                <field column="rawLine" name="line"
+                       regex="^\[([^\]]+)\] \[([^\]]+)\] \[([^\]]+)\] \[client ([^\:]+):\d+\] (.*)$"
+                       groupNames="date_s,type_s,pid_s,clientip_s,message_s"/>
+                <field column="date_s" sourceColName="date_s" regex="^([^\.]+)\.\d+( \d+)$" replaceWith="$1$2"/>
+                <field column="date" sourceColName="date_s" dateTimeFormat="EEE MMM dd HH:mm:ss yyyy"/>
+                <field column="referer_s" sourceColName="rawLine" regex="referer: (.*)$"/>
+            </entity>
         </entity>
     </document>
+
 </dataConfig>
+
+
