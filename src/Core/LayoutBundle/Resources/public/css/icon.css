@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'asgard';
-    src: url('font/asgard.eot?47020123');
-    src: url('font/asgard.eot?47020123#iefix') format('embedded-opentype'),
-    url('font/asgard.woff?47020123') format('woff'),
-    url('font/asgard.ttf?47020123') format('truetype'),
-    url('font/asgard.svg?47020123#asgard') format('svg');
+    src: url('font/asgard.eot?44729472');
+    src: url('font/asgard.eot?44729472#iefix') format('embedded-opentype'),
+    url('font/asgard.woff?44729472') format('woff'),
+    url('font/asgard.ttf?44729472') format('truetype'),
+    url('font/asgard.svg?44729472#asgard') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -239,3 +239,10 @@ button.icon-only:before {
     content: '\e819';
 }
 
+.icon-search:before, .inputicon input[value="search"] + label:before {
+    content: '\e81a';
+}
+
+.icon-doc-text:before, .inputicon input[value="doc-text"] + label:before {
+    content: '\e81b';
+}
