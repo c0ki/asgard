@@ -25,3 +25,5 @@
 .icon-pref-alt:before { content: '\e817'; } /* '' */
 .icon-minus-circle:before { content: '\e818'; } /* '' */
 .icon-plus-circle:before { content: '\e819'; } /* '' */
+.icon-search:before { content: '\e81a'; } /* '' */
+.icon-doc-text:before { content: '\e81b'; } /* '' */

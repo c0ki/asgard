@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'asgard';
-  src: url('../font/asgard.eot?64771881');
-  src: url('../font/asgard.eot?64771881#iefix') format('embedded-opentype'),
-       url('../font/asgard.woff?64771881') format('woff'),
-       url('../font/asgard.ttf?64771881') format('truetype'),
-       url('../font/asgard.svg?64771881#asgard') format('svg');
+  src: url('../font/asgard.eot?44729472');
+  src: url('../font/asgard.eot?44729472#iefix') format('embedded-opentype'),
+       url('../font/asgard.woff?44729472') format('woff'),
+       url('../font/asgard.ttf?44729472') format('truetype'),
+       url('../font/asgard.svg?44729472#asgard') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'asgard';
-    src: url('../font/asgard.svg?64771881#asgard') format('svg');
+    src: url('../font/asgard.svg?44729472#asgard') format('svg');
   }
 }
 */
@@ -80,3 +80,5 @@
 .icon-pref-alt:before { content: '\e817'; } /* '' */
 .icon-minus-circle:before { content: '\e818'; } /* '' */
 .icon-plus-circle:before { content: '\e819'; } /* '' */
+.icon-search:before { content: '\e81a'; } /* '' */
+.icon-doc-text:before { content: '\e81b'; } /* '' */

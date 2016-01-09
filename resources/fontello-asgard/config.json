@@ -55,6 +55,12 @@
       "src": "fontelico"
     },
     {
+      "uid": "9dd9e835aebe1060ba7190ad2b2ed951",
+      "css": "search",
+      "code": 59418,
+      "src": "fontawesome"
+    },
+    {
       "uid": "dc3f1d5b1d006f7f7b3b6295eccab9da",
       "css": "camera",
       "code": 59413,
@@ -124,6 +130,12 @@
       "uid": "bbfb51903f40597f0b70fd75bc7b5cac",
       "css": "trash",
       "code": 59412,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "5408be43f7c42bccee419c6be53fdef5",
+      "css": "doc-text",
+      "code": 59419,
       "src": "fontawesome"
     },
     {
