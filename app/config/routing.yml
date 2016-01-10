@@ -1,3 +1,7 @@
+log_tracker:
+    resource: "@LogTrackerBundle/Resources/config/routing.yml"
+    prefix:   /logtracker/
+
 ezpublish:
     resource: "@eZPublishBundle/Resources/config/routing.yml"
     prefix:   /ezpublish/

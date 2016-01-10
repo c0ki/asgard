@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new LogAnalyserBundle\LogAnalyserBundle(),
             new ViewerBundle\ViewerBundle(),
             new eZPublishBundle\eZPublishBundle(),
+            new LogTrackerBundle\LogTrackerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
