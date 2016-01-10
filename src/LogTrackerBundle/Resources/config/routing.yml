@@ -1,0 +1,10 @@
+log_tracker_tool_homepage:
+    path:   /
+    defaults: { _controller: LogTrackerBundle:Default:index }
+    options:
+        class: icon-doc-text
+        label: LogTracker
+
+log_tracker_view:
+    path:   /view
+    defaults: { _controller: LogTrackerBundle:Default:view }

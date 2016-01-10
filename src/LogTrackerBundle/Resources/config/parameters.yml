@@ -1,0 +1,8 @@
+parameters:
+    indexer.core:
+        asgard_logs:
+            - server
+            - server_type
+            - log_type
+            - date
+            - line
