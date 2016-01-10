@@ -1,2 +1,6 @@
 parameters:
     asgard.siteaccesses: [ ]
+
+    indexer.hostname: localhost
+    indexer.port: 8983
+    indexer.core: [ ]
