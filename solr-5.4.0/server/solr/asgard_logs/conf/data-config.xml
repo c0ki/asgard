@@ -1,7 +1,8 @@
 <dataConfig>
     <dataSource type="FileDataSource" encoding="UTF-8" name="file-datasource"/>
     <document>
-        <entity name="file_apache_access" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
+        <entity name="file_apache_access" processor="FileListEntityProcessor"
+                baseDir="/var/www/asgard/resources/indexes"
                 fileName=".*access\.log"
                 rootEntity="false" dataSource="null" transformer="TemplateTransformer">
             <entity onError="skip" name="line"
@@ -10,15 +11,24 @@
                     rootEntity="true"
                     transformer="TemplateTransformer,RegexTransformer,DateFormatTransformer"
                     dataSource="fds"
-            >
+                    >
                 <field column="id" template="${file_apache_access.file}:${line.rawLine}"/>
-                <field column="filename_s" template="${file_apache_access.file}" regex="^(.*)\.(.*)-(.*)\.log$" groupNames="server,server_type,log_type"/>
+                <field column="filename_s" template="${file_apache_access.file}" regex="^(.*\.log)"/>
+                <field column="id" regex="^${file_apache_access.file}:" replaceWith="${line.filename_s}:"/>
+                <field column="server" sourceColName="filename_s" regex="^([^\.]*)\."/>
+                <field column="server_type" sourceColName="filename_s" regex="^(.*)$"/>
+                <field column="log_type" sourceColName="filename_s" regex="-(.*)\.log$"/>
 
                 <!--126.6.101.81 - - [23/Oct/2015:10:20:08 +0200] "GET /portail/display/ HTTP/1.1" 500 206 "http://126.7.113.72:8080/portail/display/" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
                 <!--10.0.3.1 - - [14/Oct/2015:21:44:13 +0000] "GET / HTTP/1.1" 500 185 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
+                <!--126.199.40.20 - - [29/Dec/2015:23:32:51 +0100] "GET /var/storage/images/media/national/vignettes/paget3/picto-gestion-privee/7889-1-fre-FR/picto-gestion-privee_full_width.png HTTP/1.1" 304 -"-->
                 <field column="rawLine" name="line"
-                       regex="^([^\s]+) - (.*)- \[([^\]]+)\] &quot;(\w+) ([^\s]+) ([^\s]+)&quot; (\d+) (\d+) &quot;([^&quot;]+)&quot; &quot;([^&quot;]+)&quot;"
-                       groupNames="clientip_s,unknown_s,date_s,method_s,url_s,vhttp_s,codehttp_s,size_s,referer_s,browser_s"/>
+                       regex="^([^\s]+) - (.*)- \[([^\]]+)\] &quot;(\w+) ([^\s]+) ([^\s]+)&quot; (\d+) ([\d-]+)"
+                       groupNames="clientip_s,unknown_s,date_s,method_s,url_s,vhttp_s,codehttp_s,size_s"/>
+                <field column="referer_s" sourceColName="rawLine"
+                       regex="&quot;([^&quot;]+)&quot; &quot;[^&quot;]+&quot;$"/>
+                <field column="browser_s" sourceColName="rawLine"
+                       regex="&quot;[^&quot;]+&quot; &quot;([^&quot;]+)&quot;$"/>
                 <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss Z"/>
             </entity>
         </entity>
@@ -32,9 +42,10 @@
                     rootEntity="true"
                     transformer="TemplateTransformer,RegexTransformer,DateFormatTransformer"
                     dataSource="fds"
-            >
+                    >
                 <field column="id" template="${file_apache_error.file}:${line.rawLine}"/>
-                <field column="filename_s" template="${file_apache_error.file}" regex="^(.*)\.(.*)-(.*)\.log$" groupNames="server,server_type,log_type"/>
+                <field column="filename_s" template="${file_apache_error.file}" regex="^(.*)\.(.*)-(.*)\.log$"
+                       groupNames="server,server_type,log_type"/>
 
                 <!--[Wed Oct 14 21:45:03.708867 2015] [:error] [pid 3745] [client 10.0.3.1:43508] PHP Notice:  Undefined index: route_path in /var/www/asgard/src/Core/LayoutBundle/Controller/LayoutController.php on line 45, referer: http://itceapps.lxc:8080/-->
                 <!--[Wed Oct 14 21:44:08.718767 2015] [:error] [pid 3742] [client 10.0.3.1:43506] PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Failed to write cache file \"/var/www/asgard/app/cache/dev/classes.php\".' in /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php:239\\nStack trace:\\n#0 /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php(122): Symfony\\\\Component\\\\ClassLoader\\\\ClassCollectionLoader::writeCacheFile('/var/www/asgard...', '<?php \\\\nnamespac...')\\n#1 /var/www/asgard/app/bootstrap.php.cache(2534): Symfony\\\\Component\\\\ClassLoader\\\\ClassCollectionLoader::load(Array, '/var/www/asgard...', 'classes', false, false, '.php')\\n#2 /var/www/asgard/app/bootstrap.php.cache(2370): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->doLoadClassCache('classes', '.php')\\n#3 /var/www/asgard/app/bootstrap.php.cache(2404): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->boot()\\n#4 /var/www/asgard/web/app.php(28): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->handle(Object(Symfony\\\\Component\\\\HttpFoundation\\\\Request))\\n#5 {main}\\n  thrown in /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php on line 239",-->
