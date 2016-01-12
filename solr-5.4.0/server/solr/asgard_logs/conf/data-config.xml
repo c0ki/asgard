@@ -16,7 +16,7 @@
                 <field column="filename_s" template="${file_apache_access.file}" regex="^(.*\.log)"/>
                 <field column="id" regex="^${file_apache_access.file}:" replaceWith="${line.filename_s}:"/>
                 <field column="server" sourceColName="filename_s" regex="^([^\.]*)\."/>
-                <field column="server_type" sourceColName="filename_s" regex="^(.*)$"/>
+                <field column="server_type" sourceColName="filename_s" regex="^.*\.([^-]*)-"/>
                 <field column="log_type" sourceColName="filename_s" regex="-(.*)\.log$"/>
 
                 <!--126.6.101.81 - - [23/Oct/2015:10:20:08 +0200] "GET /portail/display/ HTTP/1.1" 500 206 "http://126.7.113.72:8080/portail/display/" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
