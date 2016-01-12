@@ -49,16 +49,7 @@ class SolrIndexer
         if (!array_key_exists($core, $this->cores)) {
             throw new \InvalidArgumentException("Invalid core '{$core}'");
         }
-        $solrClient = new \SolrClient($this->cores[$core]);
-
-        // Init
-        $results = new \StdClass();
-        $results->success = 0;
-        $results->numFound = 0;
-        $results->numStart = 0;
-        $results->numRows = 0;
-        $results->results = array();
-        $results->facets = array();
+        $solrClient = new SolrClient($this->cores[$core]);
 
         // Build query
         $query = new SolrQuery();
@@ -68,59 +59,7 @@ class SolrIndexer
         $query->setFacets($facets);
 
         // Execute query
-        // @var SolrQueryResponse $query_response
-        $query_response = $solrClient->query($query);
-        $results->success = $query_response->success();
-        if ($results->success) {
-            $response = $query_response->getResponse();
-
-            $results->numFound = $response->response->numFound;
-            $results->numStart = $response->response->start;
-            $results->numRows = count($response->response->docs);
-            $results->results = $response->response->docs;
-
-            if (isset($response->facet_counts) && !empty($response->facet_counts)) {
-                $results->facets = array_merge(
-                    (array)$response->facet_counts->facet_queries,
-                    (array)$response->facet_counts->facet_fields,
-                    (array)$response->facet_counts->facet_dates,
-                    (array)$response->facet_counts->facet_ranges
-                );
-                var_dump($results->facets);
-                foreach ($results->facets as $field => $resultFacet) {
-                    $results->facets[$field] = (array)$resultFacet;
-                    foreach ($results->facets[$field] as $value => $counter) {
-                        if (array_key_exists($field, $criteria) && $criteria[$field] == "{$field}:\"{$value}\"") {
-                            unset($results->facets[$field][$value]);
-                        }
-                        elseif (trim($value) == '') {
-                            unset($results->facets[$field][$value]);
-                        }
-                    }
-                    if (array_key_exists($field, $facets) && !empty($facets[$field])) {
-                        foreach ($facets[$field] as $option => $value) {
-                            if (!array_key_exists('callafter', $this->solrOptionsFacet[$option])
-                                || empty($this->solrOptionsFacet[$option]['callafter'])
-                            ) {
-                                continue;
-                            }
-                            $object = $query;
-                            $method = $this->solrOptionsFacet[$option]['callafter'];
-                            if (substr($this->solrOptionsFacet[$option]['callafter'], 0, 5) == 'this.') {
-                                $object = $this;
-                                $method = substr($this->solrOptionsFacet[$option]['callafter'], 5);
-                            }
-                            $resultCallAfter =
-                                call_user_func(array($object, $method), $value, $results->facets[$field]);
-                            if ($resultCallAfter) {
-                                $results->facets[$field] = $resultCallAfter;
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
+        $results = $solrClient->query($query);
 
         return $results;
     }
