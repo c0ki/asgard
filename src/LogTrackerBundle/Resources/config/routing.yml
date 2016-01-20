@@ -8,3 +8,11 @@ log_tracker_tool_homepage:
 log_tracker_view:
     path:   /view
     defaults: { _controller: LogTrackerBundle:Default:view }
+
+log_tracker_search:
+    path:   /search/{query}
+    defaults: { _controller: LogTrackerBundle:Default:search, query: '*' }
+
+log_tracker_data_error:
+    path:   /dataerror
+    defaults: { _controller: LogTrackerBundle:Default:viewDataError }
