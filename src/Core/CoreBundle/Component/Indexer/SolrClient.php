@@ -2,7 +2,7 @@
 
 namespace Core\CoreBundle\Component\Indexer;
 
-use SolrClient as CoreSolrClient;
+use \SolrClient as CoreSolrClient;
 
 class SolrClient extends CoreSolrClient
 {
