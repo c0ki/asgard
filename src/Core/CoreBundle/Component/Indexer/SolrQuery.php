@@ -96,13 +96,13 @@ class SolrQuery extends CoreSolrQuery
                         $value = '(' . $value . ')';
                     }
                     else {
-                        $value = "({$key}:" . implode(" or {$key}:", $value) . ')';
+                        $value = "({$key}:'" . implode("' or {$key}:'", $value) . "')";
                     }
                 }
                 elseif (!is_numeric($key)) {
                     $key = trim($key);
                     $value = trim($value);
-                    $value = "{$key}:{$value}";
+                    $value = "{$key}:'{$value}'";
                 }
             }
             $criteria = array_filter($criteria);
@@ -113,6 +113,13 @@ class SolrQuery extends CoreSolrQuery
         // Remove bad spaces
         $criteria = preg_replace('/\s+:/', ':', $criteria);
         $criteria = preg_replace('/([\+\-:])\s+/', '$1', $criteria);
+
+        if (preg_match('/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ/', $criteria, $matches)) {
+            var_dump($matches);
+        }
+
+//        2015-12-27T00:00:00Z
+
     }
 
 }
