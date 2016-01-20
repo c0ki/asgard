@@ -12,33 +12,37 @@ class SolrFacet
             'type' => 'int',
             'call' => 'SolrQuery::setFacetMinCount',
         ),
-        'limit' => array(
+        'limit'    => array(
             'type' => 'int',
             'call' => 'SolrQuery::setFacetLimit',
         ),
-        'prefix' => array(
+        'prefix'   => array(
             'type' => 'string',
             'call' => 'SolrQuery::setFacetPrefix',
         ),
-        'offset' => array(
+        'offset'   => array(
             'type' => 'int',
             'call' => 'SolrQuery::setFacetOffset',
         ),
-        'sort' => array(
-            'type' => 'list',
+        'sort'     => array(
+            'type'   => 'list',
             'values' => array(
-                'index' => SolrQuery::FACET_SORT_INDEX,
+                'index'   => SolrQuery::FACET_SORT_INDEX,
                 'counter' => SolrQuery::FACET_SORT_COUNT,
             ),
-            'call' => 'SolrQuery::setFacetSort',
+            'call'   => 'SolrQuery::setFacetSort',
         ),
-        'order' => array(
-            'type' => 'list',
-            'values' => array(
-                'asc' => SolrQuery::ORDER_ASC,
+        'order'    => array(
+            'type'      => 'list',
+            'values'    => array(
+                'asc'  => SolrQuery::ORDER_ASC,
                 'desc' => SolrQuery::ORDER_DESC,
             ),
             'callafter' => 'SolrFacet::setFacetOrder',
+        ),
+        'date'     => array(
+            'type' => 'array',
+            'call' => 'SolrFacet::setFacetDate',
         ),
     );
 //setFacetDateEnd ( string $value [, string $field_override ] )
@@ -74,8 +78,8 @@ class SolrFacet
             $query->setFacet(true);
             // Init default options
             $query->setFacetMinCount(self::DEFAULT_MIN_COUNT);
-
             $query->addFacetField($this->field);
+
             if (!empty($this->options)) {
                 foreach ($this->options as $option => $value) {
                     if (!array_key_exists('call', self::$SolrFacetOptions[$option])
@@ -87,11 +91,13 @@ class SolrFacet
                     list($class, $method) = explode('::', $func);
                     if ($class == 'SolrQuery') {
                         $func = array($query, $method);
+                        $params = array($value, $this->field);
                     }
                     elseif ($class == 'SolrFacet') {
                         $func = array($this, $method);
+                        $params = array($value, $this->field, $query);
                     }
-                    call_user_func($func, $value, $this->field);
+                    call_user_func_array($func, $params);
                 }
             }
         }
@@ -101,6 +107,7 @@ class SolrFacet
                 $facet->addToQuery($query);
             }
         }
+
         return $this;
     }
 
@@ -132,7 +139,7 @@ class SolrFacet
     }
 
     /**
-     * @param null       $field
+     * @param null $field
      * @param array|null $options
      * @throws \SolrIllegalArgumentException
      */
@@ -159,7 +166,9 @@ class SolrFacet
      * @throws \SolrIllegalArgumentException
      */
     protected function formatOtions(array $options) {
-        $options = array_filter($options);
+        $options = array_filter($options, function ($value) {
+            return (!empty($value) || $value === 0);
+        });
         foreach ($options as $option => &$value) {
             if (!array_key_exists($option, self::$SolrFacetOptions)) {
                 throw new \SolrIllegalArgumentException("Invalid facet option '{$option}' to field '{$this->field}'");
@@ -230,6 +239,47 @@ class SolrFacet
         elseif ($order == SolrQuery::ORDER_DESC) {
             krsort($values);
         }
+    }
+
+    public function setFacetDate($value, $field, $query) {
+        $query->removeFacetField($field);
+        $query->addFacetDateField($field);
+
+        if (!array_key_exists('start', $value)) {
+            $value['start'] = date("Y-m-d", strtotime("-1 month")) . "T00:00:00Z";
+        }
+        elseif (is_numeric($value['start'])) {
+            $value['start'] = date("Y-m-d\TH:i:s\Z", $value['start']);
+        }
+        else {
+            $value['start'] = date("Y-m-d\TH:i:s\Z", strtotime($value['start']));
+        }
+        $query->setFacetDateStart($value['start'], $field);
+
+        if (!array_key_exists('end', $value)) {
+            $value['end'] = date("Y-m-d", strtotime("+1 day")) . "T00:00:00Z";
+        }
+        elseif (is_numeric($value['end'])) {
+            $value['end'] = date("Y-m-d\TH:i:s\Z", $value['end']);
+        }
+        else {
+            $value['end'] = date("Y-m-d\TH:i:s\Z", strtotime($value['end']));
+        }
+        $query->setFacetDateEnd($value['end'], $field);
+
+        if (!array_key_exists('gap', $value)) {
+            $value['gap'] = '+1DAY';
+        }
+        $query->setFacetDateGap($value['gap'], $field);
+
+        return $query;
+//        var_dump($value);
+//        exit();
+//        $query->setFacetDateHardEnd(1);
+//        $query->addFacetDateOther('before');
+//        $query->setFacetMinCount(0);
+
+
     }
 
 }
