@@ -10,8 +10,8 @@ log_tracker_view:
     defaults: { _controller: LogTrackerBundle:Default:view }
 
 log_tracker_search:
-    path:   /search/{query}
-    defaults: { _controller: LogTrackerBundle:Default:search, query: '*' }
+    path:   /search/{query}/{start}/{rows}
+    defaults: { _controller: LogTrackerBundle:Default:search, query: '*', start: 0, rows: 10 }
 
 log_tracker_data_error:
     path:   /dataerror

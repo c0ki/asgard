@@ -35,7 +35,7 @@ class DefaultController extends Controller
                         $data['dataset'][$date]["total"] = 0;
                     }
                     $data['schema']["{$serverType} / {$type}"] = $resultsType->query;
-                    $data['dataset'][$date]["date"] = $date;
+                    $data['dataset'][$date]["date"] = substr($date, 0, 10);
                     $data['dataset'][$date]["{$serverType} / {$type}"] = $nb;
                     $data['dataset'][$date]["total"] += $nb;
                 }
@@ -43,25 +43,22 @@ class DefaultController extends Controller
         }
         $data['dataset'] = array_values($data['dataset']);
 
-//        var_dump($data);
-//        exit();
-
         $response = new JsonResponse();
         $response->setData($data);
 
         return $response;
     }
 
-    public function searchAction($query) {
+    public function searchAction($query, $start, $rows) {
 
         $indexer = $this->container->get('core.indexer.solr');
         $results = $indexer->search('asgard_logs',
                                     $query,
-                                    0,
-                                    10,
+                                    $start,
+                                    $rows,
                                     array('server_type',
                                           'type_s',
-                                          'date' => array('date' => array('gap' => '+1WEEK'))));
+                                          'date' => array('date' => array('gap' => '+1DAY'))));
 
         return $this->render('LogTrackerBundle:Default:results.html.twig', array('results' => $results));
     }

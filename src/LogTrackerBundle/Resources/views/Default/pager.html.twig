@@ -1,0 +1,28 @@
+{% if founds > rows %}
+    {% if page is empty and not start is empty %}
+        {% set usePage = false %}
+        {% set page = ((start / rows) + 1)|round %}
+    {% else %}
+        {% set usePage = true %}
+        {% set start = ((page - 1) * rows)|round %}
+    {% endif %}
+    {% set numPages = (founds / rows)|round(0, 'ceil') %}
+    <ul>
+        {% for numPage in 1..numPages %}
+            {% set numStart = ((numPage-1) * rows) %}
+            {% if numPage == 1 or (numPage - page)|abs < 4 or (numStart - start)|abs < 4 * rows or numPage == numPages %}
+                <li>
+                    {% if usePage and page != numPage %}
+                        <a href="{{ path(app.masterRequest.attributes.get('_route'), app.masterRequest.attributes.get('_route_params')|merge({'page': numPage, 'rows': rows}) ) }}">{{ numPage }}</a>
+                    {% elseif not usePage and start != numStart %}
+                        <a href="{{ path(app.masterRequest.attributes.get('_route'), app.masterRequest.attributes.get('_route_params')|merge({'start': numStart, 'rows': rows}) ) }}">{{ numPage }}</a>
+                    {% else %}
+                        {{ numPage }}
+                    {% endif %}
+                </li>
+            {% elseif (numPage - page)|abs < 5 or (numStart - start)|abs < 5 * rows %}
+                <li>...</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %}
