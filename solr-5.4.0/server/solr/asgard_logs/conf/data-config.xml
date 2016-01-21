@@ -44,18 +44,22 @@
                     dataSource="fds"
                     >
                 <field column="id" template="${file_apache_error.file}:${line.rawLine}"/>
-                <field column="filename_s" template="${file_apache_error.file}" regex="^(.*)\.(.*)-(.*)\.log$"
-                       groupNames="server,server_type,log_type"/>
-
+                <field column="filename_s" template="${file_apache_error.file}" regex="^(.*\.log)"/>
+                <field column="id" regex="^${file_apache_error.file}:" replaceWith="${line.filename_s}:"/>
+                <field column="server" sourceColName="filename_s" regex="^([^\.]*)\."/>
+                <field column="server_type" sourceColName="filename_s" regex="^.*\.([^-]*)-"/>
+                <field column="log_type" sourceColName="filename_s" regex="-(.*)\.log$"/>
                 <!--[Wed Oct 14 21:45:03.708867 2015] [:error] [pid 3745] [client 10.0.3.1:43508] PHP Notice:  Undefined index: route_path in /var/www/asgard/src/Core/LayoutBundle/Controller/LayoutController.php on line 45, referer: http://itceapps.lxc:8080/-->
                 <!--[Wed Oct 14 21:44:08.718767 2015] [:error] [pid 3742] [client 10.0.3.1:43506] PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Failed to write cache file \"/var/www/asgard/app/cache/dev/classes.php\".' in /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php:239\\nStack trace:\\n#0 /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php(122): Symfony\\\\Component\\\\ClassLoader\\\\ClassCollectionLoader::writeCacheFile('/var/www/asgard...', '<?php \\\\nnamespac...')\\n#1 /var/www/asgard/app/bootstrap.php.cache(2534): Symfony\\\\Component\\\\ClassLoader\\\\ClassCollectionLoader::load(Array, '/var/www/asgard...', 'classes', false, false, '.php')\\n#2 /var/www/asgard/app/bootstrap.php.cache(2370): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->doLoadClassCache('classes', '.php')\\n#3 /var/www/asgard/app/bootstrap.php.cache(2404): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->boot()\\n#4 /var/www/asgard/web/app.php(28): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->handle(Object(Symfony\\\\Component\\\\HttpFoundation\\\\Request))\\n#5 {main}\\n  thrown in /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php on line 239",-->
+                <!--[Mon Jan 11 10:41:52 2016] [error] [client 127.0.0.1] File does not exist: /tech/ezpublish/www/web/lbmonitor.html-->
                 <field column="rawLine" name="line"
-                       regex="^\[([^\]]+)\] \[([^:]*):([^\]]+)\] \[([^\]]+)\] \[client ([^\:]+):?\d*\] (.*)$"
+                       regex="^\[([^\]]+)\] \[([^:]*)(:[^\]]+)?\] (.*)\[client ([^\:]+):?\d*\] (.*)$"
                        groupNames="date_s,module_s,severity_s,pidtid_s,clientip_s,message_s"/>
                 <field column="date_s" sourceColName="date_s" regex="^([^\.]+)\.?\d*( \d+)$" replaceWith="$1$2"/>
+                <field column="pidtid_s" regex="^\s*\[(pid \d+)\]\s*$" replaceWith="$1"/>
                 <field column="date" sourceColName="date_s" dateTimeFormat="EEE MMM dd HH:mm:ss yyyy"/>
                 <field column="referer_s" sourceColName="rawLine" regex="referer: (.*)$"/>
-                <field column="type_s" sourceColName="message_s" regex="^(PHP [^:]+):"/>
+                <field column="type_s" sourceColName="message_s" regex="^([^:]+):"/>
             </entity>
         </entity>
     </document>
