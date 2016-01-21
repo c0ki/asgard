@@ -17,32 +17,31 @@ class DefaultController extends Controller
 
     public function viewDataErrorAction() {
         $indexer = $this->container->get('core.indexer.solr');
-        $data = array();
+        $data = array('dataset' => array(), 'schema' => array());
 
-        $criteria = array('log_type:error');
+        $criteria = array('+log_type:error');
         $results = $indexer->search('asgard_logs', $criteria, 0, 1, array('server_type'));
         foreach ($results->facets['server_type'] as $serverType => $val) {
-            $criteriaServerType = array_merge($criteria, array('server_type' => $serverType));
+            $criteriaServerType = array_merge($criteria, array('+server_type' => $serverType));
             $resultsServerType = $indexer->search('asgard_logs', $criteriaServerType, 0, 1, array('type_s'));
+            $firstDate = $resultsServerType->results[0]->date;
+            $firstDay = date('Y-m-d', strtotime($firstDate));
             foreach ($resultsServerType->facets['type_s'] as $type => $val) {
-                $criteriaType = array_merge($criteriaServerType, array('type_s' => $type));
+                $criteriaType = array_merge($criteriaServerType, array('+type_s' => $type));
                 $resultsType = $indexer->search('asgard_logs', $criteriaType, 0, 1,
-                    array('date' => array('date' => array('gap' => '+1DAY'), 'mincount' => 0)));
+                                                array('date' => array('date' => array('start' => $firstDay, 'gap' => '+1DAY'))));
                 foreach ($resultsType->facets['date'] as $date => $nb) {
-                    if (!is_numeric($nb)) {
-                        continue;
+                    if (!array_key_exists($date, $data['dataset'])) {
+                        $data['dataset'][$date]["total"] = 0;
                     }
-                    if (!array_key_exists($date, $data)) {
-                        $data[$date]["total"] = 0;
-                    }
-                    $data[$date]["date"] = $date;
-                    $data[$date]["{$serverType} / {$type}"] = $nb;
-                    $data[$date]["total"] += $nb;
-                    $data[$date]["query_{$serverType} / {$type}"] = "server_type:'{$serverType}' type_s:'{$type}'";
+                    $data['schema']["{$serverType} / {$type}"] = $resultsType->query;
+                    $data['dataset'][$date]["date"] = $date;
+                    $data['dataset'][$date]["{$serverType} / {$type}"] = $nb;
+                    $data['dataset'][$date]["total"] += $nb;
                 }
             }
         }
-        $data = array_values($data);
+        $data['dataset'] = array_values($data['dataset']);
 
 //        var_dump($data);
 //        exit();
@@ -56,8 +55,13 @@ class DefaultController extends Controller
     public function searchAction($query) {
 
         $indexer = $this->container->get('core.indexer.solr');
-        $results = $indexer->search('asgard_logs', $query, 0, 10,
-            array('server_type', 'type_s', 'date' => array('date' => array('gap' => '+1WEEK'))));
+        $results = $indexer->search('asgard_logs',
+                                    $query,
+                                    0,
+                                    10,
+                                    array('server_type',
+                                          'type_s',
+                                          'date' => array('date' => array('gap' => '+1WEEK'))));
 
         return $this->render('LogTrackerBundle:Default:results.html.twig', array('results' => $results));
     }

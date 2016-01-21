@@ -56,7 +56,7 @@ var chartConfig = {
 var chart;
 
 // Call ajax
-url = "http://asgard.lxc/logtracker/dataerror";
+url = document.querySelector('#chart').dataset.url;
 var oReq = new XMLHttpRequest();
 oReq.addEventListener("progress", chartDataProgress);
 oReq.addEventListener("load", chartDataLoaded);
@@ -64,10 +64,11 @@ oReq.open('GET', url);
 oReq.send();
 
 function chartDataLoaded(event) {
-    chartConfig.dataProvider = JSON.parse(this.responseText);
+    var data = JSON.parse(this.responseText);
+    chartConfig.dataProvider = data.dataset;
+    chartConfig.dataSchema = data.schema;
     chartConfig.graphs = [];
-    Array.prototype.filter.call(Object.keys(chartConfig.dataProvider[0]), function (field) {
-        if (field == 'date' || field.substr(0, 6) == 'query_') return;
+    Array.prototype.filter.call(Object.keys(data.schema), function (field) {
         var graph = {
             "id": "g" + (chartConfig.graphs.length + 1),
             "fillAlphas": 0.8,
@@ -114,9 +115,9 @@ function zoomChart() {
 }
 
 function clickGraphItem(obj) {
-    var url = document.querySelector('#chart').dataset.url;
-    var query = 'date:' + obj.item.dataContext.date;
-    query += " " + obj.item.dataContext['query_' + obj.graph.title];
+    var url = document.querySelector('#chart').dataset.redirect;
+    var query = '+date:' + obj.item.dataContext.date;
+    query += " " + obj.chart.dataSchema[obj.graph.title];
     window.location = url + '/' + encodeURIComponent(query);
 }
 
