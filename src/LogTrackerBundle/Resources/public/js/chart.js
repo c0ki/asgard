@@ -80,14 +80,14 @@ function chartDataLoaded(event) {
             "title": field,
             "balloonText": "[[title]]<br/>[[value]]"
         };
-        if (field == 'total') {
-            graph.id = "gTotal";
-            graph.visibleInLegend = false;
-            graph.lineThickness = 0;
-            graph.type = null;
-            //graph.type = false;
-        }
         chartConfig.graphs.push(graph);
+    });
+    chartConfig.graphs.push({
+        "id": "gTotal",
+        "visibleInLegend": false,
+        "lineThickness": 0,
+        "valueField": "total",
+        "title": "total"
     });
 
     chart = AmCharts.makeChart("chart", chartConfig);
