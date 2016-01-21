@@ -96,13 +96,13 @@ class SolrQuery extends CoreSolrQuery
                         $value = '(' . $value . ')';
                     }
                     else {
-                        $value = "({$key}:'" . implode("' or {$key}:'", $value) . "')";
+                        $value = "({$key}:\"" . implode("\" or {$key}:\"", $value) . "\")";
                     }
                 }
                 elseif (!is_numeric($key)) {
                     $key = trim($key);
                     $value = trim($value);
-                    $value = "{$key}:'{$value}'";
+                    $value = "{$key}:\"{$value}\"";
                 }
             }
             $criteria = array_filter($criteria);
