@@ -2,12 +2,11 @@
 
 namespace Core\CoreBundle\Component\Indexer;
 
-use \SolrQuery as CoreSolrQuery;
-use Core\CoreBundle\Component\Indexer\SolrFacet;
+use SolrQuery as CoreSolrQuery;
 
 class SolrQuery extends CoreSolrQuery
 {
-    const DEFAULT_ROWS      = 10;
+    const DEFAULT_ROWS = 10;
 
     /**
      * @var SolrFacet
@@ -38,6 +37,7 @@ class SolrQuery extends CoreSolrQuery
         $this->facet = new SolrFacet;
         $this->facet->setFacets($facets);
         $this->facet->addToQuery($this);
+
         return $this;
     }
 
@@ -79,7 +79,7 @@ class SolrQuery extends CoreSolrQuery
 
     /**
      * Format criteria
-     * @param mixed $criteria Criteria list in array or string
+     * @param mixed  $criteria Criteria list in array or string
      * @param string $operator
      */
     protected function formatCriteria(&$criteria, $operator = ' ') {
@@ -114,12 +114,12 @@ class SolrQuery extends CoreSolrQuery
         $criteria = preg_replace('/\s+:/', ':', $criteria);
         $criteria = preg_replace('/([\+\-:])\s+/', '$1', $criteria);
 
-        if (preg_match('/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ/', $criteria, $matches)) {
-            var_dump($matches);
+        if (preg_match_all('/:(\d{4}-\d\d-)(\d\d)\s/', $criteria, $matches)) {
+            foreach ($matches[0] as $key => $init) {
+                $final = ":[{$matches[1][$key]}{$matches[2][$key]}T00:00:00Z TO {$matches[1][$key]}" . ($matches[2][$key] + 1) . "T00:00:00Z]";
+                $criteria = str_replace($init, $final, $criteria);
+            }
         }
-
-//        2015-12-27T00:00:00Z
-
     }
 
 }
