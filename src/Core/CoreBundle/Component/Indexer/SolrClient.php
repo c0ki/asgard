@@ -23,11 +23,11 @@ class SolrClient extends CoreSolrClient
         $results->numRows = 0;
         $results->results = array();
         $results->facets = array();
+        $results->query = $query->getQuery();
 
         // Execute query
         // @var SolrQueryResponse $query_response
         $query_response = parent::query($query);
-
         $results->success = $query_response->success();
         if ($results->success) {
             $response = $query_response->getResponse();
@@ -47,7 +47,7 @@ class SolrClient extends CoreSolrClient
                 foreach ($results->facets as $field => $resultFacet) {
                     $results->facets[$field] = (array)$resultFacet;
                     foreach ($results->facets[$field] as $value => $counter) {
-                        if (trim($value) == '') {
+                        if (trim($value) == '' || !is_numeric($counter)) {
                             unset($results->facets[$field][$value]);
                         }
                     }
