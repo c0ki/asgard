@@ -10,6 +10,10 @@ parameters:
     core.indexer.solr.class: Core\CoreBundle\Component\Indexer\SolrIndexer
 
 services:
+    monolog.logger.console:
+        parent: monolog.logger_prototype
+        arguments: { index_0: "console" }
+
     event_subscriber.siteaccess.router:
             class: %event_subscriber.siteaccess.router.class%
             arguments: [ @router, @?router.request_context, %asgard.siteaccesses% ]
