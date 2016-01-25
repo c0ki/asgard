@@ -196,4 +196,3 @@ class Project
         return "{$this->getLabel()}";
     }
 }
-

@@ -195,4 +195,3 @@ class Domain
         return "{$this->getLabel()}";
     }
 }
-
