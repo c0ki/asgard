@@ -1,0 +1,21 @@
+Core\ProjectBundle\Entity\Daemon:
+    type: entity
+    table: daemon
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 20
+            unique: true
+        label:
+            type: string
+            length: 50
+        description:
+            type: text
+        logo:
+            type: string
+            length: 20
+            nullable: true

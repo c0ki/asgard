@@ -5,6 +5,7 @@ parameters:
 
     event_subscriber.project.router.class: Core\ProjectBundle\EventSubscriber\RouterSubscriber
     project_helper.class: Core\ProjectBundle\Component\Helper\ProjectHelper
+    daemon_helper.class: Core\ProjectBundle\Component\Helper\DaemonHelper
 
 services:
     event_subscriber.project.router:
@@ -16,3 +17,7 @@ services:
     project_helper:
         class: %project_helper.class%
         arguments: [ @request_stack, @doctrine ]
+
+    daemon_helper:
+            class: %daemon_helper.class%
+            arguments: [ @request_stack, @doctrine ]
