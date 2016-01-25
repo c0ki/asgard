@@ -1,0 +1,37 @@
+LogTrackerBundle\Entity\LogFile:
+    type: entity
+    table: logfile
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        server:
+            type: string
+            length: 50
+        path:
+            type: string
+            length: 50
+        mask:
+            type: string
+            length: 50
+
+    manyToOne:
+        project:
+            targetEntity: Core\ProjectBundle\Entity\Project
+#            inversedBy: domains
+            joinColumn:
+                name: project_id
+#                referencedColumnName: id
+        domain:
+            targetEntity: Core\ProjectBundle\Entity\Domain
+#            inversedBy: domains
+            joinColumn:
+                name: domain_id
+#                referencedColumnName: id
+        daemon:
+            targetEntity: Core\ProjectBundle\Entity\Daemon
+#            inversedBy: domains
+            joinColumn:
+                name: daemon_id
+#                referencedColumnName: id

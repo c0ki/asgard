@@ -1,4 +1,7 @@
+parameters:
+    logfile_helper.class: LogTrackerBundle\Component\Helper\LogFileHelper
+
 services:
-#    log_tracker.example:
-#        class: LogTrackerBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    logfile_helper:
+        class: %logfile_helper.class%
+        arguments: [ @request_stack, @doctrine ]
