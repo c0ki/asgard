@@ -40,6 +40,9 @@ class DefaultController extends Controller
         if ($request->request->has('server')) {
             $server_id = $request->request->get('server');
         }
+        elseif ($request->query->has('server')) {
+            $server_id = $request->query->get('server');
+        }
         else {
             throw new NotFoundHttpException();
         }
@@ -55,7 +58,7 @@ class DefaultController extends Controller
         $logfile = $this->container->get('log_analyser.form.type.logfile')->getLogfile($identifier);
 
         /* @var $logFileHelper \LogAnalyserBundle\Component\Helper\LogFileHelper */
-        $logFileHelper = $this->container->get('log_file_helper');
+        $logFileHelper = $this->container->get('log_analyser_file_helper');
 
         $logType = $logFileHelper->getLogType($logfile);
 

@@ -1,11 +1,11 @@
 parameters:
-    log_file_helper.class: LogAnalyserBundle\Component\Helper\LogFileHelper
+    log_analyser_file_helper.class: LogAnalyserBundle\Component\Helper\LogAnalyserFileHelper
     log_analyser.form.type.logfile.class: LogAnalyserBundle\Component\Form\Type\LogfileType
     log_analyser.form.type.analyse.class: LogAnalyserBundle\Component\Form\Type\AnalyseType
 
 services:
-    log_file_helper:
-        class: %log_file_helper.class%
+    log_analyser_file_helper:
+        class: %log_analyser_file_helper.class%
         arguments: [ @service_container ]
 
     log_analyser.form.type.logfile:

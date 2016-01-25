@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use LogAnalyserBundle\Component\File\File;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class LogFileHelper
+class LogAnalyserFileHelper
 {
 
     const TYPE_APACHE_ACCESSLOG = 'apacheaccesslog';
