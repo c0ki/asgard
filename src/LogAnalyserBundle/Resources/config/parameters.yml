@@ -1,0 +1,6 @@
+parameters:
+    logs_servers:
+        local: '/var/www/apps/datalogs/'
+#        226ssh: 'ssh://team:Micado111@127.0.0.1/var/log/apache2/'
+        localhttp: 'ssh://root:root@127.0.0.1/var/log/apache2/'
+        localez: 'ssh://root:root@127.0.0.1/var/www/apps/app/logs/'

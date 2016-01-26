@@ -1,0 +1,6 @@
+parameters:
+    portail.checker.server:
+        DEV:
+            - http://www.google.fr
+        DEV2:
+            - http://www.perdu.com
