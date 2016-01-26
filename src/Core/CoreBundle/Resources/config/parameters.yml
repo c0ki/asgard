@@ -3,4 +3,4 @@ parameters:
 
     indexer.hostname: localhost
     indexer.port: 8983
-    indexer.core: [ ]
+    indexer.core: [ asgard_logs ]

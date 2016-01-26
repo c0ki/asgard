@@ -21,6 +21,7 @@ class SolrIndexer
      * @param array $cores
      */
     public function __construct($hostname, $port, array $cores) {
+        var_dump($hostname, $port, $cores);
         foreach ($cores as $name => $fields) {
             $this->cores[$name] = array(
                 'hostname' => $hostname,
@@ -29,6 +30,7 @@ class SolrIndexer
                 'fields'   => $fields,
             );
         }
+        var_dump($this->cores);
     }
 
     /**
@@ -64,31 +66,40 @@ class SolrIndexer
         return $results;
     }
 
-    private function commit($profile) {
-        if (!in_array($profile, $this->solrConfigurations->listProfiles())) {
-            throw new SolrEngineException("Invalid profile");
-        }
-        $this->solrClients[$profile]->request("<commit/>");
+    public function importData($core) {
+        $this->request($core, '<dataimport command="full-import" rows="10" clean="true" />');
     }
 
-    private function optimize($profile) {
-        if (!in_array($profile, $this->solrConfigurations->listProfiles())) {
-            throw new SolrEngineException("Invalid profile");
+    private function request($core, $content) {
+        if (!array_key_exists($core, $this->cores)) {
+            throw new \InvalidArgumentException("Invalid core '{$core}'");
         }
-        $this->solrClients[$profile]->request("<optimize/>");
+        $solrClient = new SolrClient($this->cores[$core]);
+        $solrClient->request($content);
     }
 
-    private function rollback($profile) {
-        if (!in_array($profile, $this->solrConfigurations->listProfiles())) {
-            throw new SolrEngineException("Invalid profile");
-        }
-        $this->solrClients[$profile]->rollback();
+    private function commit($core) {
+        $this->request($core, "<commit/>");
     }
 
-    public function add($profile, $object) {
-        if (!in_array($profile, $this->solrConfigurations->listProfiles())) {
-            throw new SolrEngineException("Invalid profile");
+    private function optimize($core) {
+        $this->request($core, "<optimize/>");
+    }
+
+    private function rollback($core) {
+        if (!array_key_exists($core, $this->cores)) {
+            throw new \InvalidArgumentException("Invalid core '{$core}'");
         }
+        $solrClient = new SolrClient($this->cores[$core]);
+        $solrClient->rollback();
+    }
+
+    public function add($core, $object) {
+        if (!array_key_exists($core, $this->cores)) {
+            throw new \InvalidArgumentException("Invalid core '{$core}'");
+        }
+        $solrClient = new SolrClient($this->cores[$core]);
+
         // Build document
         $doc = new SolrInputDocument();
         foreach ($object as $key => $value) {
@@ -103,16 +114,17 @@ class SolrIndexer
         }
 
         // Add document
-        $this->solrClients[$profile]->addDocument($doc, false);
+        $solrClient->addDocument($doc, false);
 
         // Commit transaction
-        $this->commit($profile);
+        $this->commit($core);
     }
 
-    public function update($profile, $object, $id, $id_field = null) {
-        if (!in_array($profile, $this->solrConfigurations->listProfiles())) {
-            throw new SolrEngineException("Invalid profile");
+    public function update($core, $object, $id, $id_field = null) {
+        if (!array_key_exists($core, $this->cores)) {
+            throw new \InvalidArgumentException("Invalid core '{$core}'");
         }
+        $solrClient = new SolrClient($this->cores[$core]);
 
         if (empty($id_field)) {
             $id_field = "id";
@@ -154,14 +166,11 @@ class SolrIndexer
             }
 
         }
-        //var_dump($xml->asXML());
-
-
         // Request solr with update message
-        $this->solrClients[$profile]->request($xml->asXML());
+        $solrClient->request($xml->asXML());
 
         // Commit transaction
-        $this->commit($profile);
+        $this->commit($core);
 
         // optimize transaction
         //$this->optimize();

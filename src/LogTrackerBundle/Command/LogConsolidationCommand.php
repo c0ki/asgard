@@ -334,6 +334,29 @@ exit();
         }
 
         // Start indexation
+        $indexer = $this->getContainer()->get('core.indexer.solr');
+        $indexer->importData('asgard_logs');
+
+        exit();
+//        http://XXX:8983/solr/asgard_logs/dataimport
+//command=full-import
+//clean=true
+//commit=true
+//wt=json
+//indent=true
+//verbose=false
+//optimize=false
+//debug=false
+
+//command=full-import
+//clean=true
+//commit=true
+//wt=json
+//indent=true
+//rows=10
+//verbose=false
+//optimize=false
+//debug=false
 
     }
 
