@@ -17,7 +17,7 @@
                 <field column="id" regex="^${file_apache_access.file}:" replaceWith="${line.filename_s}:"/>
                 <field column="project" sourceColName="filename_s" regex="^([^\.]*)\."/>
                 <field column="domain" sourceColName="filename_s" regex="^[^\.]*\.([^\.]*)\."/>
-                <field column="app" sourceColName="filename_s" regex="^.*\.([^-]*)-"/>
+                <field column="daemon" sourceColName="filename_s" regex="^.*\.([^-]*)-"/>
                 <field column="type" sourceColName="filename_s" regex="-(.*)\.log$"/>
 
                 <!--126.6.101.81 - - [23/Oct/2015:10:20:08 +0200] "GET /portail/display/ HTTP/1.1" 500 206 "http://126.7.113.72:8080/portail/display/" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
@@ -49,7 +49,7 @@
                 <field column="id" regex="^${file_apache_error.file}:" replaceWith="${line.filename_s}:"/>
                 <field column="project" sourceColName="filename_s" regex="^([^\.]*)\."/>
                 <field column="domain" sourceColName="filename_s" regex="^[^\.]*\.([^\.]*)\."/>
-                <field column="app" sourceColName="filename_s" regex="^.*\.([^-]*)-"/>
+                <field column="daemon" sourceColName="filename_s" regex="^.*\.([^-]*)-"/>
                 <field column="type" sourceColName="filename_s" regex="-(.*)\.log$"/>
                 <!--[Wed Oct 14 21:45:03.708867 2015] [:error] [pid 3745] [client 10.0.3.1:43508] PHP Notice:  Undefined index: route_path in /var/www/asgard/src/Core/LayoutBundle/Controller/LayoutController.php on line 45, referer: http://itceapps.lxc:8080/-->
                 <!--[Wed Oct 14 21:44:08.718767 2015] [:error] [pid 3742] [client 10.0.3.1:43506] PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Failed to write cache file \"/var/www/asgard/app/cache/dev/classes.php\".' in /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php:239\\nStack trace:\\n#0 /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php(122): Symfony\\\\Component\\\\ClassLoader\\\\ClassCollectionLoader::writeCacheFile('/var/www/asgard...', '<?php \\\\nnamespac...')\\n#1 /var/www/asgard/app/bootstrap.php.cache(2534): Symfony\\\\Component\\\\ClassLoader\\\\ClassCollectionLoader::load(Array, '/var/www/asgard...', 'classes', false, false, '.php')\\n#2 /var/www/asgard/app/bootstrap.php.cache(2370): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->doLoadClassCache('classes', '.php')\\n#3 /var/www/asgard/app/bootstrap.php.cache(2404): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->boot()\\n#4 /var/www/asgard/web/app.php(28): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->handle(Object(Symfony\\\\Component\\\\HttpFoundation\\\\Request))\\n#5 {main}\\n  thrown in /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php on line 239",-->
