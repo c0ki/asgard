@@ -23,17 +23,34 @@ class LogFileHelper
      */
     protected $repository;
 
+    /**
+     * @var \Doctrine\Common\Persistence\ObjectRepository
+     */
+    protected $linkRepository;
+
     public function __construct(RequestStack $request, RegistryInterface $doctrine) {
         $this->masterRequest = $request->getMasterRequest();
         $this->doctrine = $doctrine;
         $this->repository = $this->doctrine->getRepository('LogTrackerBundle:LogFile');
+        $this->linkRepository = $this->doctrine->getRepository('CoreProjectBundle:Link');
     }
 
     /**
+     * @param array|null $criteria
      * @return \LogTrackerBundle\Entity\LogFile[]
      */
-    public function listLogs($criteria) {
-        return $this->repository->findBy($criteria);
+    public function listLogs(array $criteria = null) {
+        $logs = array();
+        $links = $this->linkRepository->findBy($criteria);
+        foreach ($links as $link) {
+            foreach ($this->repository->findBy(array('link' => $link)) as $log) {
+                if (!in_array($log, $logs)) {
+                    $logs[] = $log;
+                }
+            }
+        }
+
+        return $logs;
     }
 
 }

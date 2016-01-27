@@ -1,0 +1,27 @@
+Core\ProjectBundle\Entity\Link:
+    type: entity
+    table: link
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        server:
+            type: string
+            length: 20
+    manyToOne:
+        project:
+            targetEntity: Core\ProjectBundle\Entity\Project
+            joinColumn:
+                name: project_id
+                referencedColumnName: id
+        domain:
+            targetEntity: Core\ProjectBundle\Entity\Domain
+            joinColumn:
+                name: domain_id
+                referencedColumnName: id
+        daemon:
+            targetEntity: Core\ProjectBundle\Entity\Daemon
+            joinColumn:
+                name: daemon_id
+                referencedColumnName: id

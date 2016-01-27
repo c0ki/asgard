@@ -6,9 +6,6 @@ LogTrackerBundle\Entity\LogFile:
             type: integer
             generator: { strategy: AUTO }
     fields:
-        server:
-            type: string
-            length: 50
         path:
             type: string
             length: 50
@@ -17,21 +14,8 @@ LogTrackerBundle\Entity\LogFile:
             length: 50
 
     manyToOne:
-        project:
-            targetEntity: Core\ProjectBundle\Entity\Project
-#            inversedBy: domains
+        link:
+            targetEntity: Core\ProjectBundle\Entity\Link
             joinColumn:
-                name: project_id
-#                referencedColumnName: id
-        domain:
-            targetEntity: Core\ProjectBundle\Entity\Domain
-#            inversedBy: domains
-            joinColumn:
-                name: domain_id
-#                referencedColumnName: id
-        daemon:
-            targetEntity: Core\ProjectBundle\Entity\Daemon
-#            inversedBy: domains
-            joinColumn:
-                name: daemon_id
-#                referencedColumnName: id
+                name: link_id
+                referencedColumnName: id

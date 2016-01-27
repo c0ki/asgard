@@ -15,11 +15,6 @@ class LogFile
     /**
      * @var string
      */
-    private $server;
-
-    /**
-     * @var string
-     */
     private $path;
 
     /**
@@ -28,19 +23,9 @@ class LogFile
     private $mask;
 
     /**
-     * @var \Core\ProjectBundle\Entity\Project
+     * @var \Core\ProjectBundle\Entity\Link
      */
-    private $project;
-
-    /**
-     * @var \Core\ProjectBundle\Entity\Domain
-     */
-    private $domain;
-
-    /**
-     * @var \Core\ProjectBundle\Entity\Daemon
-     */
-    private $daemon;
+    private $link;
 
 
     /**
@@ -51,30 +36,6 @@ class LogFile
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set server
-     *
-     * @param string $server
-     *
-     * @return LogFile
-     */
-    public function setServer($server)
-    {
-        $this->server = $server;
-
-        return $this;
-    }
-
-    /**
-     * Get server
-     *
-     * @return string
-     */
-    public function getServer()
-    {
-        return $this->server;
     }
 
     /**
@@ -126,75 +87,27 @@ class LogFile
     }
 
     /**
-     * Set project
+     * Set link
      *
-     * @param \Core\ProjectBundle\Entity\Project $project
+     * @param \Core\ProjectBundle\Entity\Link $link
      *
      * @return LogFile
      */
-    public function setProject(\Core\ProjectBundle\Entity\Project $project = null)
+    public function setLink(\Core\ProjectBundle\Entity\Link $link = null)
     {
-        $this->project = $project;
+        $this->link = $link;
 
         return $this;
     }
 
     /**
-     * Get project
+     * Get link
      *
-     * @return \Core\ProjectBundle\Entity\Project
+     * @return \Core\ProjectBundle\Entity\Link
      */
-    public function getProject()
+    public function getLink()
     {
-        return $this->project;
-    }
-
-    /**
-     * Set domain
-     *
-     * @param \Core\ProjectBundle\Entity\Domain $domain
-     *
-     * @return LogFile
-     */
-    public function setDomain(\Core\ProjectBundle\Entity\Domain $domain = null)
-    {
-        $this->domain = $domain;
-
-        return $this;
-    }
-
-    /**
-     * Get domain
-     *
-     * @return \Core\ProjectBundle\Entity\Domain
-     */
-    public function getDomain()
-    {
-        return $this->domain;
-    }
-
-    /**
-     * Set daemon
-     *
-     * @param \Core\ProjectBundle\Entity\Daemon $daemon
-     *
-     * @return LogFile
-     */
-    public function setDaemon(\Core\ProjectBundle\Entity\Daemon $daemon = null)
-    {
-        $this->daemon = $daemon;
-
-        return $this;
-    }
-
-    /**
-     * Get daemon
-     *
-     * @return \Core\ProjectBundle\Entity\Daemon
-     */
-    public function getDaemon()
-    {
-        return $this->daemon;
+        return $this->link;
     }
 }
 

@@ -23,10 +23,16 @@ class DaemonHelper
      */
     protected $repository;
 
+    /**
+     * @var \Doctrine\Common\Persistence\ObjectRepository
+     */
+    protected $linkRepository;
+
     public function __construct(RequestStack $request, RegistryInterface $doctrine) {
         $this->masterRequest = $request->getMasterRequest();
         $this->doctrine = $doctrine;
         $this->repository = $this->doctrine->getRepository('CoreProjectBundle:Daemon');
+        $this->linkRepository = $this->doctrine->getRepository('CoreProjectBundle:Link');
     }
 
     /**
@@ -44,6 +50,22 @@ class DaemonHelper
      * @var \Core\ProjectBundle\Entity\Daemon[]
      */
     private $daemons = array();
+
+    /**
+     * @param array $criteria
+     * @return \Core\ProjectBundle\Entity\Daemon[]
+     */
+    public function findDaemonsLinked(array $criteria) {
+        $daemons = array();
+        $links = $this->linkRepository->findBy($criteria);
+        foreach ($links as $link) {
+            if (!in_array($link->getDaemon(), $daemons)) {
+                $daemons[] = $link->getDaemon();
+            }
+        }
+
+        return $daemons;
+    }
 
     /**
      * @return \Core\ProjectBundle\Entity\Daemon
