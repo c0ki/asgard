@@ -54,6 +54,11 @@ class LogConsolidationCommand extends ContainerAwareCommand
      */
     protected $daemon = null;
 
+    /**
+     * @var array
+     */
+    protected $times = array();
+
     protected function configure() {
         $this
             ->setName("logtracker:logconsolidation")
@@ -64,6 +69,7 @@ class LogConsolidationCommand extends ContainerAwareCommand
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output) {
+        $this->times = array(microtime(true));
         $this->logger = $this->getContainer()->get('monolog.logger.console');
         $this->projectHelper = $this->getContainer()->get('project_helper');
         $this->daemonHelper = $this->getContainer()->get('daemon_helper');
@@ -71,38 +77,56 @@ class LogConsolidationCommand extends ContainerAwareCommand
     }
 
     protected function interact(InputInterface $input, OutputInterface $output) {
-        if ($input->hasOption('project')) {
+        if ($input->hasOption('project') && $input->getOption('project')) {
             $this->project = $this->projectHelper->getProjectByName($input->getOption('project'));
             if (is_null($this->project)) {
+                $this->logger->error("Log consolidation: The \"--project\" option requires a valid project");
                 throw new \InvalidArgumentException('The "--project" option requires a valid project');
             }
         }
 
-        if ($input->hasOption('domain')) {
+        if ($input->hasOption('domain') && $input->getOption('domain')) {
             $this->domain = $this->projectHelper->getDomainByName($input->getOption('domain'));
             if (is_null($this->domain)) {
+                $this->logger->error("Log consolidation: The \"--domain\" option requires a valid domain");
                 throw new \InvalidArgumentException('The "--domain" option requires a valid domain.');
             }
             elseif (!is_null($this->project) && !$this->project->getDomains()->contains(($this->domain))) {
-                throw new \InvalidArgumentException('The "--domain" option requires a valid domain to "' . $this->project->getLabel() . '" project.');
+                $this->logger->error("Log consolidation: The \"--domain\" option requires a valid domain to \"{$this->project->getLabel()}\" project");
+                throw new \InvalidArgumentException('The "--domain" option requires a valid domain to "'
+                                                    . $this->project->getLabel() . '" project.');
             }
         }
 
-        if ($input->hasOption('app')) {
-//            $this->domain = $this->projectHelper->getDomainByName($input->getOption('app'));
-//            if (is_null($this->domain)) {
-//                throw new \InvalidArgumentException('The "--app" option requires a valid application.');
-//            }
-//            elseif (!$this->project->getDomains()->contains(($this->domain))) {
-//                throw new \InvalidArgumentException('The "--app" option requires a valid application to "' . $this->project->getLabel() . '" project on "' . $this->domain->getLabel() . '" domain.');
-//            }
+        if ($input->hasOption('daemon') && $input->getOption('daemon')) {
+            $this->daemon = $this->daemonHelper->getDaemonByName($input->getOption('daemon'));
+            if (is_null($this->daemon)) {
+                $this->logger->error("Log consolidation: The \"--daemon\" option requires a valid application");
+                throw new \InvalidArgumentException('The "--daemon" option requires a valid application.');
+            }
+            elseif (!is_null($this->project) && !$this->daemon->getProjects()->contains(($this->project))) {
+                $this->logger->error("Log consolidation: The \"--daemon\" option requires a valid daemon to \"{$this->project->getLabel()}\" project");
+                throw new \InvalidArgumentException('The "--daemon" option requires a valid daemon to "'
+                                                    . $this->project->getLabel() . '" project.');
+            }
+            elseif (!is_null($this->domain) && !$this->daemon->getDomains()->contains(($this->domain))) {
+                $this->logger->error("Log consolidation: The \"--daemon\" option requires a valid daemon to \"{$this->domain->getLabel()}\" domain");
+                throw new \InvalidArgumentException('The "--daemon" option requires a valid daemon to "'
+                                                    . $this->domain->getLabel() . '" domain.');
+            }
         }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         if (is_null($this->project)) {
-            $this->logger->info("Log consolidation to all projects");
-            foreach ($this->projectHelper->listProjects() as $project) {
+            $this->logger->debug("Log consolidation to all projects");
+            $projects = $this->projectHelper->listProjects();
+            if (empty($projects)) {
+                $this->logger->debug("Log consolidation: No project");
+
+                return;
+            }
+            foreach ($projects as $project) {
                 $this->project = $project;
                 $this->logConsolidationProject();
             }
@@ -111,171 +135,20 @@ class LogConsolidationCommand extends ContainerAwareCommand
             $this->logConsolidationProject();
         }
 
-
-
-
-
-exit();
-
-
-//        /** @var \Ind\CoreBundle\Component\Core\SignalSlot\Repository $repository */
-//        $repository = $this->getContainer()->get('ezpublish.api.repository');
-//        /** @var \Ind\CoreBundle\Component\Core\SignalSlot\SearchDaemon $searchDaemon */
-//        $searchDaemon = $repository->getSearchService();
-//        /** @var \Ind\CoreBundle\Component\Core\SignalSlot\LocationService $locationService */
-//        $locationService = $repository->getLocationService();
-
-        // Get locations to purge (parameter or into file)
-        $locationsIds = $input->getOption('locationsIds');
-        if (!empty($locationsIds)) {
-            $locationsIds = explode(',', $locationsIds);
-            $locationsIds = array_map('trim', $locationsIds);
-            $locationsIds = array_filter($locationsIds);
-            $locationsIds = array_filter($locationsIds, 'is_numeric');
-            if (!empty($locationsIds)) {
-                $labelLocationsIds = implode(', ', $locationsIds);
-                $this->logger->info("Cache initialization: LocationsIds: {$labelLocationsIds}");
-            }
-        }
-
-        if (empty($locationsIds)) {
-            $locationsIds = array();
-            $contents = $searchService->findContentByParams(array('ContentTypeIdentifier' => 'marche'));
-            $nbLocations = 0;
-            foreach ($contents as $content) {
-                $locations = $locationService->loadLocations($content->contentInfo);
-                foreach ($locations as $location) {
-                    $nbLocations++;
-                    $locationsIds[] = $location->id;
-                }
-            }
-            $this->logger->debug("Cache initialization: Marche: {$nbLocations} locations");
-            $contents = $searchService->findContentByParams(array('ContentTypeIdentifier' => 'univers'));
-            $nbLocations = 0;
-            foreach ($contents as $content) {
-                $locations = $locationService->loadLocations($content->contentInfo);
-                foreach ($locations as $location) {
-                    $nbLocations++;
-                    $locationsIds[] = $location->id;
-                }
-            }
-            $this->logger->debug("Cache initialization: Univers: {$nbLocations} locations");
-        }
-
-        // Get number process to use
-        $nbProcess = $input->getOption('process');
-        if (empty($nbProcess) || !is_numeric($nbProcess) || $nbProcess < 1) {
-            $nbProcess = 1;
-        }
-
-        $startTime = microtime(true);
-
-        $counter = 0;
-        $countTotal = count($locationsIds);
-
-        foreach ($locationsIds as $locationId) {
-            $counter++;
-            $this->doCall($locationId, $nbProcess, $counter, $countTotal);
-        }
-
-        $this->doWait();
-
-        $time = number_format((microtime(true) - $startTime), 2);
-        $this->logger->debug("Cache initialization: Duration: {$time}s");
-    }
-
-    private $listProcessId = array();
-    private $uid = null;
-
-    protected function doWait() {
-        foreach ($this->listProcessId as $pid) {
-            pcntl_waitpid($pid, $status);
-            $this->logger->debug("Process {$pid} ended");
-        }
-    }
-
-    protected function doCall($locationId, $maxProcess, $counter, $countTotal) {
-        if (count($this->listProcessId) >= $maxProcess) {
-            $pid = pcntl_wait($status);
-            unset($this->listProcessId[$pid]);
-        }
-
-        $pid = pcntl_fork();
-        if ($pid == -1) {
-            $this->logger->error('Cache initialization: error during duplication');
-            exit();
-        }
-        elseif ($pid) {
-            $this->listProcessId[$pid] = $pid;
-            return;
-        }
-        else {
-            // Child process
-            $this->uid = getmypid();
-            $this->call($locationId, $counter, $countTotal);
-            exit();
-        }
-    }
-
-    protected function call($locationId, $counter, $countTotal) {
-        /** @var \Symfony\Cmf\Component\Routing\ChainRouter $router */
-        $router = $this->getContainer()->get('router');
-        /** @var \Buzz\Browser $httpBrowser */
-        $httpBrowser = $this->getContainer()->get('ezpublish.http_cache.purge_client.browser');
-        $httpBrowser->getClient()->setTimeout(2);
-
-        /** @var \eZ\Publish\Core\Persistence\Doctrine\ConnectionHandler $dbHandler */
-        $dbHandler = $this->getContainer()->get('ezpublish.api.storage_engine.legacy.dbhandler');
-        $dbHandler->getConnection()->close();
-        $dbHandler->getConnection()->connect();
-
-        try {
-            $url = $router->generate('ez_urlalias',
-                                     array('locationId' => $locationId, 'dynamicSiteaccess' => true));
-        }
-        catch (\Exception $e) {
-            $url = null;
-            $message = $e->getMessage() . ($e->getPrevious() ? ": " . $e->getPrevious()->getMessage() : '');
-            $this->logger->warning("Cache initialization [uid:{$this->uid}]: L/{$locationId}: generate url: {$message}");
-        }
-
-        // Clear http cache
-        $purgeServers = $this->getContainer()->getParameter('server.purge.list');
-        foreach ($purgeServers as $site) {
-            if (empty($site)) continue;
-            $nbSites = count($site);
-            $siteCounter = 0;
-            foreach ($site as $server) {
-                $siteCounter++;
-                $startLocalTimeLocation = microtime(true);
-                try {
-                    $urlComplete = $server . ':' . $this->getContainer()->getParameter('server.cache.port') . $url;
-                    /** @var \Buzz\Message\Response $response */
-                    $response = $httpBrowser->call($urlComplete, 'GET', array('X-Backend-Ez' => false));
-                    if ($response->isSuccessful()) {
-                        $this->logger->debug("Cache initialization [uid:{$this->uid}]: L/{$locationId} [{$counter}/{$countTotal}] [{$siteCounter}/{$nbSites}]: url:{$urlComplete} [{$this->getTime($startLocalTimeLocation)}s]");
-                        break;
-                    }
-                    else {
-                        $this->logger->warning("Cache initialization [uid:{$this->uid}]: L/{$locationId} [{$counter}/{$countTotal}] [{$siteCounter}/{$nbSites}]: url:{$urlComplete} [response not successful]");
-                    }
-                }
-                catch (\Exception $e) {
-                    $message = $e->getMessage() . ($e->getPrevious() ? ": " . $e->getPrevious()->getMessage() : '');
-                    $this->logger->warning("Cache initialization [uid:{$this->uid}]: L/{$locationId} [{$counter}/{$countTotal}] [{$siteCounter}/{$nbSites}]: error: {$message}");
-                }
-            }
-        }
-    }
-
-    private function getTime($time) {
-        return number_format((microtime(true) - $time), 2);
+        $time = number_format((microtime(true) - $this->times[0]), 2);
+        $this->logger->info("Log consolidation: Duration: {$time}s");
     }
 
     protected function logConsolidationProject() {
-        $this->logger->debug("Project '{$this->project->getLabel()}': Log consolidation");
+        $this->logger->debug("Log consolidation: Project '{$this->project->getLabel()}'");
         if (is_null($this->domain)) {
-            foreach ($this->project->getDomains() as $domain) {
+            $domains = $this->project->getDomains();
+            if (empty($domains)) {
+                $this->logger->debug("Log consolidation: No domain");
+
+                return;
+            }
+            foreach ($domains as $domain) {
                 $this->domain = $domain;
                 $this->logConsolidationDomain();
             }
@@ -286,9 +159,16 @@ exit();
     }
 
     protected function logConsolidationDomain() {
-        $this->logger->debug("Project '{$this->project->getLabel()}': Domain '{$this->domain->getLabel()}': Log consolidation");
+        $this->logger->debug("Log consolidation: Project '{$this->project->getLabel()}': Domain '{$this->domain->getLabel()}'");
         if (is_null($this->daemon)) {
-            foreach ($this->daemonHelper->listDaemons($this->project, $this->domain) as $daemon) {
+            $daemons =
+                $this->daemonHelper->findDaemonsLinked(array('project' => $this->project, 'domain' => $this->domain));
+            if (empty($daemons)) {
+                $this->logger->debug("Log consolidation: No daemon");
+
+                return;
+            }
+            foreach ($daemons as $daemon) {
                 $this->daemon = $daemon;
                 $this->logConsolidationDaemon();
             }
@@ -299,12 +179,18 @@ exit();
     }
 
     protected function logConsolidationDaemon() {
-        $this->logger->debug("Project '{$this->project->getLabel()}': Domain '{$this->domain->getLabel()}': Daemon '{$this->daemon->getLabel()}': Log consolidation");
+        $this->logger->debug("Log consolidation: Project '{$this->project->getLabel()}': Domain '{$this->domain->getLabel()}': Daemon '{$this->daemon->getLabel()}'");
 
         // Get indexer.logfiles.directories
         $indexerDir = $this->getContainer()->getParameter('indexer.logfiles.directories');
 
-        $logFiles = $this->logFileHelper->listLogs(array('project' => $this->project, 'domain' => $this->domain, 'daemon' => $this->daemon));
+        $logFiles = $this->logFileHelper->listLogs(array('project' => $this->project, 'domain' => $this->domain,
+                                                         'daemon'  => $this->daemon));
+        if (empty($logFiles)) {
+            $this->logger->debug("Log consolidation: No logfile");
+
+            return;
+        }
 
         foreach ($logFiles as $logfile) {
             $file = new File($logfile->getPath(), false);
@@ -325,9 +211,12 @@ exit();
                 }
                 $extension = $file->getExtension();
                 if (is_numeric($extension)) {
-                    $extension = pathinfo(substr($file->getFilename(), 0, -1 * strlen($extension) - 1), PATHINFO_EXTENSION) . ".{$extension}";
+                    $extension =
+                        pathinfo(substr($file->getFilename(), 0, -1 * strlen($extension) - 1), PATHINFO_EXTENSION)
+                        . ".{$extension}";
                 }
-                $newFilename = "{$this->project->getName()}.{$this->domain->getName()}.{$this->daemon->getName()}-{$type}.{$extension}";
+                $newFilename =
+                    "{$this->project->getName()}.{$this->domain->getName()}.{$this->daemon->getName()}-{$type}.{$extension}";
                 $this->logger->debug("Log consolidation: copy file '{$file->getPath()}/{$file->getFilename()}' to '{$indexerDir}/{$newFilename}'");
                 $file->copy($indexerDir, $newFilename);
             }
@@ -335,29 +224,9 @@ exit();
 
         // Start indexation
         $indexer = $this->getContainer()->get('core.indexer.solr');
-        $indexer->importData('asgard_logs');
-
-        exit();
-//        http://XXX:8983/solr/asgard_logs/dataimport
-//command=full-import
-//clean=true
-//commit=true
-//wt=json
-//indent=true
-//verbose=false
-//optimize=false
-//debug=false
-
-//command=full-import
-//clean=true
-//commit=true
-//wt=json
-//indent=true
-//rows=10
-//verbose=false
-//optimize=false
-//debug=false
-
+        $status = $indexer->importData('asgard_logs');
+        $status = str_replace('=', ': ', http_build_query($status, null, ', '));
+        $this->logger->debug("Log consolidation: indexed {$status}");
     }
 
 } 
