@@ -2,7 +2,7 @@
 
 namespace Core\CoreBundle\Component\Indexer;
 
-use Core\CoreBundle\Component\Indexer\SolrQuery;
+use Core\CoreBundle\Component\Indexer\SolrClient;
 
 class SolrIndexer
 {
@@ -21,16 +21,13 @@ class SolrIndexer
      * @param array $cores
      */
     public function __construct($hostname, $port, array $cores) {
-        var_dump($hostname, $port, $cores);
-        foreach ($cores as $name => $fields) {
+        foreach ($cores as $name) {
             $this->cores[$name] = array(
                 'hostname' => $hostname,
                 'port'     => $port,
                 'path'     => "solr/{$name}",
-                'fields'   => $fields,
             );
         }
-        var_dump($this->cores);
     }
 
     /**
@@ -66,8 +63,43 @@ class SolrIndexer
         return $results;
     }
 
-    public function importData($core) {
-        $this->request($core, '<dataimport command="full-import" rows="10" clean="true" />');
+    public function importData($core, $clean = false) {
+        $solrClient = new SolrClient($this->cores[$core]);
+        $solrInfo = $solrClient->getOptions();
+
+        $url = "http://{$solrInfo['hostname']}:{$solrInfo['port']}/{$solrInfo['path']}/dataimport";
+        $query_data = array(
+            'command'  => 'full-import',
+            'clean'    => $clean,
+            'commit'   => true,
+            'wt'       => 'json',
+            'indent'   => true,
+            'verbose'  => false,
+            'optimize' => false,
+            'debug'    => false,
+        );
+        $url .= "?" . http_build_query($query_data);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER,
+            array('Content-type: application/json')); // Assuming you're requesting JSON
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $response = curl_exec($ch);
+        $data = json_decode($response);
+
+        $data->statusMessages = (array)$data->statusMessages;
+        $result = array(
+            'fetched'       => $data->statusMessages["Total Rows Fetched"],
+            'added'         => $data->statusMessages["Total Documents Processed"],
+            'skipped'       => $data->statusMessages["Total Documents Skipped"],
+            'dateStarted'   => $data->statusMessages["Full Dump Started"],
+            'dateCommitted' => $data->statusMessages["Committed"],
+            'duration'      => $data->statusMessages["Time taken"],
+        );
+
+        return $result;
     }
 
     private function request($core, $content) {
