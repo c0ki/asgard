@@ -16,20 +16,23 @@ class DefaultController extends Controller
     }
 
     public function viewDataErrorAction() {
+        $projectHelper = $this->container->get('project_helper');
         $indexer = $this->container->get('core.indexer.solr');
         $data = array('dataset' => array(), 'schema' => array());
 
-        $criteria = array('+log_type:error');
-        $results = $indexer->search('asgard_logs', $criteria, 0, 1, array('server_type'));
-        foreach ($results->facets['server_type'] as $serverType => $val) {
-            $criteriaServerType = array_merge($criteria, array('+server_type' => $serverType));
+        $criteria =
+            array('project' => $projectHelper->getProject(), 'domain' => $projectHelper->getDomain(), '+type:error');
+        $criteria = array_filter($criteria);
+        $results = $indexer->search('asgard_logs', $criteria, 0, 1, array('daemon'));
+        foreach ($results->facets['daemon'] as $serverType => $val) {
+            $criteriaServerType = array_merge($criteria, array('+daemon' => $serverType));
             $resultsServerType = $indexer->search('asgard_logs', $criteriaServerType, 0, 1, array('type_s'));
             $firstDate = $resultsServerType->results[0]->date;
             $firstDay = date('Y-m-d', strtotime($firstDate));
             foreach ($resultsServerType->facets['type_s'] as $type => $val) {
                 $criteriaType = array_merge($criteriaServerType, array('+type_s' => $type));
                 $resultsType = $indexer->search('asgard_logs', $criteriaType, 0, 1,
-                                                array('date' => array('date' => array('start' => $firstDay, 'gap' => '+1DAY'))));
+                    array('date' => array('date' => array('start' => $firstDay, 'gap' => '+1DAY'))));
                 foreach ($resultsType->facets['date'] as $date => $nb) {
                     if (!array_key_exists($date, $data['dataset'])) {
                         $data['dataset'][$date]["total"] = 0;
@@ -41,6 +44,7 @@ class DefaultController extends Controller
                 }
             }
         }
+        ksort($data['dataset']);
         $data['dataset'] = array_values($data['dataset']);
 
         $response = new JsonResponse();
@@ -53,12 +57,12 @@ class DefaultController extends Controller
 
         $indexer = $this->container->get('core.indexer.solr');
         $results = $indexer->search('asgard_logs',
-                                    $query,
-                                    $start,
-                                    $rows,
-                                    array('server_type',
-                                          'type_s',
-                                          'date' => array('date' => array('gap' => '+1DAY'))));
+            $query,
+            $start,
+            $rows,
+            array('daemon',
+                  'type_s',
+                  'date' => array('date' => array('gap' => '+1DAY'))));
 
         return $this->render('LogTrackerBundle:Default:results.html.twig', array('results' => $results));
     }
