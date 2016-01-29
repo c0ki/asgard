@@ -2,8 +2,6 @@
 
 namespace Core\CoreBundle\Component\Indexer;
 
-use Core\CoreBundle\Component\Indexer\SolrClient;
-
 class SolrIndexer
 {
 
@@ -16,16 +14,16 @@ class SolrIndexer
 
     /**
      * SolRIndexer constructor.
-     * @param $hostname
-     * @param $port
+     * @param       $hostname
+     * @param       $port
      * @param array $cores
      */
     public function __construct($hostname, $port, array $cores) {
         foreach ($cores as $name) {
             $this->cores[$name] = array(
                 'hostname' => $hostname,
-                'port'     => $port,
-                'path'     => "solr/{$name}",
+                'port' => $port,
+                'path' => "solr/{$name}",
             );
         }
     }
@@ -34,14 +32,14 @@ class SolrIndexer
      * search
      * Search from criteria into SolR
      * @param   string $core SolR core
-     * @param   mixed $criteria Criteria list in array or string
-     * @param   int $start For pagination, start row number return
-     * @param   int $numRows For pagination, number of rows return
-     * @param   array $facets Facets list
+     * @param   mixed  $criteria Criteria list in array or string
+     * @param   int    $start For pagination, start row number return
+     * @param   int    $numRows For pagination, number of rows return
+     * @param   array  $facets Facets list
      * @return  object  boolean -> success  Success or not
-     *                  int     -> numFound Results found number
-     *                  array   -> results  Results list
-     *                  array   -> facets   Facets list
+     *                           int     -> numFound Results found number
+     *                           array   -> results  Results list
+     *                           array   -> facets   Facets list
      * @throws  SolrEngineException
      */
     public function search($core, $criteria, $start = null, $numRows = null, array $facets = null) {
@@ -69,21 +67,22 @@ class SolrIndexer
 
         $url = "http://{$solrInfo['hostname']}:{$solrInfo['port']}/{$solrInfo['path']}/dataimport";
         $query_data = array(
-            'command'  => 'full-import',
-            'clean'    => $clean ? 'true': 'false',
-            'commit'   => 'true',
-            'wt'       => 'json',
-            'indent'   => 'true',
-            'verbose'  => 'false',
+            'command' => 'full-import',
+            'clean' => $clean ? 'true' : 'false',
+            'commit' => 'true',
+            'wt' => 'json',
+            'indent' => 'true',
+            'verbose' => 'false',
             'optimize' => 'false',
-            'debug'    => 'false',
+            'debug' => 'false',
         );
         $url .= "?" . http_build_query($query_data);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_PROXY, null);
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
-            array('Content-type: application/json')); // Assuming you're requesting JSON
+        curl_setopt($ch,
+                    CURLOPT_HTTPHEADER,
+                    array('Content-type: application/json')); // Assuming you're requesting JSON
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
         $response = curl_exec($ch);
@@ -91,12 +90,18 @@ class SolrIndexer
 
         $data->statusMessages = (array)$data->statusMessages;
         $result = array(
-            'fetched'       => $data->statusMessages["Total Rows Fetched"],
-            'added'         => $data->statusMessages["Total Documents Processed"],
-            'skipped'       => $data->statusMessages["Total Documents Skipped"],
-            'dateStarted'   => $data->statusMessages["Full Dump Started"],
-            'dateCommitted' => $data->statusMessages["Committed"],
-            'duration'      => $data->statusMessages["Time taken"],
+            'fetched' => array_key_exists("Total Rows Fetched",
+                                          $data->statusMessages) ? $data->statusMessages["Total Rows Fetched"] : 0,
+            'added' => array_key_exists("Total Documents Processed",
+                                        $data->statusMessages) ? $data->statusMessages["Total Documents Processed"] : 0,
+            'skipped' => array_key_exists("Total Documents Skipped",
+                                          $data->statusMessages) ? $data->statusMessages["Total Documents Skipped"] : 0,
+            'dateStarted' => array_key_exists("Full Dump Started",
+                                              $data->statusMessages) ? $data->statusMessages["Full Dump Started"] : 0,
+            'dateCommitted' => array_key_exists("Committed",
+                                                $data->statusMessages) ? $data->statusMessages["Committed"] : 0,
+            'duration' => array_key_exists("Time taken",
+                                           $data->statusMessages) ? $data->statusMessages["Time taken"] : 0,
         );
 
         return $result;
