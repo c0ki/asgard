@@ -179,6 +179,8 @@ class LogConsolidationCommand extends ContainerAwareCommand
     }
 
     protected function logConsolidationDaemon() {
+        $indexer = $this->getContainer()->get('core.indexer.solr');
+
         $this->logger->debug("Log consolidation: Project '{$this->project->getLabel()}': Domain '{$this->domain->getLabel()}': Daemon '{$this->daemon->getLabel()}'");
 
         // Get indexer.logfiles.directories
@@ -209,24 +211,18 @@ class LogConsolidationCommand extends ContainerAwareCommand
                 elseif (preg_match('/access/', $file->getFilename())) {
                     $type = 'access';
                 }
-                $extension = $file->getExtension();
-                if (is_numeric($extension)) {
-                    $extension =
-                        pathinfo(substr($file->getFilename(), 0, -1 * strlen($extension) - 1), PATHINFO_EXTENSION)
-                        . ".{$extension}";
-                }
                 $newFilename =
-                    "{$this->project->getName()}.{$this->domain->getName()}.{$this->daemon->getName()}-{$type}.{$extension}";
+                    "{$this->project->getName()}.{$this->domain->getName()}.{$logfile->getLink()->getServer()}.{$this->daemon->getName()}.{$type}-{$file->getFilename()}";
+                $newFile = $file->copy($indexerDir, $newFilename);
                 $this->logger->debug("Log consolidation: copy file '{$file->getPath()}/{$file->getFilename()}' to '{$indexerDir}/{$newFilename}'");
-                $file->copy($indexerDir, $newFilename);
+
+                $status = $indexer->importData('asgard_logs');
+                $status = str_replace('=', ': ', http_build_query($status, null, ', '));
+                $this->logger->debug("Log consolidation: {$newFile->getFilename()}: indexed {$status}");
+
+                $newFile->unlink();
             }
         }
-
-        // Start indexation
-        $indexer = $this->getContainer()->get('core.indexer.solr');
-        $status = $indexer->importData('asgard_logs');
-        $status = str_replace('=', ': ', http_build_query($status, null, ', '));
-        $this->logger->debug("Log consolidation: indexed {$status}");
     }
 
 } 
