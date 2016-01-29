@@ -83,6 +83,11 @@ class File extends BaseFile
 //        return parent::isReadable();
     }
 
+    protected function getTargetFile($directory, $name = null) {
+        $target = parent::getTargetFile($directory, $name);
+        return new self($target->getPath().'/'.$target->getFilename(), false);
+    }
+
     public function copy($directory, $name = null)
     {
         $target = $this->getTargetFile($directory, $name);
@@ -94,6 +99,12 @@ class File extends BaseFile
         @chmod($target, 0666 & ~umask());
 
         return $target;
+    }
+
+    public function unlink() {
+        $filePath = "{$this->getPath()}/{$this->getFilename()}";
+        unlink($filePath);
+        unset($this);
     }
 
 }
