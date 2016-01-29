@@ -70,18 +70,18 @@ class SolrIndexer
         $url = "http://{$solrInfo['hostname']}:{$solrInfo['port']}/{$solrInfo['path']}/dataimport";
         $query_data = array(
             'command'  => 'full-import',
-            'clean'    => $clean,
-            'commit'   => true,
+            'clean'    => $clean ? 'true': 'false',
+            'commit'   => 'true',
             'wt'       => 'json',
-            'indent'   => true,
-            'verbose'  => false,
-            'optimize' => false,
-            'debug'    => false,
+            'indent'   => 'true',
+            'verbose'  => 'false',
+            'optimize' => 'false',
+            'debug'    => 'false',
         );
         $url .= "?" . http_build_query($query_data);
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_PROXY, null);
         curl_setopt($ch, CURLOPT_HTTPHEADER,
             array('Content-type: application/json')); // Assuming you're requesting JSON
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
