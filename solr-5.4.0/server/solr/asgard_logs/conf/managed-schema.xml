@@ -124,6 +124,7 @@
   <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
   <field name="project" type="string" indexed="true" stored="true" required="true" multiValued="false" />
   <field name="domain" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+  <field name="server" type="string" indexed="true" stored="true" required="true" multiValued="false" />
   <field name="daemon" type="string" indexed="true" stored="true" required="true" multiValued="false" />
   <field name="type" type="string" indexed="true" stored="true" required="false" multiValued="false" />
   <field name="date" type="date" indexed="true" stored="true" required="true" multiValued="false" />
