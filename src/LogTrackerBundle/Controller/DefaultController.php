@@ -20,8 +20,14 @@ class DefaultController extends Controller
         $indexer = $this->container->get('core.indexer.solr');
         $data = array('dataset' => array(), 'schema' => array());
 
-        $criteria =
-            array('project' => $projectHelper->getProject(), 'domain' => $projectHelper->getDomain(), '+type:error');
+        $criteria = array();
+        if ($projectHelper->hasProject()) {
+            $criteria['project'] = $projectHelper->getProject()->getName();
+        }
+        if ($projectHelper->hasDomain()) {
+            $criteria['domain'] = $projectHelper->getDomain()->getName();
+        }
+        $criteria[] = '+type:error';
         $criteria = array_filter($criteria);
         $results = $indexer->search('asgard_logs', $criteria, 0, 1, array('daemon'));
         foreach ($results->facets['daemon'] as $serverType => $val) {
