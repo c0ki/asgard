@@ -107,6 +107,32 @@ class SolrIndexer
         return $result;
     }
 
+    public function clean($core) {
+        $solrClient = new SolrClient($this->cores[$core]);
+        $solrInfo = $solrClient->getOptions();
+
+        $url = "http://{$solrInfo['hostname']}:{$solrInfo['port']}/{$solrInfo['path']}/update";
+        $query_data = array(
+            'stream.body' => '<delete><query>*:*</query></delete>',
+            'commit' => 'true',
+            'wt' => 'json',
+        );
+        $url .= "?" . http_build_query($query_data);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_PROXY, null);
+        curl_setopt($ch,
+            CURLOPT_HTTPHEADER,
+            array('Content-type: application/json')); // Assuming you're requesting JSON
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $response = curl_exec($ch);
+        $data = json_decode($response);
+        $result = (array)$data->responseHeader;
+
+        return $result;
+    }
+
     private function request($core, $content) {
         if (!array_key_exists($core, $this->cores)) {
             throw new \InvalidArgumentException("Invalid core '{$core}'");
