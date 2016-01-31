@@ -3,6 +3,7 @@
 namespace Core\CoreBundle\Component\File;
 
 use Symfony\Component\HttpFoundation\File\File as BaseFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
@@ -10,16 +11,21 @@ class File extends BaseFile
 {
 
     /**
-     * File constructor.
-     * @param string $path
-     * @param bool   $checkPath
+     * Constructs a new file from the given path.
+     * @param string $path      The path to the file
+     * @param bool   $checkPath Whether to check the path or not
+     *
+     * @throws FileNotFoundException If the given path is not a file
      */
     public function __construct($path, $checkPath = true)
     {
         if (preg_match('#^ssh://(.*)$#', $path, $matches)) {
             $path = 'ssh2.sftp://' . $matches[1];
         }
-        parent::__construct($path, $checkPath);
+        if ($checkPath && !file_exists($path)) {
+            throw new FileNotFoundException($path);
+        }
+        parent::__construct($path, false);
         $this->setInfoClass(__CLASS__);
     }
 
@@ -42,12 +48,39 @@ class File extends BaseFile
         }));
         array_walk($files, function (&$file) {
             $file = new self($this->getPathname() . DIRECTORY_SEPARATOR . $file);
-            if (!$file->isReadable()) {
+            if (!$file->isReadable() || !$file->isFile()) {
                 $file = null;
             }
         });
         $files = array_values(array_filter($files));
         return $files;
+    }
+
+    /**
+     * @param null $mask
+     * @return File[]
+     */
+    public function listSubDirs($mask = null)
+    {
+        if (!$this->isReadable()) {
+            throw new AccessDeniedException($this->getPathname());
+        }
+        elseif (!$this->isDir()) {
+            throw new FileException("The file {$this->getPathname()} is not a directory");
+        }
+        $dirs = scandir($this->getPathname());
+        $dirs = array_values(array_filter($dirs, function ($filename) use ($mask) {
+            if (!empty($mask)) return preg_match("/{$mask}/", $filename);
+            return ($filename != '.' && $filename != '..');
+        }));
+        array_walk($dirs, function (&$dir) {
+            $dir = new self($this->getPathname() . DIRECTORY_SEPARATOR . $dir);
+            if (!$dir->isReadable() || !$dir->isDir()) {
+                $dir = null;
+            }
+        });
+        $dirs = array_values(array_filter($dirs));
+        return $dirs;
     }
 
     public function getSize($humanReadable = false)
