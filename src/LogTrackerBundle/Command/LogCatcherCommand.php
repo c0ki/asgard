@@ -142,7 +142,9 @@ class LogCatcherCommand extends ContainerAwareCommand
         if ($this->nbLogCatched > 0) {
             $this->logger->info("Log catcher: Launch log consolidation to {$this->nbLogCatched} logfiles");
             $command = $this->getApplication()->find('logtracker:logconsolidation');
-            $arguments = array();
+            $arguments = array(
+                'command' => 'logtracker:logconsolidation',
+            );
             $command->run(new ArrayInput($arguments), $output);
         }
 
