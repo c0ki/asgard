@@ -113,6 +113,9 @@ class SolrQuery extends CoreSolrQuery
         // Remove bad spaces
         $criteria = preg_replace('/\s+:/', ':', $criteria);
         $criteria = preg_replace('/([\+\-:])\s+/', '$1', $criteria);
+        if (!preg_match('/^\s*\+/', $criteria)) {
+            $criteria = "+{$criteria}";
+        }
 
         if (preg_match_all('/:(\d{4}-\d\d-)(\d\d)\s/', $criteria, $matches)) {
             foreach ($matches[0] as $key => $init) {
