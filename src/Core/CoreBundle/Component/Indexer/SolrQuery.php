@@ -82,7 +82,7 @@ class SolrQuery extends CoreSolrQuery
      * @param mixed  $criteria Criteria list in array or string
      * @param string $operator
      */
-    protected function formatCriteria(&$criteria, $operator = ' ') {
+    static public function formatCriteria(&$criteria, $operator = ' ') {
         // Implode criteria
         if (is_array($criteria)) {
             foreach ($criteria as $key => &$value) {
@@ -92,7 +92,7 @@ class SolrQuery extends CoreSolrQuery
                         $value = "{$key}:[" . $value['from'] . ' TO ' . $value['to'] . ']';
                     }
                     elseif (is_numeric($key)) {
-                        $this->formatCriteria($value, ' or ');
+                        static::formatCriteria($value, ' or ');
                         $value = '(' . $value . ')';
                     }
                     else {
@@ -110,12 +110,15 @@ class SolrQuery extends CoreSolrQuery
             $criteria = implode($operator, $criteria);
         }
 
-        // Remove bad spaces
-        $criteria = preg_replace('/\s+:/', ':', $criteria);
-        $criteria = preg_replace('/([\+\-:])\s+/', '$1', $criteria);
+        // Add + on start
         if (!preg_match('/^\s*\+/', $criteria)) {
             $criteria = "+{$criteria}";
         }
+        // Remove bad spaces
+        $criteria = preg_replace('/\s+:/', ':', $criteria);
+        $criteria = preg_replace('/([\+\-:])\s+/', '$1', $criteria);
+        // Remove " on *
+        $criteria = preg_replace('/"\s*\*\s*"/', '*', $criteria);
 
         if (preg_match_all('/:(\d{4}-\d\d-)(\d\d)\s/', $criteria, $matches)) {
             foreach ($matches[0] as $key => $init) {
