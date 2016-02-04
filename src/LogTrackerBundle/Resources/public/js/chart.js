@@ -20,7 +20,7 @@ var chartConfig = {
     }],
     "graphs": [],
     "chartScrollbar": {
-        "graph": "gTotal",
+        "graph": "gPreview",
         "graphType": "column",
         "oppositeAxis": false,
         "offset": 30,
@@ -83,11 +83,11 @@ function chartDataLoaded(event) {
         chartConfig.graphs.push(graph);
     });
     chartConfig.graphs.push({
-        "id": "gTotal",
+        "id": "gPreview",
         "visibleInLegend": false,
         "lineThickness": 0,
-        "valueField": "total",
-        "title": "total"
+        "valueField": "preview",
+        "title": "preview"
     });
 
     chart = AmCharts.makeChart("chart", chartConfig);

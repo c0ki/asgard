@@ -77,12 +77,12 @@ class DefaultController extends Controller
                                                                                   'gap' => '+1DAY'))));
             foreach ($resultsSubtype->facets['date'] as $date => $nb) {
                 if (!array_key_exists($date, $data['dataset'])) {
-                    $data['dataset'][$date]["total"] = 0;
+                    $data['dataset'][$date]["preview"] = 0;
                 }
                 $data['schema'][$name] = $resultsSubtype->query;
                 $data['dataset'][$date]["date"] = substr($date, 0, 10);
                 $data['dataset'][$date][$name] = $nb;
-                $data['dataset'][$date]["total"] += $nb;
+                $data['dataset'][$date]["preview"] += $nb / 1000;
             }
         }
 
