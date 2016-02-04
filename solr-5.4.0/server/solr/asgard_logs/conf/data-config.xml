@@ -32,6 +32,7 @@
                 <field column="browser_s" sourceColName="rawLine"
                        regex="&quot;[^&quot;]+&quot; &quot;([^&quot;]+)&quot;$"/>
                 <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss Z"/>
+                <field column="subtype_s" sourceColName="codehttp_s"/>
             </entity>
         </entity>
         <entity name="file_apache_error" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
@@ -64,7 +65,7 @@
                 <field column="pidtid_s" regex="^\s*\[(pid \d+)\]\s*$" replaceWith="$1"/>
                 <field column="date" sourceColName="date_s" dateTimeFormat="EEE MMM dd HH:mm:ss yyyy"/>
                 <field column="referer_s" sourceColName="rawLine" regex="referer: (.*)$"/>
-                <field column="type_s" sourceColName="message_s" regex="^([^:]+):"/>
+                <field column="subtype_s" sourceColName="message_s" regex="^([^:]+):"/>
             </entity>
         </entity>
     </document>
