@@ -1,1 +1,9 @@
+{% for field in result.getPropertyNames() %}
+    {% if field|trim starts with 'info_' %}
+        {{ field|trim|regex({'^info_': '', '_[^_]$':''}) }}
+        {{ result.offsetGet(field|trim) }}
+        {% endif %}
+    {{ dump(field|trim) }}
+    {{ dump(field) }}
+{% endfor %}
 {{ dump(result) }}
