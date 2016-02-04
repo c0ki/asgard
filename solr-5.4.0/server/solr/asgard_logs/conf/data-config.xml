@@ -68,6 +68,38 @@
                 <field column="subtype_s" sourceColName="message_s" regex="^([^:]+):"/>
             </entity>
         </entity>
+        <entity name="file_varnish" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
+                fileName="varnish"
+                rootEntity="false" dataSource="null" transformer="TemplateTransformer">
+            <entity onError="skip" name="line"
+                    processor="LineEntityProcessor"
+                    skipLineRegex="probe_varnish"
+                    url="${file_varnish.fileAbsolutePath}"
+                    rootEntity="true"
+                    transformer="TemplateTransformer,RegexTransformer,DateFormatTransformer"
+                    dataSource="fds"
+            >
+                <field column="id" template="${file_varnish.file}:${line.rawLine}"/>
+                <field column="filename_s" template="${file_varnish.file}" regex="^(.*\.log)"/>
+                <field column="id" regex="^${file_varnish.file}:" replaceWith="${line.filename_s}:"/>
+                <field column="project" sourceColName="filename_s" regex="^([^\.]*)\."/>
+                <field column="domain" sourceColName="filename_s" regex="^[^\.]*\.([^\.]*)\."/>
+                <field column="server" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.([^\.]*)\."/>
+                <field column="daemon" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.[^\.]*\.([^\.]*)\."/>
+                <field column="type" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.[^\.]*\.[^\.]*\.([^-]*)-"/>
+                <field column="filename_s" sourceColName="filename_s" regex=".*-(.*)$"/>
+                <!--[11/Jan/2016:13:55:58 +0100] GET http://ind-ez-dua-nginx.sigcesie.caisse-epargne.fr/favicon.ico HTTP/1.1 200 6974 0.000097036 hit -->
+                <!--[11/Jan/2016:13:56:19 +0100] GET http://127.0.0.1/probe_varnish HTTP/1.1 200 442 0.000120401 - -->
+                <field column="rawLine" name="line"
+                       regex="^\[([^\]]+)\] ([^\s]+) ([^\s]+) ([^\s]+) (\d+) ([^\s]+) ([^\s]+) (.*)$"
+                       groupNames="date_s,method_s,url_s,vhttp_s,codehttp_s,size_s,time_s,subtype_s"/>
+                <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss"/>
+            </entity>
+        </entity>
+
+
+
+
     </document>
 
 </dataConfig>
