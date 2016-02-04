@@ -2,6 +2,7 @@
 
 namespace LogTrackerBundle\Controller;
 
+use Core\CoreBundle\Component\Indexer\SolrQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -36,7 +37,8 @@ class DefaultController extends Controller
         $query = array();
         $query['+daemon'] = $daemon;
         $query['+type'] = $type;
-        $query = implode(' ', array_filter($query));
+        $query = array_filter($query);
+        SolrQuery::formatCriteria($query);
         return $this->render('LogTrackerBundle:Default:view.html.twig', array('daemon' => $daemon, 'type' => $type, 'query' => $query));
     }
 
@@ -62,7 +64,7 @@ class DefaultController extends Controller
         foreach ($results->facets['subtype_s'] as $name => $val) {
             if ($name === '') {
                 $criteriaFacet = array_merge($criteria, array("-subtype_s" => '*'));
-                $name = "request";
+                $name = "unknown";
             }
             else {
                 $criteriaFacet = array_merge($criteria, array("+subtype_s" => $name));
