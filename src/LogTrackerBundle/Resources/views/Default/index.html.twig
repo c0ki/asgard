@@ -11,7 +11,7 @@
                 <li>
                     <a href="{{ path('log_tracker_view', {'daemon': daemon}) }}">{{ daemon }} [{{ nb }}]</a>
                 <ul>
-                    {% for type, nb in list.daemontype[daemon] %}
+                    {% for type, nb in list.daemontype[daemon]|default([]) %}
                         <li><a href="{{ path('log_tracker_view', {'daemon': daemon, 'type': type}) }}">{{ daemon }} / {{ type }} [{{ nb }}]</a></li>
                     {% endfor %}
                     </ul>

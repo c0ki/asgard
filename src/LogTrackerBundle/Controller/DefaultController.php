@@ -27,7 +27,9 @@ class DefaultController extends Controller
         foreach ($results->facets['daemon'] as $daemon => $val) {
             $criteriaDaemon = array_merge($criteria, array('+daemon' => $daemon));
             $resultsDaemon = $indexer->search('asgard_logs', $criteriaDaemon, 0, 1, array('type'));
-            $data['daemontype'][$daemon] = $resultsDaemon->facets['type'];
+            if (count($resultsDaemon->facets['type']) != 1 || !array_key_exists('unknown', $resultsDaemon->facets['type'])) {
+                $data['daemontype'][$daemon] = $resultsDaemon->facets['type'];
+            }
         }
 
         return $this->render('LogTrackerBundle:Default:index.html.twig', array('list' => $data));
