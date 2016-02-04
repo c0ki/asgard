@@ -76,6 +76,7 @@ class SolrFacet
         if (!empty($this->field)) {
             // Init facet
             $query->setFacet(true);
+            $query->setFacetMissing(true);
             // Init default options
             $query->setFacetMinCount(self::DEFAULT_MIN_COUNT);
             $query->addFacetField($this->field);

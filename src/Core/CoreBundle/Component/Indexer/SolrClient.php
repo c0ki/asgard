@@ -47,7 +47,14 @@ class SolrClient extends CoreSolrClient
                 foreach ($results->facets as $field => $resultFacet) {
                     $results->facets[$field] = (array)$resultFacet;
                     foreach ($results->facets[$field] as $value => $counter) {
-                        if (trim($value) == '' || !is_numeric($counter)) {
+                        if ($value == '_undefined_property_name' || trim($value) == '') {
+                            unset($results->facets[$field][$value]);
+                            if ($counter != 0) {
+                                $value = '';
+                                $results->facets[$field][$value] = $counter;
+                            }
+                        }
+                        if (!is_numeric($counter)) {
                             unset($results->facets[$field][$value]);
                         }
                     }
