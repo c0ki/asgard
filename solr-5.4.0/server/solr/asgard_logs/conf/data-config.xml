@@ -26,13 +26,13 @@
                 <!--126.199.40.20 - - [29/Dec/2015:23:32:51 +0100] "GET /var/storage/images/media/national/vignettes/paget3/picto-gestion-privee/7889-1-fre-FR/picto-gestion-privee_full_width.png HTTP/1.1" 304 -"-->
                 <field column="rawLine" name="line"
                        regex="^([^\s]+) - (.*)- \[([^\]]+)\] &quot;(\w+) ([^\s]+) ([^\s]+)&quot; (\d+) ([\d-]+)"
-                       groupNames="clientip_s,unknown_s,date_s,method_s,url_s,vhttp_s,codehttp_s,size_s"/>
-                <field column="referer_s" sourceColName="rawLine"
+                       groupNames="info_clientip_s,info_unknown_s,date_s,info_method_s,info_url_s,info_vhttp_s,info_codehttp_s,info_size_s"/>
+                <field column="info_referer_s" sourceColName="rawLine"
                        regex="&quot;([^&quot;]+)&quot; &quot;[^&quot;]+&quot;$"/>
-                <field column="browser_s" sourceColName="rawLine"
+                <field column="info_browser_s" sourceColName="rawLine"
                        regex="&quot;[^&quot;]+&quot; &quot;([^&quot;]+)&quot;$"/>
                 <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss Z"/>
-                <field column="subtype_s" sourceColName="codehttp_s" regex="^(.*)$"/>
+                <field column="subtype_s" sourceColName="info_codehttp_s" regex="^(.*)$"/>
             </entity>
         </entity>
         <entity name="file_apache_error" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
@@ -60,12 +60,12 @@
                 <!--[Mon Jan 11 10:41:52 2016] [error] [client 127.0.0.1] File does not exist: /tech/ezpublish/www/web/lbmonitor.html-->
                 <field column="rawLine" name="line"
                        regex="^\[([^\]]+)\] \[([^:]*)(:[^\]]+)?\] (.*)\[client ([^\:]+):?\d*\] (.*)$"
-                       groupNames="date_s,module_s,severity_s,pidtid_s,clientip_s,message_s"/>
+                       groupNames="date_s,info_module_s,info_severity_s,info_pidtid_s,info_clientip_s,info_message_s"/>
                 <field column="date_s" sourceColName="date_s" regex="^([^\.]+)\.?\d*( \d+)$" replaceWith="$1$2"/>
-                <field column="pidtid_s" regex="^\s*\[(pid \d+)\]\s*$" replaceWith="$1"/>
+                <field column="info_pidtid_s" regex="^\s*\[(pid \d+)\]\s*$" replaceWith="$1"/>
                 <field column="date" sourceColName="date_s" dateTimeFormat="EEE MMM dd HH:mm:ss yyyy"/>
-                <field column="referer_s" sourceColName="rawLine" regex="referer: (.*)$"/>
-                <field column="subtype_s" sourceColName="message_s" regex="^([^:]+):"/>
+                <field column="info_referer_s" sourceColName="rawLine" regex="referer: (.*)$"/>
+                <field column="subtype_s" sourceColName="info_message_s" regex="^([^:]+):"/>
             </entity>
         </entity>
         <entity name="file_varnish" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
@@ -92,8 +92,9 @@
                 <!--[11/Jan/2016:13:56:19 +0100] GET http://127.0.0.1/probe_varnish HTTP/1.1 200 442 0.000120401 - -->
                 <field column="rawLine" name="line"
                        regex="^\[([^\]]+)\] ([^\s]+) ([^\s]+) ([^\s]+) (\d+) ([^\s]+) ([^\s]+) (.*)$"
-                       groupNames="date_s,method_s,url_s,vhttp_s,codehttp_s,size_s,time_s,subtype_s"/>
+                       groupNames="date_s,info_method_s,info_url_s,info_vhttp_s,info_codehttp_s,info_size_s,info_time_s,info_hitmiss_s"/>
                 <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss"/>
+                <field column="subtype_s" sourceColName="info_hitmiss_s" regex="^(.*)$"/>
             </entity>
         </entity>
 
