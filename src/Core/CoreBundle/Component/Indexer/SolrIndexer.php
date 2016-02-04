@@ -53,7 +53,9 @@ class SolrIndexer
         $query->setStart($start);
         $query->setRows($numRows);
         $query->setCriteria($criteria);
-        $query->setFacets($facets);
+        if (!is_null($facets)) {
+            $query->setFacets($facets);
+        }
 
         // Execute query
         $results = $solrClient->query($query);
