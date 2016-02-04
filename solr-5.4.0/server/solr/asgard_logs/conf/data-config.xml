@@ -32,7 +32,7 @@
                 <field column="browser_s" sourceColName="rawLine"
                        regex="&quot;[^&quot;]+&quot; &quot;([^&quot;]+)&quot;$"/>
                 <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss Z"/>
-                <field column="subtype_s" sourceColName="codehttp_s"/>
+                <field column="subtype_s" sourceColName="codehttp_s" regex="^(.*)$"/>
             </entity>
         </entity>
         <entity name="file_apache_error" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
