@@ -6,13 +6,13 @@ log_tracker_tool_homepage:
         label: LogTracker
 
 log_tracker_view:
-    path:   /view
-    defaults: { _controller: LogTrackerBundle:Default:view }
+    path:   /view/{daemon}/{type}
+    defaults: { _controller: LogTrackerBundle:Default:view, daemon: null, type: null }
 
 log_tracker_search:
     path:   /search/{query}/{start}/{rows}
     defaults: { _controller: LogTrackerBundle:Default:search, query: '*', start: 0, rows: 10 }
 
-log_tracker_data_error:
-    path:   /dataerror
-    defaults: { _controller: LogTrackerBundle:Default:viewDataError }
+log_tracker_data:
+    path:   /data/{query}/{preventMonth}
+    defaults: { _controller: LogTrackerBundle:Default:viewData, query: null, preventMonth: 6 }

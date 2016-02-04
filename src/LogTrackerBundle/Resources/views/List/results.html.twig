@@ -17,19 +17,19 @@
         {% else %}
             <section id="logtracker-results">
                 {% for result in results.results %}
-                    <article>{% include 'LogTrackerBundle:Default:result.html.twig' with {'result': result} only %}</article>
+                    <article>{% include 'LogTrackerBundle:List:result.html.twig' with {'result': result} only %}</article>
                 {% endfor %}
             </section>
 
             <aside>
                 <section id="logtracker-facets">
                     {% for name, values in results.facets if values|length > 0 %}
-                        {% include 'LogTrackerBundle:Default:facet.html.twig' with {'name': name, 'values': values} only %}
+                        {% include 'LogTrackerBundle:List:facet.html.twig' with {'name': name, 'values': values} only %}
                     {% endfor %}
                 </section>
             </aside>
 
-            {% include 'LogTrackerBundle:Default:pager.html.twig' with {'founds': results.numFound, 'rows': results.numRows, 'start': results.numStart|default, 'page': page|default} only %}
+            {% include 'LogTrackerBundle:List:pager.html.twig' with {'founds': results.numFound, 'rows': results.numRows, 'start': results.numStart|default, 'page': page|default} only %}
         {% endif %}
 
         {{ dump(results) }}

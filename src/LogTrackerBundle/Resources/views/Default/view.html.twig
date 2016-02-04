@@ -12,10 +12,20 @@
 {% block content %}
     <section id="logtracker">
         <h2>Log Tracker</h2>
-        <div id="chart" data-url="{{ path('log_tracker_data_error') }}" data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
+        <h3>
+            Chart
+            {% if daemon|default %}
+                for {{ daemon }} daemon
+                {% if type|default %}
+                    and {{ type }} type
+                {% endif %}
+            {% elseif type|default %}
+                for {{ type }} type
+            {% endif %}
+        </h3>
+        <div id="chart" data-url="{{ path('log_tracker_data', {'query': query}) }}" data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
     </section>
 {% endblock %}
-
 
 
 {% block foot_js %}

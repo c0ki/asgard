@@ -3,6 +3,33 @@
 {% block content %}
     <section id="logtracker">
         <h2>Log Tracker</h2>
+
+        <section>
+            <h3>By daemon</h3>
+            <ul>
+            {% for daemon, nb in list.daemon %}
+                <li>
+                    <a href="{{ path('log_tracker_view', {'daemon': daemon}) }}">{{ daemon }} [{{ nb }}]</a>
+                <ul>
+                    {% for type, nb in list.daemontype[daemon] %}
+                        <li><a href="{{ path('log_tracker_view', {'daemon': daemon, 'type': type}) }}">{{ daemon }} / {{ type }} [{{ nb }}]</a></li>
+                    {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+
+        <section>
+            <h3>By type</h3>
+            <ul>
+                {% for type, nb in list.type %}
+                    <li>
+                        <a href="{{ path('log_tracker_view', {'daemon': '*', 'type': type}) }}">{{ type }} [{{ nb }}]</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
     </section>
 {% endblock %}
 
