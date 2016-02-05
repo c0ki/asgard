@@ -29,7 +29,7 @@
                 </section>
             </aside>
 
-            {% include 'LogTrackerBundle:List:pager.html.twig' with {'founds': results.numFound, 'rows': results.numRows, 'start': results.numStart|default, 'page': page|default} only %}
+            {% include 'CoreLayoutBundle:List:pager.html.twig' with {'founds': results.numFound, 'rows': results.numRows, 'start': results.numStart|default, 'page': page|default} only %}
         {% endif %}
 
         {{ dump(results) }}
