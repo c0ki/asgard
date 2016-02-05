@@ -35,3 +35,13 @@
         {{ dump(results) }}
     </section>
 {% endblock %}
+
+{% block foot_js %}
+    {{ parent() }}
+    <script>
+        var nodes = document.querySelectorAll('article');
+        Array.prototype.filter.call(nodes, function (node) {
+            node.addEventListener('click', innertoggle, false);
+        });
+    </script>
+{% endblock %}

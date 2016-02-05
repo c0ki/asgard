@@ -1,0 +1,35 @@
+#logtracker article {
+    border: 1px solid grey;
+    border-radius: 1rem;
+    padding: 1rem;
+    font-size: 1.2rem;
+    margin: 1rem;
+}
+
+#logtracker article label {
+    margin: 0;
+    font-weight: bold;
+    width: 6rem;
+}
+
+@media (max-width: 640px) {
+    #logtracker article label {
+        display: block;
+    }
+}
+
+#logtracker article label + div {
+    display: inline-block;
+    margin-left: 2rem;
+}
+
+@media (max-width: 640px) {
+    #logtracker article label + div {
+        display: block;
+        margin-left: 2rem;
+    }
+}
+
+#logtracker article.innershow {
+    background-color: lightblue;
+}

@@ -1,9 +1,10 @@
-{% for field in result.getPropertyNames() %}
-    {% if field|trim starts with 'info_' %}
-        {{ field|trim|regex({'^info_': '', '_[^_]$':''}) }}
-        {{ result.offsetGet(field|trim) }}
-        {% endif %}
-    {{ dump(field|trim) }}
-    {{ dump(field) }}
+<div>
+    <label>Line</label>
+    <div>{{ result.offsetGet('line') }}</div>
+</div>
+{% for field in result.getPropertyNames() if result.offsetGet(field|trim) and field|trim not in ['line', 'id', '_version_'] %}
+    <div{% if not (field|trim starts with 'info_') %} class="hide"{% endif %}>
+        <label>{{ field|trim|regex({'/^info_/': '', '/_[^_]$/':''}) }}</label>
+        <div>{{ result.offsetGet(field|trim) }}</div>
+    </div>
 {% endfor %}
-{{ dump(result) }}
