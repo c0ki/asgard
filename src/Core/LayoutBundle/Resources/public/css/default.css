@@ -103,3 +103,7 @@ body > footer a:hover, body > footer a:hover:before {
     opacity: 0.25;
     display: none;
 }
+
+.hide {
+    display: none;
+}
