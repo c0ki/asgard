@@ -15,6 +15,8 @@ class GlobalExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFilter ('plat', array($this, 'platFilter')),
             new \Twig_SimpleFilter ('array', array($this, 'arrayFilter')),
+            new \Twig_SimpleFilter ('regex', array($this, 'regexFilter')),
+            new \Twig_SimpleFilter ('date_format', array($this, 'dateFormat')),
         );
     }
 
@@ -53,6 +55,28 @@ class GlobalExtension extends \Twig_Extension
         }
 
         return array($element);
+    }
+
+    public function regexFilter($string, $from, $to = null) {
+        if (!is_array($from)) {
+            return preg_replace($string, $from, $to);
+        }
+        else {
+            if (is_null($to) && is_array($from)) {
+                $to = array_values($from);
+                $from = array_keys($from);
+            }
+
+            return preg_replace($from, $to, $string);
+        }
+    }
+
+    public function dateFormat($date, $format) {
+        if ($date instanceof \DateTime) {
+            return $date->format($format);
+        }
+
+        return null;
     }
 
 }

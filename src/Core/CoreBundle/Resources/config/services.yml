@@ -8,7 +8,6 @@ parameters:
     event_listener.console.pid_file.class: Core\CoreBundle\EventListener\ConsolePidFileListener
     form.type.generic_entity.class: Core\CoreBundle\Form\Type\GenericEntityType
     core.indexer.solr.class: Core\CoreBundle\Component\Indexer\SolrIndexer
-    core.twig.extension.class: Core\CoreBundle\Twig\CoreCoreExtension;
 
 services:
     monolog.logger.console:
@@ -38,8 +37,3 @@ services:
         class: %core.indexer.solr.class%
         arguments: [ %indexer.hostname%, %indexer.port%, %indexer.core% ]
 
-    core.twig.extension:
-        class: %core.twig.extension.class%
-        arguments: []
-        tags:
-            - { name: twig.extension }
