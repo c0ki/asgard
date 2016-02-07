@@ -20,12 +20,12 @@ class AppKernel extends Kernel
             new Core\LayoutBundle\CoreLayoutBundle(),
             new Core\AdminBundle\CoreAdminBundle(),
             new Core\ProjectBundle\CoreProjectBundle(),
+            new Core\SearchBundle\CoreSearchBundle(),
             new DashboardBundle\DashboardBundle(),
             new LogAnalyserBundle\LogAnalyserBundle(),
             new ViewerBundle\ViewerBundle(),
             new eZPublishBundle\eZPublishBundle(),
             new LogTrackerBundle\LogTrackerBundle(),
-            new Core\SearchBundle\CoreSearchBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
