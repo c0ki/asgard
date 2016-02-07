@@ -12,7 +12,7 @@
             {% for numPage in 1..numPages %}
                 {% set numStart = ((numPage-1) * rows) %}
                 {% if numPage == 1 or (numPage - page)|abs < 4 or (numStart - start)|abs < 4 * rows or numPage == numPages %}
-                    <li>
+                    <li{% if page == numPage or start == numStart %} class="current"{% endif %}>
                         {% if usePage and page != numPage %}
                             <a href="{{ path(app.masterRequest.attributes.get('_route'), app.masterRequest.attributes.get('_route_params')|merge({'page': numPage, 'rows': rows}) ) }}">{{ numPage }}</a>
                         {% elseif not usePage and start != numStart %}

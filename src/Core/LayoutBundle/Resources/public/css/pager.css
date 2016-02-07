@@ -1,7 +1,25 @@
 nav.pager {
-
+    text-align: center;
 }
 
-nav.pager  li {
+nav.pager li {
     display: inline-block;
+    margin: 0.1rem;
+}
+
+nav.pager li.current {
+    font-weight: bold;
+    padding: 0 0.5rem;
+}
+
+nav.pager li a {
+    display: inline-block;
+    min-width: 2rem;
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+nav.pager li a:hover {
+    background-color: lightblue;
+    mix-blend-mode: inherit;
 }
