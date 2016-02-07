@@ -8,6 +8,7 @@
         -webkit-transition: -webkit-transform .5s cubic-bezier(.72, .89, .28, 1.39);
         transition: transform .5s cubic-bezier(.72, .89, .28, 1.39);
         will-change: transform;
+        z-index: 100;
     }
 
     /* Theming closed main nav */
@@ -26,6 +27,7 @@
         -webkit-transition: -webkit-transform .5s cubic-bezier(.72, .89, .28, 1.39);
         transition: transform .5s cubic-bezier(.72, .89, .28, 1.39);
         will-change: transform;
+        z-index: 100;
     }
 
     /* Theming closed sub nav */
