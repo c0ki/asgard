@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'asgard';
-    src: url('font/asgard.eot?44729472');
-    src: url('font/asgard.eot?44729472#iefix') format('embedded-opentype'),
-    url('font/asgard.woff?44729472') format('woff'),
-    url('font/asgard.ttf?44729472') format('truetype'),
-    url('font/asgard.svg?44729472#asgard') format('svg');
+    src: url('font/asgard.eot?14935529');
+    src: url('font/asgard.eot?14935529#iefix') format('embedded-opentype'),
+    url('font/asgard.woff?14935529') format('woff'),
+    url('font/asgard.ttf?14935529') format('truetype'),
+    url('font/asgard.svg?14935529#asgard') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'asgard';
-    src: url('../font/asgard.svg?47020123#asgard') format('svg');
+    src: url('../font/asgard.svg?14935529#asgard') format('svg');
   }
 }
 */
@@ -245,4 +245,14 @@ button.icon-only:before {
 
 .icon-doc-text:before, .inputicon input[value="doc-text"] + label:before {
     content: '\e81b';
+}
+
+.icon-chart-bar:before, .inputicon input[value="chart-bar"] + label:before {
+    content: '\e81c';
+}
+.icon-chart-area:before, .inputicon input[value="chart-area"] + label:before {
+    content: '\e81d';
+}
+.icon-chart-pie:before, .inputicon input[value="chart-pie"] + label:before {
+    content: '\e81e';
 }
