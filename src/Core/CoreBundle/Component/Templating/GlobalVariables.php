@@ -49,12 +49,16 @@ class GlobalVariables extends FrameworkGlobalVariables
     public function getLayout($template) {
         $prevBundle = array();
         foreach ($this->container->getParameter('kernel.bundles') as $name => $path) {
-            $prevBundle[] = $name;
+            if (preg_match('/^Core/', $name)) {
+                $prevBundle[] = $name;
+            }
             $path = substr($path, 0, strrpos($path, '\\'));
             if (substr($this->getMasterRequest()->attributes->get('_controller'), 0, strlen($path)) === $path) {
+                $prevBundle[] = $name;
                 break;
             }
             elseif ($template->getTemplateName() === $name . '::layout.html.twig') {
+                $prevBundle[] = $name;
                 break;
             }
         }
