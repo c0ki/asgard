@@ -22,6 +22,10 @@ core_admin:
     resource: "@CoreAdminBundle/Resources/config/routing.yml"
     prefix:   /
 
+core_search:
+    resource: "@CoreSearchBundle/Resources/config/routing.yml"
+    prefix:   /search/
+
 core_project:
     resource: "@CoreProjectBundle/Resources/config/routing.yml"
     prefix:   /
