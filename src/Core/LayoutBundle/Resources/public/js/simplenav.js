@@ -1,6 +1,6 @@
 // config
 var maxBreakpoint = 640; // maximum breakpoint
-var navSelectors = 'header > nav, aside > nav';
+var navSelectors = 'body > header nav, body > aside';
 
 // targeting navigation
 var navNodes = document.querySelectorAll(navSelectors);
