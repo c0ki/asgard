@@ -72,17 +72,17 @@ class SolrQuery extends CoreSolrQuery
         if (empty($criteria)) {
             $criteria = '*:*';
         }
-        $this->formatCriteria($criteria);
+        $this->formatCriteria($criteria, true);
 
         return $this->setQuery($criteria);
     }
 
     /**
      * Format criteria
-     * @param mixed  $criteria Criteria list in array or string
-     * @param string $operator
+     * @param mixed $criteria Criteria list in array or string
+     * @param bool $formatDate
      */
-    static public function formatCriteria(&$criteria, $operator = ' ') {
+    static public function formatCriteria(&$criteria, $formatDate = false) {
         // Implode criteria
         if (is_array($criteria)) {
             foreach ($criteria as $key => &$value) {
@@ -92,7 +92,7 @@ class SolrQuery extends CoreSolrQuery
                         $value = "{$key}:[" . $value['from'] . ' TO ' . $value['to'] . ']';
                     }
                     elseif (is_numeric($key)) {
-                        static::formatCriteria($value, ' or ');
+                        static::formatCriteria($value, $formatDate);
                         $value = '(' . $value . ')';
                     }
                     else {
@@ -107,12 +107,19 @@ class SolrQuery extends CoreSolrQuery
             }
             $criteria = array_filter($criteria);
             $criteria = array_unique($criteria);
-            $criteria = implode($operator, $criteria);
+            $criteria = implode(' ', $criteria);
         }
+
+        // Trim criteria
+        $criteria = trim($criteria);
 
         // Add + on start
         if (!preg_match('/^\s*\+/', $criteria)) {
             $criteria = "+{$criteria}";
+        }
+        // Remove + if only on criterion
+        if (preg_match('/^\+[^\s]*(:[^\s]*)?$/', $criteria)) {
+            $criteria = substr($criteria, 1);
         }
         // Remove bad spaces
         $criteria = preg_replace('/\s+:/', ':', $criteria);
@@ -120,10 +127,24 @@ class SolrQuery extends CoreSolrQuery
         // Remove " on *
         $criteria = preg_replace('/"\s*\*\s*"/', '*', $criteria);
 
-        if (preg_match_all('/:(\d{4}-\d\d-)(\d\d)\s/', $criteria, $matches)) {
-            foreach ($matches[0] as $key => $init) {
-                $final = ":[{$matches[1][$key]}{$matches[2][$key]}T00:00:00Z TO {$matches[1][$key]}" . ($matches[2][$key] + 1) . "T00:00:00Z]";
-                $criteria = str_replace($init, $final, $criteria);
+        // Remove "\w+"
+        $criteria = preg_replace('/"([^\s]+)"/', '$1', $criteria);
+
+        if (!$formatDate
+            && preg_match_all('/\[(\d{4})-(\d{2})-(\d{2})T00:00:00Z\s+TO\s+(\d{4})-(\d{2})-(\d{1,2})T00:00:00Z\]/',
+                $criteria,
+                $matches, PREG_SET_ORDER)
+        ) {
+            foreach ($matches as $match) {
+                if ($match[1] == $match[4] && $match[2] == $match[5] && ($match[3] + 1) == $match[6]) {
+                    $criteria = str_replace($match[0], "{$match[1]}-{$match[2]}-{$match[3]}", $criteria);
+                }
+            }
+        }
+        elseif ($formatDate && preg_match_all('/:(\d{4}-\d\d-)(\d\d)\s/', $criteria, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $match) {
+                $final = ":[{$match[1]}{$match[2]}T00:00:00Z TO {$match[1]}" . ($match[2] + 1) . "T00:00:00Z] ";
+                $criteria = str_replace($match[0], $final, $criteria);
             }
         }
     }
