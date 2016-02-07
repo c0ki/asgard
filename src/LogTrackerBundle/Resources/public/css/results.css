@@ -1,9 +1,38 @@
+#logtracker section.results {
+    margin: 1rem;
+}
+
+#logtracker section.results aside {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    align-content: center;
+}
+
+#logtracker section.results aside .facet {
+    flex: 0 1 auto;
+    border: 1px solid grey;
+    border-radius: 1rem;
+    padding: 0 1rem;
+}
+
+#logtracker section.results aside .facet * {
+    margin: 0;
+    padding: 0;
+}
+
+#logtracker section.results aside .facet ul {
+    list-style: none;
+}
+
 #logtracker article {
     border: 1px solid grey;
     border-radius: 1rem;
     padding: 1rem;
     font-size: 1.2rem;
-    margin: 1rem;
+    margin: 1rem 0;
 }
 
 #logtracker article label {

@@ -1,4 +1,4 @@
-{% extends app.layouttheme %}
+{% extends app.layout(_self) %}
 
 {% block content %}
     <section id="logtracker">
@@ -9,10 +9,10 @@
             <ul>
             {% for daemon, nb in list.daemon %}
                 <li>
-                    <a href="{{ path('log_tracker_view', {'daemon': daemon}) }}">{{ daemon }} [{{ nb }}]</a>
+                    <a href="{{ path('log_tracker_chart', {'query': 'daemon:"' ~ daemon ~ '"'}) }}">{{ daemon }} [{{ nb }}]</a>
                 <ul>
                     {% for type, nb in list.daemontype[daemon]|default([]) %}
-                        <li><a href="{{ path('log_tracker_view', {'daemon': daemon, 'type': type}) }}">{{ daemon }} / {{ type }} [{{ nb }}]</a></li>
+                        <li><a href="{{ path('log_tracker_chart', {'query': '+daemon:"' ~ daemon ~ '" +type:"' ~ type ~ '"'}) }}">{{ daemon }} / {{ type }} [{{ nb }}]</a></li>
                     {% endfor %}
                     </ul>
                 </li>
@@ -25,7 +25,7 @@
             <ul>
                 {% for type, nb in list.type %}
                     <li>
-                        <a href="{{ path('log_tracker_view', {'daemon': '*', 'type': type}) }}">{{ type }} [{{ nb }}]</a>
+                        <a href="{{ path('log_tracker_chart', {'query': 'type:"' ~ type ~ '"'}) }}">{{ type }} [{{ nb }}]</a>
                     </li>
                 {% endfor %}
             </ul>

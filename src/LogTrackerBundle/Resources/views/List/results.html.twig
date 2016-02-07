@@ -1,4 +1,4 @@
-{% extends app.layouttheme %}
+{% extends app.layout(_self) %}
 
 {% block head_css %}
     {{ parent() }}
@@ -12,33 +12,43 @@
 {% block content %}
     <section id="logtracker">
         <h2>Log Tracker</h2>
-        {% if not results.success or results.numFound == 0 %}
-            <div>No results</div>
-        {% else %}
-            <section id="logtracker-results">
+        <h3>
+            List results
+            {% if results.numFound > 0 %}
+                ({{ results.numFound }})
+            {% endif %}
+            <a href="{{ path('log_tracker_chart', {'query': query}) }}" class="icon-chart-bar icon-only">chart</a>
+        </h3>
+        {{ form(form, {'attr': {'class': 'search'}}) }}
+        <section class="results">
+            <aside class="facets">
+                {% for name, values in results.facets if values|length > 1 %}
+                    {% include 'LogTrackerBundle:List:facet.html.twig' with {'name': name, 'values': values, 'query': query} only %}
+                {% endfor %}
+            </aside>
+
+            {% if not results.success or results.numFound == 0 %}
+                <div>No results</div>
+            {% else %}
                 {% for result in results.results %}
                     <article>{% include 'LogTrackerBundle:List:result.html.twig' with {'result': result} only %}</article>
                 {% endfor %}
-            </section>
 
-            <aside>
-                <section id="logtracker-facets">
-                    {% for name, values in results.facets if values|length > 0 %}
-                        {% include 'LogTrackerBundle:List:facet.html.twig' with {'name': name, 'values': values} only %}
-                    {% endfor %}
-                </section>
-            </aside>
+                {% include 'CoreLayoutBundle:List:pager.html.twig' with {'founds': results.numFound, 'rows': results.rows, 'start': results.start|default, 'page': page|default} only %}
+            {% endif %}
+        </section>
 
-            {% include 'CoreLayoutBundle:List:pager.html.twig' with {'founds': results.numFound, 'rows': results.numRows, 'start': results.numStart|default, 'page': page|default} only %}
-        {% endif %}
-
-        {{ dump(results) }}
+        {#{{ dump(results) }}#}
     </section>
 {% endblock %}
 
 {% block foot_js %}
     {{ parent() }}
     <script>
+        var nodes = document.querySelectorAll('aside.facets .facet');
+        Array.prototype.filter.call(nodes, function (node) {
+            node.addEventListener('click', innertoggle, false);
+        });
         var nodes = document.querySelectorAll('article');
         Array.prototype.filter.call(nodes, function (node) {
             node.addEventListener('click', innertoggle, false);

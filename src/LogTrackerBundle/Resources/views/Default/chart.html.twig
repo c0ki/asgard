@@ -1,9 +1,9 @@
-{% extends app.layouttheme %}
+{% extends app.layout(_self) %}
 
 {% block head_css %}
     {{ parent() }}
     {% stylesheets
-    'bundles/logtracker/css/view.css'
+    'bundles/logtracker/css/chart.css'
     filter='cssrewrite' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
@@ -14,15 +14,9 @@
         <h2>Log Tracker</h2>
         <h3>
             Chart
-            {% if daemon|default %}
-                for {{ daemon }} daemon
-                {% if type|default %}
-                    and {{ type }} type
-                {% endif %}
-            {% elseif type|default %}
-                for {{ type }} type
-            {% endif %}
+            <a href="{{ path('log_tracker_search', {'query': query}) }}" class="icon-list icon-only">list</a>
         </h3>
+        {{ form(form, {'attr': {'class': 'search'}}) }}
         <div id="chart" data-url="{{ path('log_tracker_data', {'query': query}) }}" data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
     </section>
 {% endblock %}

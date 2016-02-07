@@ -1,6 +1,14 @@
-<h3>{{ name }}</h3>
-<ul>
-{% for label, value in values %}
-    <li>{{ label }}: {{ value }}</li>
-{% endfor %}
-</ul>
+<div class="facet">
+    <h4>{{ name }}</h4>
+    <ul class="hide">
+        {% for label, value in values %}
+            {% if label matches '/^[\\d-]+T[\\d:]+Z$/'  %}
+                {% set label = label|date("Y-m-d") %}
+            {% endif %}
+            <li>
+                <a href="{{ path('log_tracker_search', {'query': query ~ ' +' ~ name ~ ':"' ~ label ~ '"'}) }}">{{ label }}</a>
+                [{{ value }}]
+            </li>
+        {% endfor %}
+    </ul>
+</div>
