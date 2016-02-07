@@ -16,8 +16,10 @@
             Chart
             <a href="{{ path('log_tracker_search', {'query': query}) }}" class="icon-list icon-only">list</a>
         </h3>
+
         {{ form(form, {'attr': {'class': 'search'}}) }}
-        <div id="chart" data-url="{{ path('log_tracker_data', {'query': query}) }}" data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
+        <div id="chart" data-url="{{ path('log_tracker_data', {'query': query}) }}"
+             data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
     </section>
 {% endblock %}
 

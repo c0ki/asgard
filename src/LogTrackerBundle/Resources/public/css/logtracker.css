@@ -1,3 +1,12 @@
+#logtracker h3 [class^="icon-"], #logtracker h3 [class*=" icon-"] {
+    float: right;
+    margin: 0.25rem 0;
+}
+
+#logtracker h3 [class^="icon-"]:before, #logtracker h3 [class*=" icon-"]:before {
+    font-size: 1.75rem;
+}
+
 #logtracker form.search {
     margin: 1rem;
     padding: 0;
@@ -21,3 +30,4 @@
 #logtracker form.search label {
     display: none;
 }
+
