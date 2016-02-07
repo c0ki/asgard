@@ -247,7 +247,7 @@ class SolrFacet
         $query->addFacetDateField($field);
 
         if (!array_key_exists('start', $value)) {
-            $value['start'] = date("Y-m-d", strtotime("-1 month")) . "T00:00:00Z";
+            $value['start'] = date("Y-m-d", strtotime("-10 YEAR")) . "T00:00:00Z";
         }
         elseif (is_numeric($value['start'])) {
             $value['start'] = date("Y-m-d\TH:i:s\Z", $value['start']);
