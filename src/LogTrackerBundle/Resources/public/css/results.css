@@ -16,6 +16,7 @@
     border-radius: 0.5rem;
     padding: 0 1rem;
     margin: 0 1rem;
+    cursor: context-menu;
 }
 
 #logtracker section.results aside .facet.innershow {
