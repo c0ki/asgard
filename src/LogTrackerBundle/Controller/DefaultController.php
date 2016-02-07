@@ -141,7 +141,7 @@ class DefaultController extends Controller
             return new RedirectResponse($this->generateUrl('log_tracker_search', array('query' => $query)));
         }
 
-        $facets = array('project', 'domain', 'daemon', 'type',
+        $facets = array('project', 'domain', 'daemon', 'type', 'subtype_s',
                         'date' => array('date' => array('gap' => '+1DAY')));
 
         $projectHelper = $this->container->get('project_helper');

@@ -6,16 +6,20 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: flex-start;
-    align-content: center;
 }
 
 #logtracker section.results aside .facet {
     flex: 0 1 auto;
     border: 1px solid grey;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     padding: 0 1rem;
+    margin: 0 1rem;
+}
+
+#logtracker section.results aside .facet.innershow {
+    background-color: lightblue;
 }
 
 #logtracker section.results aside .facet * {
@@ -24,7 +28,22 @@
 }
 
 #logtracker section.results aside .facet ul {
+    position: absolute;
     list-style: none;
+    font-size: 1.2rem;
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 0.5rem;
+    margin-left: -1.1rem;
+}
+
+#logtracker section.results aside .facet a {
+    display: block;
+    text-decoration: none;
+    padding: 0 0.5rem;
+}
+#logtracker section.results aside .facet a:hover {
+    background-color: lightblue;
 }
 
 #logtracker article {

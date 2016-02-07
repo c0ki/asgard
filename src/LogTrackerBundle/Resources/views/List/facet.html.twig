@@ -1,13 +1,15 @@
 <div class="facet">
-    <h4>{{ name }}</h4>
+    <h4>{{ name|trim|regex({'/^info_/': '', '/_[^_]$/':''}) }}</h4>
     <ul class="hide">
         {% for label, value in values %}
-            {% if label matches '/^[\\d-]+T[\\d:]+Z$/'  %}
+            {% if label matches '/^[\\d-]+T[\\d:]+Z$/' %}
                 {% set label = label|date("Y-m-d") %}
             {% endif %}
             <li>
-                <a href="{{ path('log_tracker_search', {'query': query ~ ' +' ~ name ~ ':"' ~ label ~ '"'}) }}">{{ label }}</a>
-                [{{ value }}]
+                <a href="{{ path('log_tracker_search', {'query': query ~ ' +' ~ name ~ ':"' ~ label ~ '"'}) }}">
+                    {{ label }}
+                    ({{ value }})
+                </a>
             </li>
         {% endfor %}
     </ul>
