@@ -61,12 +61,4 @@ class LinkHelper
      */
     private $linkById = array();
 
-    /**
-     * @return boolean
-     */
-    public function hasLinkById($id) {
-        return ($this->getLinkById($id) ? true : false);
-    }
-
-
 }

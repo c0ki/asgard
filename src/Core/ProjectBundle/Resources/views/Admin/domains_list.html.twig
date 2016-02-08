@@ -9,7 +9,7 @@
             {% set params = params|default({})|merge({'@domain': domain.name}) %}
             <li{% if app.domain == domain %} class="selected"{% endif %}>
                 <a href="{{ path('core_project_admin_domain_edit', params) }}"
-                   class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</a>
+                   class="icon-{{ domain.logo|default('no') }}">{{ domain }}</a>
                 {% if domain.projects.count > 0 %}
                     [{{ domain.projects.count }} project{% if domain.projects.count > 1 %}s{% endif %}]
                 {% endif %}

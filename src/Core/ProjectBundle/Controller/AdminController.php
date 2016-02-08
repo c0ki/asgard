@@ -64,10 +64,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Project '{$entity->getLabel()}' updated");
+                $this->container->get('alert_helper')->success("Project '{$entity}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Project '{$entity->getLabel()}' created");
+                $this->container->get('alert_helper')->success("Project '{$entity}' created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -109,10 +109,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Domain '{$entity->getLabel()}' updated");
+                $this->container->get('alert_helper')->success("Domain '{$entity}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Domain '{$entity->getLabel()}' created");
+                $this->container->get('alert_helper')->success("Domain '{$entity}' created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -152,7 +152,7 @@ class AdminController extends Controller
                 $project = $projectHelper->getProject();
                 $ormManager->remove($project);
                 $ormManager->flush();
-                $this->container->get('alert_helper')->success("Project '{$project->getLabel()}' deleted");
+                $this->container->get('alert_helper')->success("Project '{$project}' deleted");
 
                 return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
             }
@@ -160,7 +160,7 @@ class AdminController extends Controller
                 $domain = $projectHelper->getDomain();
                 $ormManager->remove($domain);
                 $ormManager->flush();
-                $this->container->get('alert_helper')->success("Domain '{$domain->getLabel()}' deleted");
+                $this->container->get('alert_helper')->success("Domain '{$domain}' deleted");
 
                 return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
             }
@@ -198,10 +198,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Daemon '{$entity->getLabel()}' updated");
+                $this->container->get('alert_helper')->success("Daemon '{$entity}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Daemon '{$entity->getLabel()}' created");
+                $this->container->get('alert_helper')->success("Daemon '{$entity}' created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -231,7 +231,7 @@ class AdminController extends Controller
             $ormManager = $this->getDoctrine()->getManager();
             $ormManager->remove($entity);
             $ormManager->flush();
-            $this->container->get('alert_helper')->success("Daemon '{$entity->getLabel()}' deleted");
+            $this->container->get('alert_helper')->success("Daemon '{$entity}' deleted");
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
         }
@@ -264,10 +264,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Link '{$entity->getProject()->getLabel()} / {$entity->getDomain()->getLabel()} / {$entity->getDaemon()->getLabel()} [{$entity->getServer()}]' updated");
+                $this->container->get('alert_helper')->success("Link '{$entity}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Link '{$entity->getProject()->getLabel()} / {$entity->getDomain()->getLabel()} / {$entity->getDaemon()->getLabel()} [{$entity->getServer()}]' created");
+                $this->container->get('alert_helper')->success("Link '{$entity}' created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -289,6 +289,7 @@ class AdminController extends Controller
         if (empty($entity)) {
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
         }
+        $entityLabel = (string)$entity;
         $form = $this->createForm('generic_entity',
                                   $entity,
                                   array('data_class' => 'Core\ProjectBundle\Entity\Link', 'read_only' => true));
@@ -296,11 +297,10 @@ class AdminController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $linkLabel = "{$entity->getProject()} / {$entity->getDomain()} / {$entity->getDaemon()} [{$entity->getServer()}]";
             $ormManager = $this->getDoctrine()->getManager();
             $ormManager->remove($entity);
             $ormManager->flush();
-            $this->container->get('alert_helper')->success("Link '{$linkLabel}' deleted");
+            $this->container->get('alert_helper')->success("Link '{$entityLabel}' deleted");
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
         }

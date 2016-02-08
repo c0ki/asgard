@@ -138,4 +138,14 @@ class Link
     {
         return $this->daemon;
     }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "{$this->getProject()} / {$this->getDomain()} / {$this->getDaemon()} [{$this->getServer()}]";
+    }
 }

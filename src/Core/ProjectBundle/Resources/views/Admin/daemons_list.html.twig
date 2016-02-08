@@ -8,7 +8,7 @@
         {% for daemon in app.daemons %}
             <li{% if currentDaemon|default == daemon.name %} class="selected"{% endif %}>
                 <a href="{{ path('core_project_admin_daemon_edit', {'name': daemon.name}) }}"
-                   class="icon-{{ daemon.logo|default('no') }}">{{ daemon.label }}</a>
+                   class="icon-{{ daemon.logo|default('no') }}">{{ daemon }}</a>
                 <a data-target="popin" href="{{ path('core_project_admin_daemon_del', { 'name': daemon.name } ) }}"
                    class="icon-trash icon-only">Delete</a>
             </li>
