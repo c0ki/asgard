@@ -1,8 +1,8 @@
 <section id="domains">
-    <h2>
+    <h3>
         Domains list
         <a href="{{ path('core_project_admin_domain_add') }}" class="icon-plus-circle icon-only">Add</a>
-    </h2>
+    </h3>
 
     <ul>
         {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
