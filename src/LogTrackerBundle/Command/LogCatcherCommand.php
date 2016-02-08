@@ -224,9 +224,15 @@ class LogCatcherCommand extends ContainerAwareCommand
                 }
                 $newFilename =
                     "{$this->project->getName()}.{$this->domain->getName()}.{$logfile->getLink()->getServer()}.{$this->daemon->getName()}.{$type}-{$file->getFilename()}";
-                $newFile = $file->copy($indexerDir, $newFilename);
-                $this->logger->debug("Log catcher: copy file '{$file->getPathname()}' to '{$newFile->getPathname()}'");
-                $this->nbLogCatched++;
+                try {
+                    $newFile = $file->copy($indexerDir, $newFilename);
+                    $this->logger->debug("Log catcher: copy file '{$file->getPathname()}' to '{$newFile->getPathname()}'");
+                    $this->nbLogCatched++;
+                }
+                catch (\Exception $e) {
+                    $message = $e->getMessage() . ($e->getPrevious() ? $e->getPrevious()->getMessage() : '');
+                    $this->logger->warning("Log catcher: no copy file '{$file->getPathname()}' to '{$newFile->getPathname()}': {$message}");
+                }
             }
         }
     }
