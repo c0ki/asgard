@@ -1,17 +1,22 @@
-{% if route is not defined %}
-    {% set route = app.masterRequest.attributes.get('_route') %}
-    {% set params = params|default({})|merge(app.masterRequest.attributes.get('_route_params')) %}
-{% endif %}
-<ul>
-    {% for project in app.projects %}
-        {% set params = params|default({})|merge({'@project': project.name}) %}
-        <li{% if app.masterRequest.attributes.get('@project')|default() == project.name %} class="selected"{% endif %}>
-            <a href="{{ path(route, params) }}" class="icon-{{ project.logo|default('no') }}">{{ project.label }}</a>
-            {% if project.domains.count > 0 %}
-                [{{ project.domains.count }} domain{% if project.domains.count > 1 %}s{% endif %}]
-            {% endif %}
-            <a data-target="popin" href="{{ path('core_project_admin_project_del', { '@project': project.name } ) }}"
-               class="icon-trash icon-only">Delete</a>
-        </li>
-    {% endfor %}
-</ul>
+<section id="projects">
+    <h2>
+        Projects list
+        <a href="{{ path('core_project_admin_project_add') }}" class="icon-plus-circle icon-only">Add</a>
+    </h2>
+
+    <ul>
+        {% for project in app.projects %}
+            {% set params = params|default({})|merge({'@project': project.name}) %}
+            <li{% if app.masterRequest.attributes.get('@project')|default() == project.name %} class="selected"{% endif %}>
+                <a href="{{ path('core_project_admin_project_edit', params) }}"
+                   class="icon-{{ project.logo|default('no') }}">{{ project.label }}</a>
+                {% if project.domains.count > 0 %}
+                    [{{ project.domains.count }} domain{% if project.domains.count > 1 %}s{% endif %}]
+                {% endif %}
+                <a data-target="popin"
+                   href="{{ path('core_project_admin_project_del', { '@project': project.name } ) }}"
+                   class="icon-trash icon-only">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>

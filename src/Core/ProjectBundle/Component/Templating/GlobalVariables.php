@@ -27,4 +27,9 @@ class GlobalVariables extends LayoutGlobalVariables
         return $this->container->get('project_helper')->getDomain();
     }
 
+    public function getDaemons()
+    {
+        return $this->container->get('daemon_helper')->listDaemons();
+    }
+
 }

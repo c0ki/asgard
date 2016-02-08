@@ -2,6 +2,7 @@
 
 namespace Core\ProjectBundle\Controller;
 
+use Core\ProjectBundle\Entity\Daemon;
 use Core\ProjectBundle\Entity\Domain;
 use Core\ProjectBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -36,8 +37,8 @@ class AdminController extends Controller
 //        }
 
         $form = $this->createForm('generic_entity',
-            $entity,
-            array('data_class' => 'Core\ProjectBundle\Entity\Project'));
+                                  $entity,
+                                  array('data_class' => 'Core\ProjectBundle\Entity\Project'));
 
         $form->handleRequest($request);
 
@@ -71,11 +72,11 @@ class AdminController extends Controller
         }
 
         return $this->render('CoreProjectBundle:Admin:project_edit.html.twig',
-            array(
-                'projects'  => $projects,
-                'edit_mode' => $edit,
-                'form'      => $form->createView(),
-            ));
+                             array(
+                                 'projects' => $projects,
+                                 'edit_mode' => $edit,
+                                 'form' => $form->createView(),
+                             ));
     }
 
     public function domainAction(Request $request) {
@@ -93,8 +94,8 @@ class AdminController extends Controller
         }
 
         $form = $this->createForm('generic_entity',
-            $entity,
-            array('data_class' => 'Core\ProjectBundle\Entity\Domain'));
+                                  $entity,
+                                  array('data_class' => 'Core\ProjectBundle\Entity\Domain'));
 
         $form->handleRequest($request);
 
@@ -116,11 +117,11 @@ class AdminController extends Controller
         }
 
         return $this->render('CoreProjectBundle:Admin:domain_edit.html.twig',
-            array(
-                'domains'   => $domains,
-                'edit_mode' => $edit,
-                'form'      => $form->createView(),
-            ));
+                             array(
+                                 'domains' => $domains,
+                                 'edit_mode' => $edit,
+                                 'form' => $form->createView(),
+                             ));
     }
 
     public function deleteAction(Request $request) {
@@ -128,14 +129,14 @@ class AdminController extends Controller
         if ($projectHelper->hasProject()) {
             $entity = $projectHelper->getProject();
             $form = $this->createForm('generic_entity',
-                $entity,
-                array('data_class' => 'Core\ProjectBundle\Entity\Project', 'read_only' => true));
+                                      $entity,
+                                      array('data_class' => 'Core\ProjectBundle\Entity\Project', 'read_only' => true));
         }
         elseif ($projectHelper->hasDomain()) {
             $entity = $projectHelper->getDomain();
             $form = $this->createForm('generic_entity',
-                $entity,
-                array('data_class' => 'Core\ProjectBundle\Entity\Domain', 'read_only' => true));
+                                      $entity,
+                                      array('data_class' => 'Core\ProjectBundle\Entity\Domain', 'read_only' => true));
         }
         else {
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -166,8 +167,76 @@ class AdminController extends Controller
         }
 
         return $this->render('CoreLayoutBundle:Default:confirm.html.twig',
-            array(
-                'form' => $form->createView(),
-            ));
+                             array(
+                                 'form' => $form->createView(),
+                             ));
+    }
+
+    public function daemonAction(Request $request, $name) {
+        $daemonHelper = $this->container->get('daemon_helper');
+        $edit = true;
+        $entity = $daemonHelper->getDaemonByName($name);
+        if (!$entity) {
+            $edit = false;
+            $entity = new Daemon();
+            $entity->setName('new');
+            $entity->setDescription('Describe daemon here');
+        }
+
+        $form = $this->createForm('generic_entity',
+                                  $entity,
+                                  array('data_class' => 'Core\ProjectBundle\Entity\Daemon'));
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $OrmManager = $this->getDoctrine()->getManager();
+            $entity = $form->getData();
+            $OrmManager->persist($entity);
+            $OrmManager->flush();
+
+            if ($edit) {
+                $this->container->get('alert_helper')->success("Daemon '{$entity->getLabel()}' updated");
+            }
+            else {
+                $this->container->get('alert_helper')->success("Daemon '{$entity->getLabel()}' created");
+            }
+
+            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+        }
+
+        return $this->render('CoreProjectBundle:Admin:daemon_edit.html.twig',
+                             array(
+                                 'edit_mode' => $edit,
+                                 'name' => $name,
+                                 'form' => $form->createView(),
+                             ));
+    }
+
+    public function daemonDeleteAction(Request $request, $name) {
+        $daemonHelper = $this->container->get('daemon_helper');
+        $entity = $daemonHelper->getDaemonByName($name);
+        if (empty($entity)) {
+            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+        }
+        $form = $this->createForm('generic_entity',
+                                  $entity,
+                                  array('data_class' => 'Core\ProjectBundle\Entity\Daemon', 'read_only' => true));
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ormManager = $this->getDoctrine()->getManager();
+            $ormManager->remove($entity);
+            $ormManager->flush();
+            $this->container->get('alert_helper')->success("Daemon '{$entity->getLabel()}' deleted");
+
+            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+        }
+
+        return $this->render('CoreLayoutBundle:Default:confirm.html.twig',
+                             array(
+                                 'form' => $form->createView(),
+                             ));
     }
 }

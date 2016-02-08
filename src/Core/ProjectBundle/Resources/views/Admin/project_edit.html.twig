@@ -1,7 +1,7 @@
-{% extends 'CoreProjectBundle:Admin:list.html.twig' %}
+{% extends app.layout(_self) %}
 
-{% block projects %}
-    {{ parent() }}
+{% block content %}
+    {% include 'CoreProjectBundle:Admin:projects_list.html.twig' with {} only %}
 
     <section id="project-edit">
         <h2>Project {% if edit_mode %}edition{% else %}creation{% endif %}</h2>
@@ -14,5 +14,3 @@
         {{ form_end(form) }}
     </section>
 {% endblock %}
-
-{% block domains %}{% endblock %}

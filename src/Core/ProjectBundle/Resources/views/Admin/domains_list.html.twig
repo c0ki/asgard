@@ -1,17 +1,21 @@
-{% if route is not defined %}
-    {% set route = app.masterRequest.attributes.get('_route') %}
-    {% set params = params|default({})|merge(app.masterRequest.attributes.get('_route_params')) %}
-{% endif %}
-<ul>
-    {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
-        {% set params = params|default({})|merge({'@domain': domain.name}) %}
-        <li{% if app.domain == domain %} class="selected"{% endif %}>
-            <a href="{{ path(route, params) }}" class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</a>
-            {% if domain.projects.count > 0 %}
-                [{{ domain.projects.count }} project{% if domain.projects.count > 1 %}s{% endif %}]
-            {% endif %}
-            <a data-target="popin" href="{{ path('core_project_admin_domain_del', { '@domain': domain.name } ) }}"
-               class="icon-trash icon-only">Delete</a>
-        </li>
-    {% endfor %}
-</ul>
+<section id="domains">
+    <h2>
+        Domains list
+        <a href="{{ path('core_project_admin_domain_add') }}" class="icon-plus-circle icon-only">Add</a>
+    </h2>
+
+    <ul>
+        {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
+            {% set params = params|default({})|merge({'@domain': domain.name}) %}
+            <li{% if app.domain == domain %} class="selected"{% endif %}>
+                <a href="{{ path('core_project_admin_domain_edit', params) }}"
+                   class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</a>
+                {% if domain.projects.count > 0 %}
+                    [{{ domain.projects.count }} project{% if domain.projects.count > 1 %}s{% endif %}]
+                {% endif %}
+                <a data-target="popin" href="{{ path('core_project_admin_domain_del', { '@domain': domain.name } ) }}"
+                   class="icon-trash icon-only">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>

@@ -1,0 +1,17 @@
+<section id="daemons">
+    <h2>
+        Daemons list
+        <a href="{{ path('core_project_admin_daemon_edit') }}" class="icon-plus-circle icon-only">Add</a>
+    </h2>
+
+    <ul>
+        {% for daemon in app.daemons %}
+            <li{% if currentDaemon|default == daemon.name %} class="selected"{% endif %}>
+                <a href="{{ path('core_project_admin_daemon_edit', {'name': daemon.name}) }}"
+                   class="icon-{{ daemon.logo|default('no') }}">{{ daemon.label }}</a>
+                <a data-target="popin" href="{{ path('core_project_admin_daemon_del', { 'name': daemon.name } ) }}"
+                   class="icon-trash icon-only">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>

@@ -1,18 +1,7 @@
-{#{% extends 'CoreProjectBundle::layout.html.twig' %}#}
 {% extends app.layout(_self) %}
 
 {% block content %}
-    {% block projects %}
-        <section id="projects">
-            <h2>Projects list <a href="{{ path('core_project_admin_project_add') }}" class="icon-plus-circle icon-only">Add</a></h2>
-            {% include 'CoreProjectBundle:Admin:projects_list.html.twig' with {'route': 'core_project_admin_project_edit'} only %}
-        </section>
-    {% endblock %}
-
-    {% block domains %}
-        <section id="domains">
-            <h2>Domains list <a href="{{ path('core_project_admin_domain_add') }}" class="icon-plus-circle icon-only">Add</a></h2>
-            {% include 'CoreProjectBundle:Admin:domains_list.html.twig' with {'route': 'core_project_admin_domain_edit'} only %}
-        </section>
-    {% endblock %}
+    {% include 'CoreProjectBundle:Admin:projects_list.html.twig' with {} only %}
+    {% include 'CoreProjectBundle:Admin:domains_list.html.twig' with {} only %}
+    {% include 'CoreProjectBundle:Admin:daemons_list.html.twig' with {} only %}
 {% endblock %}

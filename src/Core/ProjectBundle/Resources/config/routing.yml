@@ -38,6 +38,18 @@ core_project_admin_domain_del:
         @siteaccess: admin
         @domain: %
 
+core_project_admin_daemon_edit:
+    path:     /daemon/{name}
+    defaults: { _controller: CoreProjectBundle:Admin:daemon, name: null }
+    requirements:
+        @siteaccess: admin
+
+core_project_admin_daemon_del:
+    path:     /daemon/delete/{name}/{confirm}
+    defaults: { _controller: CoreProjectBundle:Admin:daemonDelete, confirm: false }
+    requirements:
+        @siteaccess: admin
+
 core_project_admin:
     path:     /
     defaults:
