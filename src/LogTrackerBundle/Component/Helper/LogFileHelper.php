@@ -41,6 +41,7 @@ class LogFileHelper
      */
     public function listLogs(array $criteria = null) {
         $logs = array();
+        $criteria = array_filter($criteria);
         $links = $this->linkRepository->findBy($criteria);
         foreach ($links as $link) {
             foreach ($this->repository->findBy(array('link' => $link)) as $log) {
@@ -51,6 +52,14 @@ class LogFileHelper
         }
 
         return $logs;
+    }
+
+    /**
+     * @param $id
+     * @return \LogTrackerBundle\Entity\LogFile
+     */
+    public function getLogById($id) {
+        return $this->repository->findOneBy(array('id' => $id));
     }
 
 }

@@ -1,3 +1,21 @@
+log_tracker_admin:
+    path:     /
+    defaults: { _controller: LogTrackerBundle:Admin:logfileList }
+    requirements:
+        @siteaccess: admin
+
+log_tracker_admin_logfile_edit:
+    path:     /logfile/{id}
+    defaults: { _controller: LogTrackerBundle:Admin:logfileEdit, id: null }
+    requirements:
+        @siteaccess: admin
+
+log_tracker_admin_logfile_del:
+    path:     /logfile/delete/{id}
+    defaults: { _controller: LogTrackerBundle:Admin:logfileDelete, id: null }
+    requirements:
+        @siteaccess: admin
+
 log_tracker_tool_homepage:
     path:   /
     defaults: { _controller: LogTrackerBundle:Default:index }

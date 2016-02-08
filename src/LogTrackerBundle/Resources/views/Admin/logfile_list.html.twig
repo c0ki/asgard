@@ -1,0 +1,57 @@
+{% extends app.layout(_self) %}
+
+{% block content %}
+    <section id="logtracker-logfile-list">
+        <h2>Log Tracker</h2>
+        <h3>
+            LogFiles
+            <a href="{{ path('log_tracker_admin_logfile_edit') }}" class="icon-plus-circle icon-only">Add</a>
+        </h3>
+        <ul>
+            {% for label, logfile in logfiles %}
+                <li>
+                    {% if logfile is iterable %}
+                        {% set list = logfile %}
+                        {{ label }}
+                        {% if list|length > 0 %}
+                            <ul>
+                                {% for label, logfile in list %}
+                                    <li>
+                                        {% if logfile is iterable %}
+                                            {% set list2 = logfile %}
+                                            {{ label }}
+                                            {% if list2|length > 0 %}
+                                                <ul>
+                                                    {% for label, logfile in list2 %}
+                                                        <li>
+                                                            <a href="{{ path('log_tracker_admin_logfile_edit', {'id': logfile.id}) }}">{{ logfile }}</a>
+                                                            <a data-target="popin"
+                                                               href="{{ path('log_tracker_admin_logfile_del', { 'id': logfile.id } ) }}"
+                                                               class="icon-trash icon-only">Delete</a>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        {% else %}
+                                            <a href="{{ path('log_tracker_admin_logfile_edit', {'id': logfile.id}) }}">{{ logfile }}</a>
+                                            <a data-target="popin"
+                                               href="{{ path('log_tracker_admin_logfile_del', { 'id': logfile.id } ) }}"
+                                               class="icon-trash icon-only">Delete</a>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ path('log_tracker_admin_logfile_edit', {'id': logfile.id}) }}">{{ logfile }}</a>
+                        <a data-target="popin"
+                           href="{{ path('log_tracker_admin_logfile_del', { 'id': logfile.id } ) }}"
+                           class="icon-trash icon-only">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
+
+

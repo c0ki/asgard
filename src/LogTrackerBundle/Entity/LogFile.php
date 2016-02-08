@@ -109,5 +109,15 @@ class LogFile
     {
         return $this->link;
     }
+
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return "{$this->getLink()}";
+    }
 }
 

@@ -1,0 +1,14 @@
+{% extends app.layout(_self) %}
+
+{% block content %}
+    <section id="logtracker-logfile-edit">
+        <h2>LogFile {% if edit_mode %}edition{% else %}creation{% endif %}</h2>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="button_row">
+            <button type="reset" class="icon-error icon-only">Reset</button>
+            <button type="submit" class="icon-success icon-only">Submit</button>
+        </div>
+        {{ form_end(form) }}
+    </section>
+{% endblock %}
