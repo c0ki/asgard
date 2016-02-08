@@ -1,3 +1,7 @@
 #projects li, #domains li, #daemons li {
     list-style: none;
 }
+
+#projects li.selected, #domains li.selected, #daemons li.selected {
+    font-weight: bold;
+}
