@@ -50,6 +50,18 @@ core_project_admin_daemon_del:
     requirements:
         @siteaccess: admin
 
+core_project_admin_link_edit:
+    path:     /link/{id}
+    defaults: { _controller: CoreProjectBundle:Admin:link, id: null }
+    requirements:
+        @siteaccess: admin
+
+core_project_admin_link_del:
+    path:     /link/delete/{id}/{confirm}
+    defaults: { _controller: CoreProjectBundle:Admin:linkDelete, confirm: false }
+    requirements:
+        @siteaccess: admin
+
 core_project_admin:
     path:     /
     defaults:

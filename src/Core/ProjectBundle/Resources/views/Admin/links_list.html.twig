@@ -1,0 +1,18 @@
+<section id="links">
+    <h2>
+        Links list
+        <a href="{{ path('core_project_admin_link_edit') }}" class="icon-plus-circle icon-only">Add</a>
+    </h2>
+
+    <ul>
+        {% for link in links|default([]) %}
+            <li{% if currentLinkId|default() == link.id %} class="selected"{% endif %}>
+                <a href="{{ path('core_project_admin_link_edit', {'id': link.id}) }}"
+                   class="icon-{{ project.logo|default('no') }}">{{ link.project.label }} / {{ link.domain.label }} / {{ link.daemon.label }} [{{ link.server }}]</a>
+                <a data-target="popin"
+                   href="{{ path('core_project_admin_link_del', { 'id': link.id } ) }}"
+                   class="icon-trash icon-only">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>

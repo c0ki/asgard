@@ -4,6 +4,7 @@ namespace Core\ProjectBundle\Controller;
 
 use Core\ProjectBundle\Entity\Daemon;
 use Core\ProjectBundle\Entity\Domain;
+use Core\ProjectBundle\Entity\Link;
 use Core\ProjectBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -13,7 +14,8 @@ class AdminController extends Controller
 {
 
     public function listAction() {
-        return $this->render('CoreProjectBundle:Admin:list.html.twig');
+        $links = $this->container->get('link_helper')->listLinks();
+        return $this->render('CoreProjectBundle:Admin:list.html.twig', array('links' => $links));
     }
 
     public function projectAction(Request $request) {
@@ -230,6 +232,75 @@ class AdminController extends Controller
             $ormManager->remove($entity);
             $ormManager->flush();
             $this->container->get('alert_helper')->success("Daemon '{$entity->getLabel()}' deleted");
+
+            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+        }
+
+        return $this->render('CoreLayoutBundle:Default:confirm.html.twig',
+                             array(
+                                 'form' => $form->createView(),
+                             ));
+    }
+
+    public function linkAction(Request $request, $id) {
+        $linkHelper = $this->container->get('link_helper');
+        $edit = true;
+        $entity = $linkHelper->getLinkById($id);
+        if (!$entity) {
+            $edit = false;
+            $entity = new Link();
+        }
+
+        $form = $this->createForm('generic_entity',
+                                  $entity,
+                                  array('data_class' => 'Core\ProjectBundle\Entity\Link'));
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $OrmManager = $this->getDoctrine()->getManager();
+            $entity = $form->getData();
+            $OrmManager->persist($entity);
+            $OrmManager->flush();
+
+            if ($edit) {
+                $this->container->get('alert_helper')->success("Link '{$entity->getProject()->getLabel()} / {$entity->getDomain()->getLabel()} / {$entity->getDaemon()->getLabel()} [{$entity->getServer()}]' updated");
+            }
+            else {
+                $this->container->get('alert_helper')->success("Link '{$entity->getProject()->getLabel()} / {$entity->getDomain()->getLabel()} / {$entity->getDaemon()->getLabel()} [{$entity->getServer()}]' created");
+            }
+
+            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+        }
+
+        $links = $this->container->get('link_helper')->listLinks();
+        return $this->render('CoreProjectBundle:Admin:link_edit.html.twig',
+                             array(
+                                 'links' => $links,
+                                 'edit_mode' => $edit,
+                                 'id' => $id,
+                                 'form' => $form->createView(),
+                             ));
+    }
+
+    public function linkDeleteAction(Request $request, $id) {
+        $linkHelper = $this->container->get('link_helper');
+        $entity = $linkHelper->getLinkById($id);
+        if (empty($entity)) {
+            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+        }
+        $form = $this->createForm('generic_entity',
+                                  $entity,
+                                  array('data_class' => 'Core\ProjectBundle\Entity\Link', 'read_only' => true));
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $linkLabel = "{$entity->getProject()} / {$entity->getDomain()} / {$entity->getDaemon()} [{$entity->getServer()}]";
+            $ormManager = $this->getDoctrine()->getManager();
+            $ormManager->remove($entity);
+            $ormManager->flush();
+            $this->container->get('alert_helper')->success("Link '{$linkLabel}' deleted");
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
         }
