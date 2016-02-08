@@ -25,7 +25,7 @@
 {%- endblock choice_widget_collapsed -%}
 
 {%- block choice_widget_options -%}
-    {% for group_label, choice in options %}
+    {% for group_label, choice in options if choice is selectedchoice(value) %}
         {%- if choice is iterable -%}
             <li>{{ group_label|trans({}, translation_domain) }}
                 <ul>
