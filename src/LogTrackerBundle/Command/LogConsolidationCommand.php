@@ -43,9 +43,10 @@ class LogConsolidationCommand extends ContainerAwareCommand
         $this->times = array(microtime(true));
         $this->logger = $this->getContainer()->get('monolog.logger.console');
         $this->indexer = $this->getContainer()->get('core.indexer.solr');
+        $this->validate($input, $output);
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output) {
+    protected function validate(InputInterface $input, OutputInterface $output) {
         if ($input->hasOption('logfiles') && $input->getOption('logfiles')) {
             $this->logfiles = array();
             foreach ($input->getOption('logfiles') as $logfile) {

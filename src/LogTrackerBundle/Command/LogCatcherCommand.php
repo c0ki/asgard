@@ -78,9 +78,10 @@ class LogCatcherCommand extends ContainerAwareCommand
         $this->projectHelper = $this->getContainer()->get('project_helper');
         $this->daemonHelper = $this->getContainer()->get('daemon_helper');
         $this->logFileHelper = $this->getContainer()->get('logfile_helper');
+        $this->validate($input, $output);
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output) {
+    protected function validate(InputInterface $input, OutputInterface $output) {
         if ($input->hasOption('project') && $input->getOption('project')) {
             $this->project = $this->projectHelper->getProjectByName($input->getOption('project'));
             if (is_null($this->project)) {
