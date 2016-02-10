@@ -46,6 +46,14 @@ class GlobalVariables extends FrameworkGlobalVariables
         return $this->container->get('router')->getRouteCollection()->get($name);
     }
 
+    public function get_route() {
+        return $this->getMasterRequest()->attributes->get('_route');
+    }
+
+    public function get_route_params(array $params = array()) {
+        return array_merge($this->getMasterRequest()->attributes->get('_route_params'), $params);
+    }
+
     public function getLayout($template) {
         $prevBundle = array();
         foreach ($this->container->getParameter('kernel.bundles') as $name => $path) {
