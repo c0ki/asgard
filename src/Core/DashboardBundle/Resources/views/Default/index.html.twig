@@ -1,0 +1,33 @@
+{% extends app.layout(_self) %}
+
+{% block content %}
+    <section id="dashboard">
+        <h2>Dashboard</h2>
+        {% if not app.project|default %}
+            <section class="projects">
+                <h3>Projects</h3>
+                <ul>
+                    {% for project in app.projects %}
+                        <li>
+                            <a href="{{ path(app._route, app._route_params({'@project': project.name})) }}"
+                               class="icon-{{ project.logo|default('no') }}">{{ project.label }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+        <section class="tools">
+            <h3>Tools</h3>
+            <ul>
+                {% for tool in app.tools %}
+                    <li>
+                        <a href="{{ path(tool.route) }}"
+                           class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </section>
+
+{% endblock %}
+

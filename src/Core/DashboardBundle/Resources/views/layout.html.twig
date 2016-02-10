@@ -1,0 +1,10 @@
+{% extends app.layout(_self) %}
+
+{% block head_css %}
+    {{ parent() }}
+    {% stylesheets
+    'bundles/coredashboard/css/dashboard.css'
+    filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}

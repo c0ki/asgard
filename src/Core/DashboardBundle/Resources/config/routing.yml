@@ -1,0 +1,3 @@
+core_dashboard_homepage:
+    path:     /
+    defaults: { _controller: CoreDashboardBundle:Default:index }

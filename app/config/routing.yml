@@ -6,10 +6,6 @@ ezpublish:
     resource: "@eZPublishBundle/Resources/config/routing.yml"
     prefix:   /ezpublish/
 
-dashboard:
-    resource: "@DashboardBundle/Resources/config/routing.yml"
-    prefix:   /dashboard/
-
 viewer:
     resource: "@ViewerBundle/Resources/config/routing.yml"
     prefix:   /viewer/
@@ -20,6 +16,10 @@ log_analyser:
 
 core_admin:
     resource: "@CoreAdminBundle/Resources/config/routing.yml"
+    prefix:   /
+
+core_dashboard:
+    resource: "@CoreDashboardBundle/Resources/config/routing.yml"
     prefix:   /
 
 core_search:

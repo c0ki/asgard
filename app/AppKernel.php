@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             new Core\AdminBundle\CoreAdminBundle(),
             new Core\ProjectBundle\CoreProjectBundle(),
             new Core\SearchBundle\CoreSearchBundle(),
-            new DashboardBundle\DashboardBundle(),
+            new Core\DashboardBundle\CoreDashboardBundle(),
             new LogAnalyserBundle\LogAnalyserBundle(),
             new ViewerBundle\ViewerBundle(),
             new eZPublishBundle\eZPublishBundle(),
