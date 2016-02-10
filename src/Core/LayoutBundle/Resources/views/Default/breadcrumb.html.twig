@@ -1,0 +1,9 @@
+<section id="breadcrumb">
+    <ul>
+        {% for name, route in routes %}
+            <li>
+                <a href="{{ path(route.route, route.params|default({})) }}">{{ route.label|default(name) }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>

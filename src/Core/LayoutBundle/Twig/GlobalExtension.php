@@ -2,12 +2,23 @@
 
 namespace Core\LayoutBundle\Twig;
 
+use Core\LayoutBundle\Component\Helper\BreadcrumbHelper;
 
 class GlobalExtension extends \Twig_Extension
 {
     public function getName()
     {
         return __CLASS__;
+    }
+
+    /**
+     * @var BreadcrumbHelper
+     */
+    protected $breadcrumbHelper;
+
+    public function __construct(BreadcrumbHelper $breadcrumbHelper)
+    {
+        $this->breadcrumbHelper = $breadcrumbHelper;
     }
 
     public function getFilters()
@@ -18,6 +29,17 @@ class GlobalExtension extends \Twig_Extension
             new \Twig_SimpleFilter ('regex', array($this, 'regexFilter')),
             new \Twig_SimpleFilter ('date_format', array($this, 'dateFormat')),
         );
+    }
+
+    public function getFunctions()
+    {
+        return array(
+            new \Twig_SimpleFunction('breadcrumb', array($this, 'renderBreadcrumb'), array(
+                'is_safe' => array('html'),
+                'needs_environment' => true
+            )),
+        );
+
     }
 
     public function platFilter($element, $maxlevel = 3)
@@ -51,7 +73,7 @@ class GlobalExtension extends \Twig_Extension
     public function arrayFilter($element)
     {
         if (is_array($element) || is_object($element)) {
-            return $this->platFilter($element, 1, true);
+            return $this->platFilter($element, 1);
         }
 
         return array($element);
@@ -77,6 +99,14 @@ class GlobalExtension extends \Twig_Extension
         }
 
         return null;
+    }
+
+    public function renderBreadcrumb(\Twig_Environment $twig, array $params = array())
+    {
+        $routes = $this->breadcrumbHelper->getBreadcrumbData($params);
+        $template = $this->breadcrumbHelper->getBreadcrumbTemplate($params);
+
+        return $twig->render($template, array('routes' => $routes));
     }
 
 }

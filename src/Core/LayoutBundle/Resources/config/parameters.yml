@@ -1,6 +1,8 @@
 parameters:
     theme_layout: CoreLayoutBundle::layout.html.twig
 
+    breadcrumb.template: CoreLayoutBundle:Default:breadcrumb.html.twig
+
 #twig:
 #    form_themes:
 #        - 'CoreLayoutBundle:Form:form_theme_default.html.twig'
