@@ -7,6 +7,7 @@ parameters:
     project_helper.class: Core\ProjectBundle\Component\Helper\ProjectHelper
     daemon_helper.class: Core\ProjectBundle\Component\Helper\DaemonHelper
     link_helper.class: Core\ProjectBundle\Component\Helper\LinkHelper
+    breadcrumb_helper.class: Core\ProjectBundle\Component\Helper\BreadcrumbHelper
 
 services:
     event_subscriber.project.router:
@@ -26,3 +27,7 @@ services:
     link_helper:
         class: %link_helper.class%
         arguments: [ @request_stack, @doctrine ]
+
+#    breadcrumb_helper:
+#        calls:
+#              - [setProjectHelper, [@project_helper]]
