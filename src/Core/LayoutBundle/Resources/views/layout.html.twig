@@ -52,7 +52,7 @@
                 <ul>
                     {% for tool in app.tools %}
                         <li{% if app.tool == tool %} class="selected"{% endif %}><a
-                                    href="{{ path(tool.route_name) }}"
+                                    href="{{ path(tool.route) }}"
                                     class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a></li>
                     {% endfor %}
                 </ul>

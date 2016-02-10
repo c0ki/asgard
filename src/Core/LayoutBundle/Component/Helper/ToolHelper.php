@@ -34,7 +34,7 @@ class ToolHelper
                             }
                         }
                     }
-                    $this->tools[$name]['route_name'] = $name;
+                    $this->tools[$name]['route'] = $name;
                     if ($route->hasOption('class')) {
                         $this->tools[$name]['class'] = $route->getOption('class');
                     }
@@ -64,7 +64,7 @@ class ToolHelper
         $router = $this->container->get('router');
         $currentPath = $router->getContext()->getPathInfo();
         foreach ($this->listTools() as $tool) {
-            $route = $router->getRouteCollection()->get($tool['route_name']);
+            $route = $router->getRouteCollection()->get($tool['route']);
             if (preg_match("#^{$route->getPath()}#", $currentPath)) {
                 return $tool;
             }
