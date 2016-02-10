@@ -4,8 +4,8 @@ parameters:
     alert_helper.class: Core\LayoutBundle\Component\Helper\AlertHelper
     url_helper.class: Core\LayoutBundle\Component\Helper\UrlHelper
 
-    core.twig.alert_extension.class: Core\LayoutBundle\Twig\AlertExtension
-    core.twig.global_extension.class: Core\LayoutBundle\Twig\GlobalExtension
+    twig.extension.core.alert.class: Core\LayoutBundle\Twig\AlertExtension
+    twig.extension.core.global.class: Core\LayoutBundle\Twig\GlobalExtension
 
 services:
     tool_helper:
@@ -19,13 +19,13 @@ services:
     url_helper:
         class: %url_helper.class%
 
-    core.twig.alert_extension:
-        class: %core.twig.alert_extension.class%
+    twig.extension.core.alert:
+        class: %twig.extension.core.alert.class%
         arguments: [ @alert_helper ]
         tags:
             - { name: twig.extension }
 
-    core.twig.global_extension:
-        class: %core.twig.global_extension.class%
+    twig.extension.core.global:
+        class: %twig.extension.core.global.class%
         tags:
             - { name: twig.extension }
