@@ -77,6 +77,12 @@ core_project_project:
     requirements:
         @project: %
 
+core_project_domain:
+    path:     /
+    defaults: { _controller: CoreProjectBundle:Default:indexDomain }
+    requirements:
+        @domain: %
+
 core_project_default:
     path:     /
     defaults: { _controller: CoreProjectBundle:Default:index }
