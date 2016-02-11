@@ -39,6 +39,8 @@ class BreadcrumbHelper
 
         $routes['tool'] = $this->toolHelper->getTool();
 
+        $routes = array_filter($routes);
+
         return array_reverse($routes);
     }
 

@@ -28,6 +28,8 @@ services:
         class: %link_helper.class%
         arguments: [ @request_stack, @doctrine ]
 
-#    breadcrumb_helper:
-#        calls:
-#              - [setProjectHelper, [@project_helper]]
+    breadcrumb_helper:
+        class: %breadcrumb_helper.class%
+        arguments: [ @request_stack, @tool_helper, %breadcrumb.template% ]
+        calls:
+            - [setProjectHelper, [@project_helper]]
