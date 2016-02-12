@@ -12,7 +12,7 @@ class File extends BaseFile
 
     /**
      * Constructs a new file from the given path.
-     * @param string $path The path to the file
+     * @param string $path      The path to the file
      * @param bool   $checkPath Whether to check the path or not
      *
      * @throws FileNotFoundException If the given path is not a file
@@ -149,6 +149,7 @@ class File extends BaseFile
         if (preg_match('/^http/', $this->getPath())) {
             return true;
         }
+
         return parent::isDir();
     }
 
@@ -173,10 +174,40 @@ class File extends BaseFile
         return $target;
     }
 
+    /**
+     * Unlink file
+     */
     public function unlink() {
         $filePath = "{$this->getPath()}/{$this->getFilename()}";
         unlink($filePath);
         unset($this);
+    }
+
+    /**
+     * Uncompress file
+     * @param bool $unlink
+     * @return File
+     */
+    public function uncompress($unlink = true) {
+        if ($this->getExtension() == 'gz') {
+            // Raising this value may increase performance
+            $bufferSize = 4096; // read 4kb at a time
+            $outFilename = preg_replace('/\.gz$/', '', $this->getPathname());
+
+            $inFile = gzopen($this->getPathname(), 'rb');
+            $outFile = fopen($outFilename, 'wb');
+            while (!gzeof($inFile)) {
+                fwrite($outFile, gzread($inFile, $bufferSize));
+            }
+            fclose($outFile);
+            gzclose($inFile);
+            if ($unlink) {
+                $this->unlink();
+            }
+
+            return new File($outFilename);
+        }
+        return $this;
     }
 
 }

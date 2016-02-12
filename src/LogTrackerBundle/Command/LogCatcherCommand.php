@@ -220,7 +220,7 @@ class LogCatcherCommand extends ContainerAwareCommand
                 if (preg_match('/error/', $file->getFilename())) {
                     $type = 'error';
                 }
-                elseif (preg_match('/access/', $file->getFilename())) {
+                elseif (preg_match('/access/', $file->getFilename()) || preg_match('/varnish/', $file->getFilename())) {
                     $type = 'access';
                 }
                 $newFilename =
@@ -228,6 +228,10 @@ class LogCatcherCommand extends ContainerAwareCommand
                 try {
                     $newFile = $file->copy($indexerDir, $newFilename);
                     $this->logger->debug("Log catcher: copy file '{$file->getPathname()}' to '{$newFile->getPathname()}'");
+                    if ($newFile->getExtension() == 'gz') {
+                        $uncompressFile = $newFile->uncompress();
+                        $this->logger->debug("Log catcher: uncompress file '{$newFile->getPathname()}' to '{$uncompressFile->getPathname()}'");
+                    }
                     $this->nbLogCatched++;
                 }
                 catch (\Exception $e) {
