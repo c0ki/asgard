@@ -17,10 +17,10 @@ class DefaultController extends Controller
 
         $criteria = array();
         if ($projectHelper->hasProject()) {
-            $criteria['project'] = $projectHelper->getProject()->getName();
+            $criteria['+project'] = $projectHelper->getProject()->getName();
         }
         if ($projectHelper->hasDomain()) {
-            $criteria['domain'] = $projectHelper->getDomain()->getName();
+            $criteria['+domain'] = $projectHelper->getDomain()->getName();
         }
         $criteria = array_filter($criteria);
         $results = $indexer->search('asgard_logs', $criteria, 0, 1, array('daemon', 'type'));
