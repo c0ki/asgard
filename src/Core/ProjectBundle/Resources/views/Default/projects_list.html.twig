@@ -3,7 +3,7 @@
     {% set params = params|default({})|merge(app.masterRequest.attributes.get('_route_params')) %}
 {% endif %}
 <ul>
-    {% for project in app.projects if not app.domain or app.domain in project.getDomains() %}
+    {% for project in app.projects if nofilter|default or not app.domain or app.domain in project.getDomains() %}
         {% set params = params|default({})|merge({'@project': project.name}) %}
         <li{% if app.masterRequest.attributes.get('@project')|default() == project.name %} class="selected"{% endif %}>
             <a href="{{ path(route, params) }}" class="icon-{{ project.logo|default('no') }}">{{ project.label }}</a>
