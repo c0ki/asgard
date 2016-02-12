@@ -128,7 +128,7 @@ class SolrQuery extends CoreSolrQuery
         $criteria = preg_replace('/"\s*\*\s*"/', '*', $criteria);
 
         // Remove "\w+"
-        $criteria = preg_replace('/"([^\s]+)"/', '$1', $criteria);
+        $criteria = preg_replace('/"(\w[^\s]*)"/', '$1', $criteria);
 
         if (!$formatDate
             && preg_match_all('/\[(\d{4})-(\d{2})-(\d{2})T00:00:00Z\s+TO\s+(\d{4})-(\d{2})-(\d{1,2})T00:00:00Z\]/',
