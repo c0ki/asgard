@@ -24,15 +24,18 @@
                 <!--126.6.101.81 - - [23/Oct/2015:10:20:08 +0200] "GET /portail/display/ HTTP/1.1" 500 206 "http://126.7.113.72:8080/portail/display/" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
                 <!--10.0.3.1 - - [14/Oct/2015:21:44:13 +0000] "GET / HTTP/1.1" 500 185 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
                 <!--126.199.40.20 - - [29/Dec/2015:23:32:51 +0100] "GET /var/storage/images/media/national/vignettes/paget3/picto-gestion-privee/7889-1-fre-FR/picto-gestion-privee_full_width.png HTTP/1.1" 304 -"-->
+                <!--127.0.0.1 - - [12/Feb/2016:11:59:18 +0100] <988650...3660> "GET /Lanceur.htm?env=UTI HTTP/1.1" 404 3660 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"-->
                 <field column="rawLine" name="line"
-                       regex="^([^\s]+) - (.*)- \[([^\]]+)\] &quot;(\w+) ([^\s]+) ([^\s]+)&quot; (\d+) ([\d-]+)"
-                       groupNames="info_clientip_s,info_unknown_s,date_s,info_method_s,info_url_s,info_vhttp_s,info_codehttp_s,info_size_s"/>
+                       regex="^([^\s]+) - (.*)- \[([^\]]+)\]( .\d+---\d+.)? &quot;(\w+) ([^\s]+) ([^\s]+)&quot; (\d+) ([\d-]+)"
+                       groupNames="info_clientip_s,info_unknown_s,date_s,info_compress_s,info_method_s,info_url_s,info_vhttp_s,info_codehttp_s,info_size_s"/>
                 <field column="info_referer_s" sourceColName="rawLine"
                        regex="&quot;([^&quot;]+)&quot; &quot;[^&quot;]+&quot;$"/>
                 <field column="info_browser_s" sourceColName="rawLine"
                        regex="&quot;[^&quot;]+&quot; &quot;([^&quot;]+)&quot;$"/>
                 <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss Z"/>
                 <field column="subtype_s" sourceColName="info_codehttp_s" regex="^(.*)$"/>
+                <field column="info_compress_size_s" sourceColName="info_compress_s" regex="^ .\d+---(\d+).$"/>
+                <field column="info_compress_size_uncompress_s" sourceColName="info_compress_s" regex="^ .(\d+)---\d+.$"/>
             </entity>
         </entity>
         <entity name="file_apache_error" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
