@@ -59,6 +59,12 @@ a[class^="icon-"], a[class*=" icon-"] {
     /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
+.icon-none:before {
+    margin: 0;
+    content: "";
+    width: 0;
+}
+
 @media (min-width: 641px) {
     nav.icon [class^="icon-"]:before, nav.icon [class*=" icon-"]:before {
         font-size: 1.8rem;
@@ -110,7 +116,7 @@ option[class^="icon-"]:before, option[class*=" icon-"]:before {
 }
 
 .icon-only:before {
-    font-size: 1rem;
+    font-size: 1.4rem;
 }
 
 button.icon-only:before {

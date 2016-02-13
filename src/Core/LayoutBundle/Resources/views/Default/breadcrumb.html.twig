@@ -1,9 +1,9 @@
-<section id="breadcrumb">
+<nav id="breadcrumb">
     <ul>
         {% for name, route in routes %}
             <li>
-                <a href="{{ path(route.route, route.params|default({})) }}">{{ route.label|default(name) }}</a>
+                <a href="{{ path(route.route, route.params|default({})) }}" class="icon-{{ route.logo|default('none') }}">{{ route.label|default(name|capitalize) }}</a>
             </li>
         {% endfor %}
     </ul>
-</section>
+</nav>
