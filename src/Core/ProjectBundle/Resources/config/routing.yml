@@ -1,5 +1,5 @@
 core_project_admin_project_edit:
-    path:     /
+    path:     /edit
     defaults: { _controller: CoreProjectBundle:Admin:project, @domain: null }
     requirements:
         @siteaccess: admin
@@ -19,7 +19,7 @@ core_project_admin_project_del:
         @project: %
 
 core_project_admin_domain_edit:
-    path:     /
+    path:     /edit
     defaults: { _controller: CoreProjectBundle:Admin:domain, @project: null }
     requirements:
         @siteaccess: admin

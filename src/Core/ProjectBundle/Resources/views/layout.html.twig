@@ -3,10 +3,17 @@
 {% block head_css %}
     {{ parent() }}
     {% stylesheets
-    'bundles/coreproject/css/default.css'
+    'bundles/coreproject/css/project.css'
     filter='cssrewrite' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
+    {% if app.siteaccess == 'admin' %}
+        {% stylesheets
+        'bundles/coreproject/css/project-admin.css'
+        filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endif %}
 {% endblock %}
 
 {% block header_navbar %}

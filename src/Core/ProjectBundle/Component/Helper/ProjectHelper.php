@@ -96,7 +96,7 @@ class ProjectHelper
      */
     public function hasProject()
     {
-        return ($this->masterRequest->attributes->has('@project') && $this->masterRequest->attributes->get('@project'));
+        return (bool)$this->getProject();
     }
 
 
@@ -160,7 +160,7 @@ class ProjectHelper
      */
     public function hasDomain()
     {
-        return $this->masterRequest->attributes->has('@domain');
+        return (bool)$this->getDomain();
     }
 
 

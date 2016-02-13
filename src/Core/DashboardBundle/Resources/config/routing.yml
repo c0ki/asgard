@@ -1,3 +1,9 @@
+core_dashboard_admin:
+    path:     /
+    defaults: { _controller: CoreDashboardBundle:Admin:index }
+    requirements:
+        @siteaccess: admin
+
 core_dashboard_homepage:
     path:     /
     defaults: { _controller: CoreDashboardBundle:Default:index }

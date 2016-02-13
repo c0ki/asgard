@@ -1,0 +1,35 @@
+{% extends app.layout(_self) %}
+
+{% block content %}
+    <section id="dashboard">
+        <h2>
+            Dashboard
+            {% if app.project|default %}
+                for project {{ app.project.label }}
+                {% if app.domain|default %}
+                    and domain {{ app.domain.label }}
+                {% endif %}
+            {% elseif app.domain|default %}
+                for domain {{ app.domain.label }}
+            {% endif %}
+        </h2>
+        <section class="tools">
+            <h3>Tools</h3>
+            {% include 'CoreLayoutBundle:Default:tools_list.html.twig' with {} only %}
+        </section>
+        {% if not app.project|default %}
+            <section class="projects">
+                <h3>Projects</h3>
+                {% include 'CoreProjectBundle:Admin:projects_list.html.twig' with {} only %}
+            </section>
+        {% endif %}
+        {% if not app.domain|default %}
+            <section class="domains">
+                <h3>Domains</h3>
+                {% include 'CoreProjectBundle:Admin:domains_list.html.twig' with {} only %}
+            </section>
+        {% endif %}
+    </section>
+
+{% endblock %}
+

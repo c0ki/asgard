@@ -1,16 +1,21 @@
 {% extends app.layout(_self) %}
 
 {% block content %}
-    {% include 'CoreProjectBundle:Admin:domains_list.html.twig' with {} only %}
-
     <section id="domain-edit">
         <h2>Domain {% if edit_mode %}edition{% else %}creation{% endif %}</h2>
         {{ form_start(form) }}
-            {{ form_widget(form) }}
-            <div class="button_row">
-                <button type="reset" class="icon-error icon-only">Reset</button>
-                <button type="submit" class="icon-success icon-only">Submit</button>
-            </div>
+        {{ form_widget(form) }}
+        <div class="button_row">
+            <button type="reset" class="icon-error icon-only">Reset</button>
+            <button type="submit" class="icon-success icon-only">Submit</button>
+        </div>
         {{ form_end(form) }}
     </section>
+
+    {% if not app.isPopin %}
+        <section class="list">
+            <h3>Domains</h3>
+            {% include 'CoreProjectBundle:Admin:domains_list.html.twig' with {} only %}
+        </section>
+    {% endif %}
 {% endblock %}

@@ -15,7 +15,7 @@
             {% set params = params|default({})|merge({'@domain': domain.name}) %}
             <option value="{{ path(route, params) }}"{% if app.domain == domain %} selected="selected"{% endif %}
                     class="icon-{{ domain.logo|default('no') }}"{% if not enableLink %} disabled{% endif %}>
-                {{ domain.label }}
+                {{ domain }}
             </option>
         {% endfor %}
     </select>
@@ -25,9 +25,9 @@
             {% set params = params|default({})|merge({'@domain': domain.name}) %}
             <li{% if app.domain == domain %} class="selected"{% endif %}>
                 {% if enableLink %}
-                    <a href="{{ path(route, params) }}" class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</a>
+                    <a href="{{ path(route, params) }}" class="icon-{{ domain.logo|default('no') }}">{{ domain }}</a>
                 {% else %}
-                    <span class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</span>
+                    <span class="icon-{{ domain.logo|default('no') }}">{{ domain }}</span>
                 {% endif %}
             </li>
         {% endfor %}
