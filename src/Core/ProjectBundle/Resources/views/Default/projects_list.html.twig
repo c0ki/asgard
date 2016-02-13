@@ -1,11 +1,15 @@
 {% if route is not defined %}
-    {% set route = app.masterRequest.attributes.get('_route') %}
-    {% set params = params|default({})|merge(app.masterRequest.attributes.get('_route_params')) %}
+    {% set route = app._route %}
+    {% set params = app._route_params(params|default({})) %}
 {% endif %}
-<ul>
-    {% for project in app.projects if nofilter|default or not app.domain or app.domain in project.getDomains() %}
+{% set projects = app.domain.projects|default(app.projects) %}
+{% if nofilter|default %}
+    {% set projects = app.projects %}
+{% endif %}
+<ul class="projects">
+    {% for project in projects %}
         {% set params = params|default({})|merge({'@project': project.name}) %}
-        <li{% if app.masterRequest.attributes.get('@project')|default() == project.name %} class="selected"{% endif %}>
+        <li{% if app.project == project %} class="selected"{% endif %}>
             <a href="{{ path(route, params) }}" class="icon-{{ project.logo|default('no') }}">{{ project.label }}</a>
         </li>
     {% endfor %}

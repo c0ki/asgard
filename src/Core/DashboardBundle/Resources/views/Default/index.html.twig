@@ -15,39 +15,18 @@
         </h2>
         <section class="tools">
             <h3>Tools</h3>
-            <ul>
-                {% for tool in app.tools %}
-                    <li>
-                        <a href="{{ path(tool.route) }}"
-                           class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% include 'CoreLayoutBundle:Default:tools_list.html.twig' with {} only %}
         </section>
         {% if not app.project|default %}
             <section class="projects">
                 <h3>Projects</h3>
-                <ul>
-                    {% for project in app.domain.projects|default(app.projects) %}
-                        <li>
-                            <a href="{{ path(app._route, app._route_params({'@project': project.name})) }}"
-                               class="icon-{{ project.logo|default('no') }}">{{ project.label }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% include 'CoreProjectBundle:Default:projects_list.html.twig' with {} only %}
             </section>
         {% endif %}
         {% if not app.domain|default %}
             <section class="domains">
                 <h3>Domains</h3>
-                <ul>
-                    {% for domain in app.project.domains|default(app.domains) %}
-                        <li>
-                            <a href="{{ path(app._route, app._route_params({'@domain': domain.name})) }}"
-                               class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% include 'CoreProjectBundle:Default:domains_list.html.twig' with {} only %}
             </section>
         {% endif %}
     </section>

@@ -50,13 +50,7 @@
     <aside>
         <nav id="tools">
             {% block tools_navbar %}
-                <ul>
-                    {% for tool in app.tools %}
-                        <li{% if app.tool == tool %} class="selected"{% endif %}><a
-                                    href="{{ path(tool.route) }}"
-                                    class="{{ tool.class|default('icon-no') }}">{{ tool.label }}</a></li>
-                    {% endfor %}
-                </ul>
+                {% include 'CoreLayoutBundle:Default:tools_list.html.twig' with {} only %}
             {% endblock %}
         </nav>
     </aside>

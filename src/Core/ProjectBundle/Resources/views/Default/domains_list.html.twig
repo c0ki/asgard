@@ -1,13 +1,17 @@
 {% if route is not defined %}
-    {% set route = app.masterRequest.attributes.get('_route') %}
-    {% set params = params|default({})|merge(app.masterRequest.attributes.get('_route_params')) %}
+    {% set route = app._route %}
+    {% set params = app._route_params(params|default({})) %}
+{% endif %}
+{% set domains = app.project.domains|default(app.domains) %}
+{% if nofilter|default %}
+    {% set domains = app.domains %}
 {% endif %}
 {% set enableLink = (not app.route(route).hasdefault('@domain')) %}
 {% if select|default %}
     <select{% if enableLink %} onchange="window.location=this.value"{% endif %}>
         {% set params = params|default({})|merge({'@domain': null }) %}
         <option value="{{ path(route, params) }}">Choose domain</option>
-        {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
+        {% for domain in domains %}
             {% set params = params|default({})|merge({'@domain': domain.name}) %}
             <option value="{{ path(route, params) }}"{% if app.domain == domain %} selected="selected"{% endif %}
                     class="icon-{{ domain.logo|default('no') }}"{% if not enableLink %} disabled{% endif %}>
@@ -16,13 +20,12 @@
         {% endfor %}
     </select>
 {% else %}
-    <ul>
-        {% for domain in app.domains if not app.project or app.project in domain.getProjects() %}
+    <ul class="domains">
+        {% for domain in domains %}
             {% set params = params|default({})|merge({'@domain': domain.name}) %}
             <li{% if app.domain == domain %} class="selected"{% endif %}>
                 {% if enableLink %}
-                    <a href="{{ path(route, params) }}"
-                       class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</a>
+                    <a href="{{ path(route, params) }}" class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</a>
                 {% else %}
                     <span class="icon-{{ domain.logo|default('no') }}">{{ domain.label }}</span>
                 {% endif %}
