@@ -10,7 +10,7 @@
     {% for project in projects %}
         {% set params = params|default({})|merge({'@project': project.name}) %}
         <li{% if app.project == project %} class="selected"{% endif %}>
-            <a href="{{ path(route, params) }}" class="icon-{{ project.logo|default('no') }}">{{ project }}</a>
+            <a href="{{ path(route, params) }}" class="icon-{{ project.logo|default('project') }}">{{ project }}</a>
         </li>
     {% endfor %}
 </ul>
