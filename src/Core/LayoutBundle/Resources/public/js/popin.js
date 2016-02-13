@@ -34,8 +34,8 @@ function popinReset() {
 }
 
 function popinClose(event) {
-    console.log(event);
-    if (event.target.id != 'popin' && event.target.dataset.type != 'close') {
+    if (event.target.id != 'popin' && event.target.dataset.type != 'close'
+        && event.target.type != 'reset') {
         return;
     }
     document.getElementById('background').style.display = 'none';

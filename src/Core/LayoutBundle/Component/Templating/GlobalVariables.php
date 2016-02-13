@@ -17,4 +17,8 @@ class GlobalVariables extends CoreGlobalVariables
         return $this->container->get('tool_helper')->getTool();
     }
 
+    public function getIsPopin() {
+        return $this->container->get('request_stack')->getMasterRequest()->query->has('popin');
+    }
+
 }
