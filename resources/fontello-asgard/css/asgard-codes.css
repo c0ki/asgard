@@ -31,3 +31,9 @@
 .icon-chart-area:before { content: '\e81d'; } /* '' */
 .icon-chart-pie:before { content: '\e81e'; } /* '' */
 .icon-list:before { content: '\e81f'; } /* '' */
+.icon-double-right:before { content: '\e820'; } /* '' */
+.icon-edit:before { content: '\e821'; } /* '' */
+.icon-double-up:before { content: '\e822'; } /* '' */
+.icon-double-down:before { content: '\e823'; } /* '' */
+.icon-double-left:before { content: '\e824'; } /* '' */
+.icon-projects:before { content: '\e825'; } /* '' */
