@@ -2,9 +2,8 @@ function popinOpen(e) {
     // Stop propagation
     e.preventDefault();
 
-    var nodeBackground = document.getElementById('background');
-    nodeBackground.style.display = 'block';
-    nodeBackground.addEventListener('click', popinClose);
+    document.getElementById('background').style.display = 'block';
+    document.getElementById('popin').addEventListener('click', popinClose);
     document.querySelector('#popin [data-type=close]').addEventListener('click', popinClose);
     document.getElementById('popin').style.display = 'flex';
     document.querySelector('#popin [data-type=progress]').style.display = 'flex';
@@ -35,9 +34,12 @@ function popinReset() {
 }
 
 function popinClose(event) {
-    var nodeBackground = document.getElementById('background');
-    nodeBackground.style.display = 'none';
-    nodeBackground.removeEventListener('click', popinClose);
+    console.log(event);
+    if (event.target.id != 'popin' && event.target.dataset.type != 'close') {
+        return;
+    }
+    document.getElementById('background').style.display = 'none';
+    document.getElementById('popin').removeEventListener('click', popinClose);
     popinReset();
     document.querySelector('#popin [data-type=close]').removeEventListener('click', popinClose);
     document.getElementById('popin').style.display = 'none';
