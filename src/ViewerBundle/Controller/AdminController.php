@@ -53,7 +53,7 @@ class AdminController extends Controller
 
             $OrmManager->flush();
 
-            $this->container->get('alert_helper')->success('Update OK');
+            $this->addFlash('success', 'Update OK');
 
             return new RedirectResponse($this->generateUrl('viewer_admin_home'), 302);
         }

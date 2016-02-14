@@ -2,10 +2,8 @@ parameters:
     templating.globals.class: Core\LayoutBundle\Component\Templating\GlobalVariables
     tool_helper.class: Core\LayoutBundle\Component\Helper\ToolHelper
     breadcrumb_helper.class: Core\LayoutBundle\Component\Helper\BreadcrumbHelper
-    alert_helper.class: Core\LayoutBundle\Component\Helper\AlertHelper
     url_helper.class: Core\LayoutBundle\Component\Helper\UrlHelper
 
-    twig.extension.core.alert.class: Core\LayoutBundle\Twig\AlertExtension
     twig.extension.core.global.class: Core\LayoutBundle\Twig\GlobalExtension
 
 services:
@@ -17,18 +15,8 @@ services:
             class: %breadcrumb_helper.class%
             arguments: [ @request_stack, @tool_helper, %breadcrumb.template% ]
 
-    alert_helper:
-        class: %alert_helper.class%
-        arguments: [ @request_stack ]
-
     url_helper:
         class: %url_helper.class%
-
-    twig.extension.core.alert:
-        class: %twig.extension.core.alert.class%
-        arguments: [ @alert_helper ]
-        tags:
-            - { name: twig.extension }
 
     twig.extension.core.global:
         class: %twig.extension.core.global.class%

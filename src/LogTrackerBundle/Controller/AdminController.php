@@ -59,10 +59,10 @@ class AdminController extends Controller
             $ormManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Logfile '{$entity}' updated");
+                $this->addFlash('success', "Logfile '{$entity}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Logfile '{$entity}' created");
+                $this->addFlash('success', "Logfile '{$entity}' created");
             }
 
             return new RedirectResponse($this->generateUrl('log_tracker_admin'), 302);
@@ -91,7 +91,7 @@ class AdminController extends Controller
             $ormManager = $this->getDoctrine()->getManager();
             $ormManager->remove($entity);
             $ormManager->flush();
-            $this->container->get('alert_helper')->success("Link '{$entityLabel}' deleted");
+            $this->addFlash('success', "Logfile '{$entityLabel}' deleted");
 
             return new RedirectResponse($this->generateUrl('log_tracker_admin'), 302);
         }

@@ -15,7 +15,7 @@
         'bundles/corelayout/css/simplenav.css'
         'bundles/corelayout/css/layout.css'
         'bundles/corelayout/css/default.css'
-        'bundles/corelayout/css/alert.css'
+        'bundles/corelayout/css/flashbag.css'
         'bundles/corelayout/css/confirm.css'
         'bundles/corelayout/css/popin.css'
         'bundles/corelayout/css/breadcrumb.css'
@@ -74,12 +74,14 @@
     </footer>
 {% endblock %}
 
-{% if has_alert() %}
-    {% block alert %}
-        <section id="alert">
+{% if app.session.flashbag.peekAll %}
+    {% block flashbag %}
+        <section id="flashbag">
             <ul>
-                {% for alert in get_alerts() %}
-                    <li class="icon-{{ alert.type }} {{ alert.type }}">{{ alert.text }}</li>
+                {% for type, messages in app.session.flashbag.all %}
+                    {% for message in messages %}
+                        <li class="icon-{{ type|default('no') }} {{ type }}">{{ message }}</li>
+                    {% endfor %}
                 {% endfor %}
             </ul>
         </section>

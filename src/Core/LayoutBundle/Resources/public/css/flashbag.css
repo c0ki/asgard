@@ -1,4 +1,4 @@
-#alert {
+#flashbag {
     /*opacity: 0;*/
     position: fixed;
     bottom: 0;
@@ -39,31 +39,34 @@
     }
 }
 
-
-#alert ul {
+#flashbag ul {
     padding: 0;
 }
 
-#alert li {
+#flashbag li {
     list-style: none;
 }
 
-#alert li.info {
+#flashbag li.notice {
+    color: skyblue;
+}
+
+#flashbag li.info {
     color: cornflowerblue;
 }
 
-#alert li.error {
+#flashbag li.error {
     color: red;
 }
 
-#alert li.warning {
+#flashbag li.warning {
     color: fuchsia;
 }
 
-#alert li.help {
+#flashbag li.help {
     color: darkorange;
 }
 
-#alert li.success {
+#flashbag li.success {
     color: green;
 }

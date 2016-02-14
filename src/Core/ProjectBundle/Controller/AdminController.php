@@ -64,10 +64,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Project '{$entity}' updated");
+                $this->addFlash('success', "Project '{$entity}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Project '{$entity}' created");
+                $this->addFlash('success', "Project '{$entity}' created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -109,10 +109,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Domain '{$entity}' updated");
+                $this->addFlash('success', "Domain '{$entity}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Domain '{$entity}' created");
+                $this->addFlash('success', "Domain '{$entity}' created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -152,7 +152,7 @@ class AdminController extends Controller
                 $project = $projectHelper->getProject();
                 $ormManager->remove($project);
                 $ormManager->flush();
-                $this->container->get('alert_helper')->success("Project '{$project}' deleted");
+                $this->addFlash('success', "Project '{$entity}' deleted");
 
                 return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
             }
@@ -160,7 +160,7 @@ class AdminController extends Controller
                 $domain = $projectHelper->getDomain();
                 $ormManager->remove($domain);
                 $ormManager->flush();
-                $this->container->get('alert_helper')->success("Domain '{$domain}' deleted");
+                $this->addFlash('success', "Domain '{$domain}' deleted");
 
                 return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
             }
@@ -198,10 +198,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Daemon '{$entity}' updated");
+                $this->addFlash('success', "Daemon '{$entity}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Daemon '{$entity}' created");
+                $this->addFlash('success', "Daemon '{$entity}' created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -231,7 +231,7 @@ class AdminController extends Controller
             $ormManager = $this->getDoctrine()->getManager();
             $ormManager->remove($entity);
             $ormManager->flush();
-            $this->container->get('alert_helper')->success("Daemon '{$entity}' deleted");
+            $this->addFlash('success', "Daemon '{$entity}' deleted");
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
         }
@@ -264,10 +264,10 @@ class AdminController extends Controller
             $OrmManager->flush();
 
             if ($edit) {
-                $this->container->get('alert_helper')->success("Link '{$entity}' updated");
+                $this->addFlash('success', "Link '{$entity}' updated");
             }
             else {
-                $this->container->get('alert_helper')->success("Link '{$entity}' created");
+                $this->addFlash('success', "Link '{$entity}' created");
             }
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
@@ -300,7 +300,7 @@ class AdminController extends Controller
             $ormManager = $this->getDoctrine()->getManager();
             $ormManager->remove($entity);
             $ormManager->flush();
-            $this->container->get('alert_helper')->success("Link '{$entityLabel}' deleted");
+            $this->addFlash('success', "Link '{$entityLabel}' deleted");
 
             return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
         }
