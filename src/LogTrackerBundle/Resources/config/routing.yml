@@ -1,6 +1,6 @@
 log_tracker_admin:
     path:     /
-    defaults: { _controller: LogTrackerBundle:Admin:logfileList }
+    defaults: { _controller: LogTrackerBundle:Admin:index }
     requirements:
         @siteaccess: admin
 

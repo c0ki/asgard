@@ -2,7 +2,17 @@
 
 {% block content %}
     <section id="logtracker-logfile-list">
-        <h2>Log Tracker</h2>
+        <h2>
+            LogTracker
+            {% if app.project|default %}
+                for project {{ app.project }}
+                {% if app.domain|default %}
+                    and domain {{ app.domain }}
+                {% endif %}
+            {% elseif app.domain|default %}
+                for domain {{ app.domain }}
+            {% endif %}
+        </h2>
         <h3>
             LogFiles
             <a href="{{ path('log_tracker_admin_logfile_edit') }}" class="icon-plus-circle icon-only">Add</a>
