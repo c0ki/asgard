@@ -3,10 +3,11 @@ function popinOpen(e) {
     e.preventDefault();
 
     document.getElementById('background').style.display = 'block';
-    document.getElementById('popin').addEventListener('click', popinClose);
-    document.querySelector('#popin [data-type=close]').addEventListener('click', popinClose);
     document.getElementById('popin').style.display = 'flex';
     document.querySelector('#popin [data-type=progress]').style.display = 'flex';
+    document.getElementById('popin').addEventListener('click', popinClose);
+    document.querySelector('#popin [data-type=close]').addEventListener('click', popinClose);
+    document.addEventListener('keydown', popinClose);
 
     var node = e.target;
     var url = node.getAttribute('href');
@@ -35,14 +36,15 @@ function popinReset() {
 
 function popinClose(event) {
     if (event.target.id != 'popin' && event.target.dataset.type != 'close'
-        && event.target.type != 'reset') {
+        && event.target.type != 'reset' && event.keyCode != 27) {
         return;
     }
-    document.getElementById('background').style.display = 'none';
-    document.getElementById('popin').removeEventListener('click', popinClose);
     popinReset();
-    document.querySelector('#popin [data-type=close]').removeEventListener('click', popinClose);
+    document.getElementById('background').style.display = 'none';
     document.getElementById('popin').style.display = 'none';
+    document.getElementById('popin').removeEventListener('click', popinClose);
+    document.querySelector('#popin [data-type=close]').removeEventListener('click', popinClose);
+    document.removeEventListener('keydown', popinClose);
 }
 
 function popinContentLoaded(event) {
