@@ -9,32 +9,37 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends Controller
 {
-    public function logfileListAction() {
+    public function indexAction() {
         $projectHelper = $this->container->get('project_helper');
         $logfileHelper = $this->container->get('logfile_helper');
 
         $criteria = array(
             'project' => $projectHelper->getProject(),
-            'domain' => $projectHelper->getDomain(),
+            'domain'  => $projectHelper->getDomain(),
         );
         $logfiles = array();
         $logs = $logfileHelper->listLogs($criteria);
         foreach ($logs as $logfile) {
-            $logfiles[$logfile->getLink()->getProject()->getLabel()][$logfile->getLink()->getDomain()->getLabel()][] = $logfile;
+            $logfiles[(string)$logfile->getLink()->getProject()][(string)$logfile->getLink()->getDomain()][] = $logfile;
         }
-        if ($projectHelper->hasProject()) {
-            $logfiles = $logfiles[$projectHelper->getProject()->getLabel()];
-            if ($projectHelper->hasDomain()) {
-                $logfiles = $logfiles[$projectHelper->getDomain()->getLabel()];
+        if ($projectHelper->hasProject() && array_key_exists((string)$projectHelper->getProject(), $logfiles)) {
+            $logfiles = $logfiles[(string)$projectHelper->getProject()];
+            if ($projectHelper->hasDomain() && array_key_exists((string)$projectHelper->getDomain(), $logfiles)) {
+                $logfiles = $logfiles[(string)$projectHelper->getDomain()];
             }
         }
         elseif ($projectHelper->hasDomain()) {
             foreach ($logfiles as &$logs) {
-                $logs = $logs[$projectHelper->getDomain()->getLabel()];
+                if (array_key_exists((string)$projectHelper->getDomain(), $logs)) {
+                    $logs = $logs[(string)$projectHelper->getDomain()];
+                }
+                else {
+                    $logs = array();
+                }
             }
         }
 
-        return $this->render('LogTrackerBundle:Admin:logfile_list.html.twig', array('logfiles' => $logfiles));
+        return $this->render('LogTrackerBundle:Admin:index.html.twig', array('logfiles' => $logfiles));
     }
 
     public function logfileEditAction(Request $request, $id) {
@@ -47,8 +52,8 @@ class AdminController extends Controller
         }
 
         $form = $this->createForm('generic_entity',
-                                  $entity,
-                                  array('data_class' => 'LogTrackerBundle\Entity\LogFile'));
+            $entity,
+            array('data_class' => 'LogTrackerBundle\Entity\LogFile'));
 
         $form->handleRequest($request);
 
@@ -69,10 +74,10 @@ class AdminController extends Controller
         }
 
         return $this->render('LogTrackerBundle:Admin:logfile_edit.html.twig',
-                             array(
-                                 'edit_mode' => $edit,
-                                 'form' => $form->createView(),
-                             ));
+            array(
+                'edit_mode' => $edit,
+                'form'      => $form->createView(),
+            ));
     }
 
     public function logfileDeleteAction(Request $request, $id) {
@@ -83,8 +88,8 @@ class AdminController extends Controller
         }
         $entityLabel = (string)$entity;
         $form = $this->createForm('generic_entity',
-                                  $entity,
-                                  array('data_class' => 'LogTrackerBundle\Entity\LogFile', 'read_only' => true));
+            $entity,
+            array('data_class' => 'LogTrackerBundle\Entity\LogFile', 'read_only' => true));
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -97,8 +102,8 @@ class AdminController extends Controller
         }
 
         return $this->render('CoreLayoutBundle:Default:confirm.html.twig',
-                             array(
-                                 'form' => $form->createView(),
-                             ));
+            array(
+                'form' => $form->createView(),
+            ));
     }
 }
