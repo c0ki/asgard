@@ -15,17 +15,55 @@ class DefaultController extends Controller
         $indexer = $this->container->get('core.indexer.solr');
         $data = array('daemon' => array(), 'type' => array(), 'daemontype' => array());
 
-        $criteria = array();
+        $defaultCriteria = array();
+        $listCriteria = array($defaultCriteria);
+        $facets = array('daemon', 'type');
         if ($projectHelper->hasProject()) {
-            $criteria['+project'] = $projectHelper->getProject()->getName();
+            foreach ($listCriteria as $criteria) {
+                $criteria['+project'] = $projectHelper->getProject()->getName();
+            }
+        }
+        else {
+            $projects = $projectHelper->listProjects();
+            if ($projectHelper->hasDomain()) {
+                $projects = $projectHelper->getDomain()->getProjects();
+            }
+            foreach ($listCriteria as $key => $criteria) {
+                foreach ($projects as $project) {
+                    $criteria['+project'] = $project->getName();
+                    $listCriteria[] = $criteria;
+                }
+                unset($listCriteria[$key]);
+            }
         }
         if ($projectHelper->hasDomain()) {
-            $criteria['+domain'] = $projectHelper->getDomain()->getName();
+            foreach ($listCriteria as $criteria) {
+                $criteria['+domain'] = $projectHelper->getDomain()->getName();
+            }
         }
-        $criteria = array_filter($criteria);
-        $results = $indexer->search('asgard_logs', $criteria, 0, 1, array('daemon', 'type'));
-        $data['daemon'] = $results->facets['daemon'];
-        $data['type'] = $results->facets['type'];
+        else {
+            $domains = $projectHelper->listDomains();
+            if ($projectHelper->hasProject()) {
+                $domains = $projectHelper->getProject()->getDomains();
+            }
+            foreach ($listCriteria as $key => $criteria) {
+                foreach ($domains as $domain) {
+                    $criteria['+domain'] = $domain->getName();
+                    $listCriteria[] = $criteria;
+                }
+                unset($listCriteria[$key]);
+            }
+        }
+        $listCriteria = array_filter($listCriteria);
+
+        var_dump($listCriteria);
+        exit();
+
+
+        $results = $indexer->search('asgard_logs', $criteria, 0, 1, $facets);
+        $data = $results->facets;
+//        $data['daemon'] = $results->facets['daemon'];
+//        $data['type'] = $results->facets['type'];
         foreach ($results->facets['daemon'] as $daemon => $val) {
             $criteriaDaemon = array_merge($criteria, array('+daemon' => $daemon));
             $resultsDaemon = $indexer->search('asgard_logs', $criteriaDaemon, 0, 1, array('type'));
@@ -35,6 +73,7 @@ class DefaultController extends Controller
                 $data['daemontype'][$daemon] = $resultsDaemon->facets['type'];
             }
         }
+        var_dump($data);
 
         return $this->render('LogTrackerBundle:Default:index.html.twig', array('list' => $data));
     }
