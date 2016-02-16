@@ -2,32 +2,24 @@
 
 {% block content %}
     <section id="logtracker">
-        <h2>Log Tracker</h2>
-
+        <h2>LogTracker</h2>
+        {{ render(controller('CoreSearchBundle:Default:form')) }}
         <section>
-            <h3>By daemon</h3>
+            <h3>Visualization by daemon</h3>
             <ul>
-            {% for daemon, nb in list.daemon %}
-                <li>
-                    <a href="{{ path('log_tracker_chart', {'query': 'daemon:"' ~ daemon ~ '"'}) }}">{{ daemon }} [{{ nb }}]</a>
+            {% for daemon, types in list %}
+                <li>{{ daemon }}
                 <ul>
-                    {% for type, nb in list.daemontype[daemon]|default([]) %}
-                        <li><a href="{{ path('log_tracker_chart', {'query': '+daemon:"' ~ daemon ~ '" +type:"' ~ type ~ '"'}) }}">{{ daemon }} / {{ type }} [{{ nb }}]</a></li>
+                    {% for type, info in types %}
+                        <li>
+                            {{ type }}
+                            <a href="{{ path('log_tracker_chart', {'query': info.query}) }}" class="icon-only icon-chart-bar">chart</a>
+                            <a href="{{ path('log_tracker_chart', {'query': info.query}) }}" class="icon-only icon-list">list</a>
+                        </li>
                     {% endfor %}
-                    </ul>
+                </ul>
                 </li>
             {% endfor %}
-            </ul>
-        </section>
-
-        <section>
-            <h3>By type</h3>
-            <ul>
-                {% for type, nb in list.type %}
-                    <li>
-                        <a href="{{ path('log_tracker_chart', {'query': 'type:"' ~ type ~ '"'}) }}">{{ type }} [{{ nb }}]</a>
-                    </li>
-                {% endfor %}
             </ul>
         </section>
     </section>

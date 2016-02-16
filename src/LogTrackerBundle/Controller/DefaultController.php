@@ -13,84 +13,36 @@ class DefaultController extends Controller
     public function indexAction() {
         $projectHelper = $this->container->get('project_helper');
         $indexer = $this->container->get('core.indexer.solr');
-        $data = array('daemon' => array(), 'type' => array(), 'daemontype' => array());
 
-        $defaultCriteria = array();
-        $listCriteria = array($defaultCriteria);
-        $facets = array('daemon', 'type');
+        $criteria = array();
         if ($projectHelper->hasProject()) {
-            foreach ($listCriteria as $criteria) {
-                $criteria['+project'] = $projectHelper->getProject()->getName();
-            }
-        }
-        else {
-            $projects = $projectHelper->listProjects();
-            if ($projectHelper->hasDomain()) {
-                $projects = $projectHelper->getDomain()->getProjects();
-            }
-            foreach ($listCriteria as $key => $criteria) {
-                foreach ($projects as $project) {
-                    $criteria['+project'] = $project->getName();
-                    $listCriteria[] = $criteria;
-                }
-                unset($listCriteria[$key]);
-            }
+            $criteria['+project'] = $projectHelper->getProject()->getName();
         }
         if ($projectHelper->hasDomain()) {
-            foreach ($listCriteria as $criteria) {
-                $criteria['+domain'] = $projectHelper->getDomain()->getName();
-            }
+            $criteria['+domain'] = $projectHelper->getDomain()->getName();
         }
-        else {
-            $domains = $projectHelper->listDomains();
-            if ($projectHelper->hasProject()) {
-                $domains = $projectHelper->getProject()->getDomains();
-            }
-            foreach ($listCriteria as $key => $criteria) {
-                foreach ($domains as $domain) {
-                    $criteria['+domain'] = $domain->getName();
-                    $listCriteria[] = $criteria;
+
+        $results = $indexer->search('asgard_logs', $criteria, 0, 1, array('daemon'));
+        $daemons = array_keys($results->facets['daemon']);
+        foreach ($daemons as $daemon) {
+            $criteriaDaemon = $criteria + array('+daemon' => $daemon);
+            $results = $indexer->search('asgard_logs', $criteriaDaemon, 0, 1, array('type'));
+            foreach ($results->facets['type'] as $type => $nb) {
+                if ($type == "unknown") {
+                    $criteriaType = $criteriaDaemon + array('-type' => '*');
                 }
-                unset($listCriteria[$key]);
+                else {
+                    $criteriaType = $criteriaDaemon + array('+type' => $type);
+                }
+                SolrQuery::formatCriteria($criteriaType);
+                $data[$daemon][$type] = array('query' => $criteriaType, 'nb' => $nb);
             }
         }
-        $listCriteria = array_filter($listCriteria);
-
-        var_dump($listCriteria);
-        exit();
-
-
-        $results = $indexer->search('asgard_logs', $criteria, 0, 1, $facets);
-        $data = $results->facets;
-//        $data['daemon'] = $results->facets['daemon'];
-//        $data['type'] = $results->facets['type'];
-        foreach ($results->facets['daemon'] as $daemon => $val) {
-            $criteriaDaemon = array_merge($criteria, array('+daemon' => $daemon));
-            $resultsDaemon = $indexer->search('asgard_logs', $criteriaDaemon, 0, 1, array('type'));
-            if (count($resultsDaemon->facets['type']) != 1
-                || !array_key_exists('unknown', $resultsDaemon->facets['type'])
-            ) {
-                $data['daemontype'][$daemon] = $resultsDaemon->facets['type'];
-            }
-        }
-        var_dump($data);
 
         return $this->render('LogTrackerBundle:Default:index.html.twig', array('list' => $data));
     }
 
-    public function chartAction(Request $request, $query) {
-        // Form init
-        $form = $this->createForm('core_search', array('query' => $query));
-        $form->handleRequest($request);
-
-        // Redirect to valid url if form valid
-        if ($form->isValid()) {
-            $query = $form->get('query')->getData();
-            SolrQuery::formatCriteria($query);
-
-            return new RedirectResponse($this->generateUrl('log_tracker_chart', array('query' => $query)));
-        }
-
+    public function chartAction($query) {
         // Redirect to valid url if query have date or not formatted
         $initialQuery = $query;
         $query = preg_replace('/\+?date:[\d-:]+/', '', $query);
@@ -99,8 +51,7 @@ class DefaultController extends Controller
             return new RedirectResponse($this->generateUrl('log_tracker_chart', array('query' => $query)));
         }
 
-        return $this->render('LogTrackerBundle:Default:chart.html.twig',
-            array('form' => $form->createView(), 'query' => $query));
+        return $this->render('LogTrackerBundle:Default:chart.html.twig', array('query' => $query));
     }
 
     public function dataAction($query, $preventMonth) {
@@ -160,19 +111,8 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function searchAction(Request $request, $query, $start, $rows) {
-        // Form init
-        $form = $this->createForm('core_search', array('query' => $query));
-        $form->handleRequest($request);
-
-        // Redirect to valid url if form valid
-        if ($form->isValid()) {
-            $query = $form->get('query')->getData();
-            SolrQuery::formatCriteria($query);
-
-            return new RedirectResponse($this->generateUrl('log_tracker_search', array('query' => $query)));
-        }
-
+    public function searchAction($query, $start, $rows) {
+        var_dump($query);
         // Redirect to valid url if query not formatted
         $initialQuery = $query;
         SolrQuery::formatCriteria($query);
@@ -212,6 +152,6 @@ class DefaultController extends Controller
         $results->rows = $rows;
 
         return $this->render('LogTrackerBundle:List:results.html.twig',
-            array('form' => $form->createView(), 'results' => $results, 'query' => $initialQuery));
+            array('results' => $results, 'query' => $initialQuery));
     }
 }
