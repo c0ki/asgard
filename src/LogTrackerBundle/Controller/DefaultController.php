@@ -112,7 +112,6 @@ class DefaultController extends Controller
     }
 
     public function searchAction($query, $start, $rows) {
-        var_dump($query);
         // Redirect to valid url if query not formatted
         $initialQuery = $query;
         SolrQuery::formatCriteria($query);
