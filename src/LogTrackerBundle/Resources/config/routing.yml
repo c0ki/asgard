@@ -30,7 +30,12 @@ log_tracker_chart:
 log_tracker_search:
     path:   /search/{query}/{start}/{rows}
     defaults: { _controller: LogTrackerBundle:Default:search, query: '*', start: 0, rows: 10 }
+    requirements:
+        start: "\d+"
+        rows: "\d+"
 
 log_tracker_data:
     path:   /data/{query}/{preventMonth}
     defaults: { _controller: LogTrackerBundle:Default:data, query: null, preventMonth: 6 }
+    requirements:
+        preventMonth: "\d+"
