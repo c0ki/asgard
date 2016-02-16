@@ -6,7 +6,7 @@
                 {% set label = label|date("Y-m-d") %}
             {% endif %}
             <li>
-                <a href="{{ path('log_tracker_search', {'query': query ~ ' +' ~ name ~ ':"' ~ label ~ '"'}) }}">
+                <a href="{{ path('log_tracker_search', {'query': query ~ ' +' ~ name ~ ':"' ~ label|replace('/', '~') ~ '"'}) }}">
                     {{ label }}
                     ({{ value }})
                 </a>
