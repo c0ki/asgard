@@ -2,7 +2,8 @@ parameters:
     form.type.search.class: Core\SearchBundle\Form\Type\SearchType
 
 services:
-    app.form.type.task:
+    form.type.search:
         class: %form.type.search.class%
+        arguments: [ @request_stack, @router ]
         tags:
             - { name: form.type, alias: core_search }

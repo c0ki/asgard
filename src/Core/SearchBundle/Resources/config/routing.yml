@@ -1,3 +1,8 @@
-core_search_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: CoreSearchBundle:Default:index }
+core_search_form:
+    path:     /form
+    defaults: { _controller: CoreSearchBundle:Default:form }
+
+core_search_submit:
+    path:     /submit
+    defaults: { _controller: CoreSearchBundle:Default:submit }
+    methods:  [POST]

@@ -6,28 +6,3 @@
 #logtracker h3 [class^="icon-"]:before, #logtracker h3 [class*=" icon-"]:before {
     font-size: 1.75rem;
 }
-
-#logtracker form.search {
-    margin: 1rem;
-    padding: 0;
-}
-
-#logtracker form.search * {
-    display: inline-block;
-    margin: 0;
-}
-
-#logtracker form.search > div > div:first-child {
-    border: 1px solid grey;
-    border-radius: 0.5rem;
-    padding: 0 0.5rem;
-}
-
-#logtracker form.search input {
-    border: none;
-}
-
-#logtracker form.search label {
-    display: none;
-}
-

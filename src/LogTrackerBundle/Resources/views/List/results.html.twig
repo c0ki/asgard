@@ -19,7 +19,7 @@
             {% endif %}
             <a href="{{ path('log_tracker_chart', {'query': query}) }}" class="icon-chart-bar icon-only">chart</a>
         </h3>
-        {{ form(form, {'attr': {'class': 'search'}}) }}
+        {{ render(controller('CoreSearchBundle:Default:form', {'query': query})) }}
         <section class="results">
             <aside class="facets">
                 {% for name, values in results.facets if values|length > 1 %}

@@ -1,0 +1,35 @@
+section.formsearch {
+    margin: 1rem;
+    padding: 0;
+}
+
+section.formsearch * {
+    display: inline-block;
+    margin: 0;
+}
+
+section.formsearch > div > div:first-child {
+    border: 1px solid grey;
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+section.formsearch input {
+    border: 1px solid grey;
+    border-radius: 0.5rem;
+}
+
+section.formsearch button[type="submit"] {
+    border: 1px solid grey;
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+}
+section.formsearch button[type="submit"]:before {
+    font-size: 1.5rem;
+    color: black;
+}
+
+section.formsearch label {
+    display: none;
+}
+
