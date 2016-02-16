@@ -26,11 +26,23 @@ class SearchType extends AbstractType
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        // Init data
+        if (!array_key_exists('data', $options)) {
+            $options['data'] = array();
+        }
+        if (!array_key_exists('_route', $options['data']) || is_null($options['data']['_route'])) {
+            $options['data']['_route'] = $this->masterRequest->attributes->get('_route');
+        }
+        if (!array_key_exists('_route_params', $options['data']) || is_null($options['data']['_route_params'])) {
+            $options['data']['_route_params']
+                = http_build_query($this->masterRequest->attributes->get('_route_params'));
+        }
+
         $builder
             ->setAction($this->router->generate('core_search_submit'))
             ->add('query')
-            ->add('_route', 'hidden', array('data' => $this->masterRequest->attributes->get('_route')))
-            ->add('_route_params', 'hidden', array('data' => http_build_query($this->masterRequest->attributes->get('_route_params'))));
+            ->add('_route', 'hidden', array('data' => $options['data']['_route']))
+            ->add('_route_params', 'hidden', array('data' => $options['data']['_route_params']));
     }
 
     public function getName() {

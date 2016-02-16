@@ -3,7 +3,7 @@
 {% block content %}
     <section id="logtracker">
         <h2>LogTracker</h2>
-        {{ render(controller('CoreSearchBundle:Default:form')) }}
+        {{ render(controller('CoreSearchBundle:Default:form', {'_route': 'log_tracker_search'})) }}
         <section>
             <h3>Visualization by daemon</h3>
             <ul>

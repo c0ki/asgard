@@ -9,8 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function formAction($query = null) {
-        $form = $this->createForm('core_search', array('query' => $query));
+    public function formAction($query = null, $_route = null, $_route_params = null) {
+        $form = $this->createForm('core_search',
+            array('query' => $query, '_route' => $_route, '_route_params' => $_route_params));
 
         return $this->render('CoreSearchBundle:Default:form.html.twig',
             array('form' => $form->createView(), 'query' => $query));
@@ -29,6 +30,7 @@ class DefaultController extends Controller
             SolrQuery::formatCriteria($query);
             parse_str($form->get('_route_params')->getData(), $routeParams);
             $routeParams = array_merge($routeParams, array('query' => $query));
+
             return new RedirectResponse($this->generateUrl($form->get('_route')->getData(), $routeParams));
         }
         $this->addFlash('error', "Invalid search query");
