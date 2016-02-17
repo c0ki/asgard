@@ -92,7 +92,7 @@ class SolrQuery extends CoreSolrQuery
                         $value = "{$key}:[" . $value['from'] . ' TO ' . $value['to'] . ']';
                     }
                     elseif (is_numeric($key)) {
-                        static::formatCriteria($value, $formatDate);
+                        static::formatCriteria($value, $formatSolr);
                         $value = '(' . $value . ')';
                     }
                     else {
