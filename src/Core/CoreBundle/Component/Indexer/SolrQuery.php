@@ -80,9 +80,9 @@ class SolrQuery extends CoreSolrQuery
     /**
      * Format criteria
      * @param mixed $criteria Criteria list in array or string
-     * @param bool $formatDate
+     * @param bool $formatSolr
      */
-    static public function formatCriteria(&$criteria, $formatDate = false) {
+    static public function formatCriteria(&$criteria, $formatSolr = false) {
         // Implode criteria
         if (is_array($criteria)) {
             foreach ($criteria as $key => &$value) {
@@ -130,7 +130,7 @@ class SolrQuery extends CoreSolrQuery
         // Remove "\w+"
         $criteria = preg_replace('/"(\w[^\s]*)"/', '$1', $criteria);
 
-        if (!$formatDate
+        if (!$formatSolr
             && preg_match_all('/\[(\d{4})-(\d{2})-(\d{2})T00:00:00Z\s+TO\s+(\d{4})-(\d{2})-(\d{1,2})T00:00:00Z\]/',
                 $criteria,
                 $matches, PREG_SET_ORDER)
@@ -141,11 +141,19 @@ class SolrQuery extends CoreSolrQuery
                 }
             }
         }
-        elseif ($formatDate && preg_match_all('/:(\d{4}-\d{1,2}-)(\d{1,2})\b/', $criteria, $matches, PREG_SET_ORDER)) {
+        elseif ($formatSolr && preg_match_all('/:(\d{4}-\d{1,2}-)(\d{1,2})\b/', $criteria, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $match) {
                 $final = ":[{$match[1]}{$match[2]}T00:00:00Z TO {$match[1]}" . ($match[2] + 1) . "T00:00:00Z] ";
                 $criteria = str_replace($match[0], $final, $criteria);
             }
+        }
+
+        // Replace / and ~
+        if ($formatSolr) {
+            $criteria = str_replace('~', '/', $criteria);
+        }
+        else {
+            $criteria = str_replace('/', '~', $criteria);
         }
     }
 
