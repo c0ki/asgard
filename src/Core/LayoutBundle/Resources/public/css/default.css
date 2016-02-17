@@ -61,7 +61,7 @@ h2 {
     margin-bottom: 0.5rem;
 }
 
-h2 [class^="icon-"]:before, #main h2 [class*=" icon-"]:before {
+h2 [class^="icon-"]:before, h2 [class*=" icon-"]:before {
     font-size: 2rem;
 }
 
@@ -71,7 +71,7 @@ h3 {
     margin-bottom: 0.5rem;
 }
 
-h3 [class^="icon-"]:before, #main h3 [class*=" icon-"]:before {
+h3 [class^="icon-"]:before, h3 [class*=" icon-"]:before {
     font-size: 1.2rem;
 }
 
@@ -81,7 +81,17 @@ h4 {
     margin-bottom: 0.25rem;
 }
 
-h4 [class^="icon-"]:before, #main h4 [class*=" icon-"]:before {
+h4 [class^="icon-"]:before, h4 [class*=" icon-"]:before {
+    font-size: 1rem;
+}
+
+h5 {
+    font-size: 1.2rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+h5 [class^="icon-"]:before, h5 [class*=" icon-"]:before {
     font-size: 1rem;
 }
 
