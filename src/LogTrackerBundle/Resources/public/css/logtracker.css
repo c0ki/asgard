@@ -4,7 +4,9 @@
     margin: 0.25rem 0;
 }
 
-#logtracker h2 [class^="icon-"]:before, #logtracker h2 [class*=" icon-"]:before,
+#logtracker h2 [class^="icon-"]:before, #logtracker h2 [class*=" icon-"]:before {
+    font-size: 3rem;
+}
 #logtracker h3 [class^="icon-"]:before, #logtracker h3 [class*=" icon-"]:before {
     font-size: 1.75rem;
 }

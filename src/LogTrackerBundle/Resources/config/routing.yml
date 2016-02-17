@@ -24,8 +24,10 @@ log_tracker_tool_homepage:
         label: LogTracker
 
 log_tracker_chart:
-    path:   /chart/{query}
-    defaults: { _controller: LogTrackerBundle:Default:chart, query: '*' }
+    path:   /chart/{query}/{preventMonth}
+    defaults: { _controller: LogTrackerBundle:Default:chart, query: '*', preventMonth: 1 }
+    requirements:
+        preventMonth: "\d+"
 
 log_tracker_search:
     path:   /search/{query}/{start}/{rows}
@@ -36,6 +38,6 @@ log_tracker_search:
 
 log_tracker_data:
     path:   /data/{query}/{preventMonth}
-    defaults: { _controller: LogTrackerBundle:Default:data, query: null, preventMonth: 6 }
+    defaults: { _controller: LogTrackerBundle:Default:data, query: null, preventMonth: 1 }
     requirements:
         preventMonth: "\d+"

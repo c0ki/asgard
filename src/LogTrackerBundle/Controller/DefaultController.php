@@ -42,7 +42,7 @@ class DefaultController extends Controller
         return $this->render('LogTrackerBundle:Default:index.html.twig', array('list' => $data));
     }
 
-    public function chartAction($query) {
+    public function chartAction($query, $preventMonth) {
         // Redirect to valid url if query have date or not formatted
         $initialQuery = $query;
         $query = preg_replace('/\+?date:[\d-:]+/', '', $query);
@@ -51,7 +51,8 @@ class DefaultController extends Controller
             return new RedirectResponse($this->generateUrl('log_tracker_chart', array('query' => $query)));
         }
 
-        return $this->render('LogTrackerBundle:Default:chart.html.twig', array('query' => $query));
+        return $this->render('LogTrackerBundle:Default:chart.html.twig',
+            array('query' => $query, 'preventMonth' => $preventMonth));
     }
 
     public function dataAction($query, $preventMonth) {
@@ -70,7 +71,7 @@ class DefaultController extends Controller
 
         $results = $searchService->search('asgard_logs', $criteria, 0, 1, array('subtype_s'));
         if (empty($preventMonth) || !is_numeric($preventMonth)) {
-            $preventMonth = 6;
+            $preventMonth = 1;
         }
         $firstDay = date('Y-m-d', strtotime("-{$preventMonth} MONTH"));
         foreach ($results->facets['subtype_s'] as $name => $val) {
@@ -151,6 +152,7 @@ class DefaultController extends Controller
         }
         catch (SearchException $e) {
             $this->addFlash('error', $e->getMessage());
+
             return new RedirectResponse($this->generateUrl('log_tracker_tool_homepage'));
         }
         $results->start = $start;
