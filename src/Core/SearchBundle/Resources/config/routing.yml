@@ -1,3 +1,9 @@
+core_search_admin_data_remove:
+    path:     /data/remove
+    defaults: { _controller: CoreIndexBundle:Admin:removeData }
+    requirements:
+        @siteaccess: admin
+
 core_search_form:
     path:     /form
     defaults: { _controller: CoreSearchBundle:Default:form }

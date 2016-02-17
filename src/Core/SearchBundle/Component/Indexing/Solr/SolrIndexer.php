@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\IndexBundle\Component\Indexing\Solr;
+namespace Core\SearchBundle\Component\Indexing\Solr;
 
 use Monolog\Logger;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\IndexBundle\Controller;
+namespace Core\SearchBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
