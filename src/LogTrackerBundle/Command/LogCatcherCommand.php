@@ -109,16 +109,6 @@ class LogCatcherCommand extends ContainerAwareCommand
                 $this->logger->error("Log catcher: The \"--daemon\" option requires a valid application");
                 throw new \InvalidArgumentException('The "--daemon" option requires a valid application.');
             }
-            elseif (!is_null($this->project) && !$this->daemon->getProjects()->contains(($this->project))) {
-                $this->logger->error("Log catcher: The \"--daemon\" option requires a valid daemon to \"{$this->project->getLabel()}\" project");
-                throw new \InvalidArgumentException('The "--daemon" option requires a valid daemon to "'
-                                                    . $this->project->getLabel() . '" project.');
-            }
-            elseif (!is_null($this->domain) && !$this->daemon->getDomains()->contains(($this->domain))) {
-                $this->logger->error("Log catcher: The \"--daemon\" option requires a valid daemon to \"{$this->domain->getLabel()}\" domain");
-                throw new \InvalidArgumentException('The "--daemon" option requires a valid daemon to "'
-                                                    . $this->domain->getLabel() . '" domain.');
-            }
         }
     }
 
