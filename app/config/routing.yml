@@ -14,10 +14,6 @@ log_analyser:
     resource: "@LogAnalyserBundle/Resources/config/routing.yml"
     prefix:   /loganalyser/
 
-core_admin:
-    resource: "@CoreAdminBundle/Resources/config/routing.yml"
-    prefix:   /
-
 core_dashboard:
     resource: "@CoreDashboardBundle/Resources/config/routing.yml"
     prefix:   /
@@ -26,8 +22,16 @@ core_search:
     resource: "@CoreSearchBundle/Resources/config/routing.yml"
     prefix:   /search/
 
+core_index:
+    resource: "@CoreIndexBundle/Resources/config/routing.yml"
+    prefix:   /index/
+
 core_project:
     resource: "@CoreProjectBundle/Resources/config/routing.yml"
+    prefix:   /
+
+core_admin:
+    resource: "@CoreAdminBundle/Resources/config/routing.yml"
     prefix:   /
 
 core_layout:

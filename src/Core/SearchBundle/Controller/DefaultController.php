@@ -2,7 +2,7 @@
 
 namespace Core\SearchBundle\Controller;
 
-use Core\CoreBundle\Component\Indexer\SolrQuery;
+use Core\SearchBundle\Component\Search\Solr\SolrQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

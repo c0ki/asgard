@@ -1,5 +1,6 @@
 parameters:
     form.type.search.class: Core\SearchBundle\Form\Type\SearchType
+    search.type.solr.class: Core\SearchBundle\Component\Search\Solr\SolrSearch
 
 services:
     form.type.search:
@@ -7,3 +8,12 @@ services:
         arguments: [ @request_stack, @router ]
         tags:
             - { name: form.type, alias: core_search }
+
+    search.type.solr:
+        class: %search.type.solr.class%
+        arguments: [ @monolog.logger, %searchengine.hostname%, %searchengine.port%, %searchengine.cores% ]
+        tags:
+            - { name: monolog.logger, channel: search }
+
+    search:
+        alias: search.type.solr

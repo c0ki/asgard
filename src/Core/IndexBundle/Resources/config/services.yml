@@ -1,0 +1,12 @@
+parameters:
+    indexer.type.solr.class: Core\IndexBundle\Component\Indexing\Solr\SolrIndexer
+
+services:
+    indexer.type.solr:
+        class: %indexer.type.solr.class%
+        arguments: [ @monolog.logger, %indexengine.hostname%, %indexengine.port%, %indexengine.cores% ]
+        tags:
+            - { name: monolog.logger, channel: index }
+
+    indexer:
+        alias: indexer.type.solr

@@ -7,7 +7,6 @@ parameters:
     event_subscriber.siteaccess.router.class: Core\CoreBundle\EventSubscriber\RouterSubscriber
     event_listener.console.pid_file.class: Core\CoreBundle\EventListener\ConsolePidFileListener
     form.type.generic_entity.class: Core\CoreBundle\Form\Type\GenericEntityType
-    core.indexer.solr.class: Core\CoreBundle\Component\Indexer\SolrIndexer
 
 services:
     monolog.logger.console:
@@ -32,8 +31,4 @@ services:
         arguments: [ @doctrine ]
         tags:
             - { name: form.type, alias: generic_entity }
-
-    core.indexer.solr:
-        class: %core.indexer.solr.class%
-        arguments: [ %indexer.hostname%, %indexer.port%, %indexer.core% ]
 

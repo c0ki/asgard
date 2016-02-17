@@ -1,0 +1,4 @@
+parameters:
+    searchengine.hostname: localhost
+    searchengine.port: 8983
+    searchengine.cores: [ asgard_logs ]

@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\CoreBundle\Component\Indexer;
+namespace Core\SearchBundle\Component\Search\Solr;
 
 use \SolrClient as CoreSolrClient;
 

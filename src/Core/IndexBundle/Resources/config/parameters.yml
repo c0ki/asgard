@@ -1,0 +1,4 @@
+parameters:
+    indexengine.hostname: localhost
+    indexengine.port: 8983
+    indexengine.cores: [ asgard_logs ]

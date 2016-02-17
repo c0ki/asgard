@@ -1,6 +1,8 @@
 <?php
 
-namespace Core\CoreBundle\Component\Indexer;
+namespace Core\IndexBundle\Component\Indexing\Solr;
+
+use Monolog\Logger;
 
 class SolrIndexer
 {
@@ -13,12 +15,20 @@ class SolrIndexer
     protected $cores = array();
 
     /**
-     * SolRIndexer constructor.
-     * @param       $hostname
-     * @param       $port
-     * @param array $cores
+     * Logger object
+     * @var \Monolog\Logger
      */
-    public function __construct($hostname, $port, array $cores) {
+    protected $logger;
+
+    /**
+     * SolrIndexer constructor.
+     * @param Logger $logger
+     * @param        $hostname
+     * @param        $port
+     * @param array  $cores
+     */
+    public function __construct(Logger $logger, $hostname, $port, array $cores) {
+        $this->logger = $logger;
         foreach ($cores as $name) {
             $this->cores[$name] = array(
                 'hostname' => $hostname,
@@ -28,43 +38,8 @@ class SolrIndexer
         }
     }
 
-    /**
-     * search
-     * Search from criteria into SolR
-     * @param   string $core SolR core
-     * @param   mixed  $criteria Criteria list in array or string
-     * @param   int    $start For pagination, start row number return
-     * @param   int    $numRows For pagination, number of rows return
-     * @param   array  $facets Facets list
-     * @return  object  boolean -> success  Success or not
-     *                           int     -> numFound Results found number
-     *                           array   -> results  Results list
-     *                           array   -> facets   Facets list
-     * @throws  SolrEngineException
-     */
-    public function search($core, $criteria, $start = null, $numRows = null, array $facets = null) {
-        if (!array_key_exists($core, $this->cores)) {
-            throw new \InvalidArgumentException("Invalid core '{$core}'");
-        }
-        $solrClient = new SolrClient($this->cores[$core]);
-
-        // Build query
-        $query = new SolrQuery();
-        $query->setStart($start);
-        $query->setRows($numRows);
-        $query->setCriteria($criteria);
-        if (!is_null($facets)) {
-            $query->setFacets($facets);
-        }
-
-        // Execute query
-        $results = $solrClient->query($query);
-
-        return $results;
-    }
-
     public function importData($core, $clean = false) {
-        $solrClient = new SolrClient($this->cores[$core]);
+        $solrClient = new \SolrClient($this->cores[$core]);
         $solrInfo = $solrClient->getOptions();
 
         $url = "http://{$solrInfo['hostname']}:{$solrInfo['port']}/{$solrInfo['path']}/dataimport";
@@ -110,7 +85,7 @@ class SolrIndexer
     }
 
     public function clean($core) {
-        $solrClient = new SolrClient($this->cores[$core]);
+        $solrClient = new \SolrClient($this->cores[$core]);
         $solrInfo = $solrClient->getOptions();
 
         $url = "http://{$solrInfo['hostname']}:{$solrInfo['port']}/{$solrInfo['path']}/update";
@@ -139,7 +114,7 @@ class SolrIndexer
         if (!array_key_exists($core, $this->cores)) {
             throw new \InvalidArgumentException("Invalid core '{$core}'");
         }
-        $solrClient = new SolrClient($this->cores[$core]);
+        $solrClient = new \SolrClient($this->cores[$core]);
         $solrClient->request($content);
     }
 
@@ -155,7 +130,7 @@ class SolrIndexer
         if (!array_key_exists($core, $this->cores)) {
             throw new \InvalidArgumentException("Invalid core '{$core}'");
         }
-        $solrClient = new SolrClient($this->cores[$core]);
+        $solrClient = new \SolrClient($this->cores[$core]);
         $solrClient->rollback();
     }
 
@@ -163,10 +138,10 @@ class SolrIndexer
         if (!array_key_exists($core, $this->cores)) {
             throw new \InvalidArgumentException("Invalid core '{$core}'");
         }
-        $solrClient = new SolrClient($this->cores[$core]);
+        $solrClient = new \SolrClient($this->cores[$core]);
 
         // Build document
-        $doc = new SolrInputDocument();
+        $doc = new \SolrInputDocument();
         foreach ($object as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $val) {
@@ -189,7 +164,7 @@ class SolrIndexer
         if (!array_key_exists($core, $this->cores)) {
             throw new \InvalidArgumentException("Invalid core '{$core}'");
         }
-        $solrClient = new SolrClient($this->cores[$core]);
+        $solrClient = new \SolrClient($this->cores[$core]);
 
         if (empty($id_field)) {
             $id_field = "id";
@@ -198,7 +173,7 @@ class SolrIndexer
         //var_dump($object);
 
         // Build xml message update
-        $xml = new SimpleXMLElement("<add></add>");
+        $xml = new \SimpleXMLElement("<add></add>");
         $doc = $xml->addChild('doc');
         $field_id = $doc->addChild('field', $id);
         $field_id->addAttribute('name', $id_field);
@@ -241,16 +216,4 @@ class SolrIndexer
         //$this->optimize();
 
     }
-
-    public function setFacetOrder($order, array $values) {
-        if ($order == SolrQuery::ORDER_ASC) {
-            ksort($values);
-        }
-        elseif ($order == SolrQuery::ORDER_DESC) {
-            krsort($values);
-        }
-
-        return $values;
-    }
-
 }

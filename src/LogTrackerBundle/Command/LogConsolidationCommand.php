@@ -42,7 +42,7 @@ class LogConsolidationCommand extends ContainerAwareCommand
     protected function initialize(InputInterface $input, OutputInterface $output) {
         $this->times = array(microtime(true));
         $this->logger = $this->getContainer()->get('monolog.logger.console');
-        $this->indexer = $this->getContainer()->get('core.indexer.solr');
+        $this->indexer = $this->getContainer()->get('indexer');
         $this->validate($input, $output);
     }
 
@@ -80,7 +80,7 @@ class LogConsolidationCommand extends ContainerAwareCommand
         else {
             $this->logger->info("Log consolidation: indexed {$nbFilesToIndex} files");
             $status = $this->indexer->importData('asgard_logs');
-            $status = str_replace('=', ': ', http_build_query($status, null, ', '));
+            $status = urldecode(str_replace('=', ': ', http_build_query($status, null, ', ')));
             $this->logger->info("Log consolidation: indexed {$status}");
 
             if (!$saveDirectory->isDir()) {

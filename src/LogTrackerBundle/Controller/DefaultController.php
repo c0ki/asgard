@@ -2,17 +2,17 @@
 
 namespace LogTrackerBundle\Controller;
 
-use Core\CoreBundle\Component\Indexer\SolrQuery;
+use Core\SearchBundle\Component\Search\SearchException;
+use Core\SearchBundle\Component\Search\Solr\SolrQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
     public function indexAction() {
         $projectHelper = $this->container->get('project_helper');
-        $indexer = $this->container->get('core.indexer.solr');
+        $searchService = $this->container->get('search');
 
         $criteria = array();
         if ($projectHelper->hasProject()) {
@@ -22,11 +22,11 @@ class DefaultController extends Controller
             $criteria['+domain'] = $projectHelper->getDomain()->getName();
         }
 
-        $results = $indexer->search('asgard_logs', $criteria, 0, 1, array('daemon'));
+        $results = $searchService->search('asgard_logs', $criteria, 0, 1, array('daemon'));
         $daemons = array_keys($results->facets['daemon']);
         foreach ($daemons as $daemon) {
             $criteriaDaemon = $criteria + array('+daemon' => $daemon);
-            $results = $indexer->search('asgard_logs', $criteriaDaemon, 0, 1, array('type'));
+            $results = $searchService->search('asgard_logs', $criteriaDaemon, 0, 1, array('type'));
             foreach ($results->facets['type'] as $type => $nb) {
                 if ($type == "unknown") {
                     $criteriaType = $criteriaDaemon + array('-type' => '*');
@@ -56,7 +56,7 @@ class DefaultController extends Controller
 
     public function dataAction($query, $preventMonth) {
         $projectHelper = $this->container->get('project_helper');
-        $indexer = $this->container->get('core.indexer.solr');
+        $searchService = $this->container->get('search');
         $data = array('dataset' => array(), 'schema' => array());
 
         $criteria = array($query);
@@ -68,7 +68,7 @@ class DefaultController extends Controller
         }
         $criteria = array_filter($criteria);
 
-        $results = $indexer->search('asgard_logs', $criteria, 0, 1, array('subtype_s'));
+        $results = $searchService->search('asgard_logs', $criteria, 0, 1, array('subtype_s'));
         if (empty($preventMonth) || !is_numeric($preventMonth)) {
             $preventMonth = 6;
         }
@@ -81,7 +81,7 @@ class DefaultController extends Controller
             else {
                 $criteriaFacet = array_merge($criteria, array("+subtype_s" => $name));
             }
-            $resultsSubtype = $indexer->search('asgard_logs',
+            $resultsSubtype = $searchService->search('asgard_logs',
                 $criteriaFacet,
                 0,
                 1,
@@ -141,12 +141,18 @@ class DefaultController extends Controller
             });
         }
 
-        $indexer = $this->container->get('core.indexer.solr');
-        $results = $indexer->search('asgard_logs',
-            $query,
-            $start,
-            $rows,
-            $facets);
+        $searchService = $this->container->get('search');
+        try {
+            $results = $searchService->search('asgard_logs',
+                $query,
+                $start,
+                $rows,
+                $facets);
+        }
+        catch (SearchException $e) {
+            $this->addFlash('error', $e->getMessage());
+            return new RedirectResponse($this->generateUrl('log_tracker_tool_homepage'));
+        }
         $results->start = $start;
         $results->rows = $rows;
 
