@@ -1,3 +1,5 @@
-core_index_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: CoreIndexBundle:Default:index }
+core_index_admin_data_remove:
+    path:     /data/remove
+    defaults: { _controller: CoreIndexBundle:Admin:removeData }
+    requirements:
+        @siteaccess: admin
