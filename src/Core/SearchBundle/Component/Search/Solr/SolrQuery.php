@@ -13,7 +13,8 @@ class SolrQuery extends CoreSolrQuery
      */
     protected $facet;
 
-    public function &setStart($start) {
+    public function &setStart($start)
+    {
         if (empty($start)) {
             $start = 0;
         }
@@ -21,7 +22,8 @@ class SolrQuery extends CoreSolrQuery
         return parent::setStart($start);
     }
 
-    public function &setRows($rows) {
+    public function &setRows($rows)
+    {
         if (empty($rows)) {
             $rows = self::DEFAULT_ROWS;
         }
@@ -33,7 +35,8 @@ class SolrQuery extends CoreSolrQuery
      * @param array $facets
      * @return $this
      */
-    public function setFacets(array $facets) {
+    public function setFacets(array $facets)
+    {
         $this->facet = new SolrFacet;
         $this->facet->setFacets($facets);
         $this->facet->addToQuery($this);
@@ -42,9 +45,10 @@ class SolrQuery extends CoreSolrQuery
     }
 
     /**
-     * @return \Core\CoreBundle\Component\Indexer\SolrFacet
+     * @return SolrFacet
      */
-    public function getFacet() {
+    public function getFacet()
+    {
         return $this->facet;
     }
 
@@ -52,7 +56,8 @@ class SolrQuery extends CoreSolrQuery
      * @param $criteria
      * @return $this
      */
-    public function setCriteria($criteria) {
+    public function setCriteria($criteria)
+    {
         if (is_array($criteria)) {
             if (array_key_exists('numRows', $criteria)) {
                 $this->setRows($criteria['numRows']);
@@ -80,9 +85,10 @@ class SolrQuery extends CoreSolrQuery
     /**
      * Format criteria
      * @param mixed $criteria Criteria list in array or string
-     * @param bool $formatSolr
+     * @param bool  $formatSolr
      */
-    static public function formatCriteria(&$criteria, $formatSolr = false) {
+    static public function formatCriteria(&$criteria, $formatSolr = false)
+    {
         // Implode criteria
         if (is_array($criteria)) {
             foreach ($criteria as $key => &$value) {
@@ -90,16 +96,13 @@ class SolrQuery extends CoreSolrQuery
                 if (is_array($value)) {
                     if (array_key_exists('from', $value) && array_key_exists('to', $value)) {
                         $value = "{$key}:[" . $value['from'] . ' TO ' . $value['to'] . ']';
-                    }
-                    elseif (is_numeric($key)) {
+                    } elseif (is_numeric($key)) {
                         static::formatCriteria($value, $formatSolr);
                         $value = '(' . $value . ')';
-                    }
-                    else {
+                    } else {
                         $value = "({$key}:\"" . implode("\" or {$key}:\"", $value) . "\")";
                     }
-                }
-                elseif (!is_numeric($key)) {
+                } elseif (!is_numeric($key)) {
                     $key = trim($key);
                     $value = trim($value);
                     $value = "{$key}:\"{$value}\"";
@@ -140,8 +143,9 @@ class SolrQuery extends CoreSolrQuery
                     $criteria = str_replace($match[0], "{$match[1]}-{$match[2]}-{$match[3]}", $criteria);
                 }
             }
-        }
-        elseif ($formatSolr && preg_match_all('/:(\d{4}-\d{1,2}-)(\d{1,2})\b/', $criteria, $matches, PREG_SET_ORDER)) {
+        } elseif ($formatSolr
+            && preg_match_all('/:(\d{4}-\d{1,2}-)(\d{1,2})\b/', $criteria, $matches, PREG_SET_ORDER)
+        ) {
             foreach ($matches as $match) {
                 $final = ":[{$match[1]}{$match[2]}T00:00:00Z TO {$match[1]}" . ($match[2] + 1) . "T00:00:00Z] ";
                 $criteria = str_replace($match[0], $final, $criteria);
@@ -151,9 +155,15 @@ class SolrQuery extends CoreSolrQuery
         // Replace / and ~
         if ($formatSolr) {
             $criteria = str_replace('~', '/', $criteria);
-        }
-        else {
+        } else {
             $criteria = str_replace('/', '~', $criteria);
+        }
+
+        // Replace empty by * or null
+        if ($formatSolr && empty($criteria)) {
+            $criteria = '*';
+        } elseif (!$formatSolr && empty($criteria)) {
+            $criteria = null;
         }
     }
 
