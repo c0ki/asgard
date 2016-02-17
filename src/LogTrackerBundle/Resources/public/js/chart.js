@@ -1,4 +1,4 @@
-var chartConfig = {
+var chartDefaultConfig = {
     "type": "serial",
     "theme": "light",
     "dataDateFormat": "YYYY-MM-DD",
@@ -53,18 +53,29 @@ var chartConfig = {
     "dataProvider": []
 };
 
-var chart;
-
 // Call ajax
-url = document.querySelector('#chart').dataset.url;
-var oReq = new XMLHttpRequest();
-oReq.addEventListener("progress", chartDataProgress);
-oReq.addEventListener("load", chartDataLoaded);
-oReq.open('GET', url);
-oReq.send();
+
+Array.prototype.filter.call(document.querySelectorAll('.chart'), function (node) {
+    var url = node.dataset.url;
+    var oReq = new XMLHttpRequest();
+    oReq.sourceNode = node;
+    oReq.addEventListener("progress", chartDataProgress);
+    oReq.addEventListener("load", chartDataLoaded);
+    oReq.open('GET', url);
+    oReq.send();
+});
 
 function chartDataLoaded(event) {
+    var sourceNode = event.target.sourceNode;
     var data = JSON.parse(this.responseText);
+
+    if (!data.dataset.length) {
+        sourceNode.innerHTML = "No data";
+        sourceNode.style.height = null;
+        return;
+    }
+
+    var chartConfig = chartDefaultConfig;
     chartConfig.dataProvider = data.dataset;
     chartConfig.dataSchema = data.schema;
     chartConfig.graphs = [];
@@ -90,17 +101,18 @@ function chartDataLoaded(event) {
         "title": "preview"
     });
 
-    chart = AmCharts.makeChart("chart", chartConfig);
+    var chart = AmCharts.makeChart(sourceNode.id, chartConfig);
     chart.addListener("rendered", zoomChart);
     chart.addListener("clickGraphItem", clickGraphItem);
-    zoomChart();
+    zoomChart({'chart': chart});
 }
 
 function chartDataProgress(event) {
+    var sourceNode = event.target.sourceNode;
     if (event.lengthComputable) {
         var percentComplete = event.loaded / event.total;
         var percentText = (percentComplete * 100) + '%';
-        var nodeProgress = document.querySelector('#chart [data-type=progress]');
+        var nodeProgress = sourceNode.querySelector('[data-type=progress]');
         if (nodeProgress.childNodes.length > 1) {
             nodeProgress.lastChild.innerHTML = percentText;
         }
@@ -110,8 +122,8 @@ function chartDataProgress(event) {
     }
 }
 
-function zoomChart() {
-    chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
+function zoomChart(obj) {
+    obj.chart.zoomToIndexes(obj.chart.dataProvider.length - 40, obj.chart.dataProvider.length - 1);
 }
 
 function clickGraphItem(obj) {
