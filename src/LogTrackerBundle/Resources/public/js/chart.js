@@ -75,13 +75,14 @@ function chartDataLoaded(event) {
         return;
     }
 
-    var chartConfig = chartDefaultConfig;
+    var chartConfig = JSON.parse(JSON.stringify(chartDefaultConfig));
+    console.log(chartConfig);
     chartConfig.dataProvider = data.dataset;
     chartConfig.dataSchema = data.schema;
     chartConfig.graphs = [];
     Array.prototype.filter.call(Object.keys(data.schema), function (field) {
         var graph = {
-            "id": "g" + (chartConfig.graphs.length + 1),
+            "id": "g" + (chartConfig.graphs.length + 1) + sourceNode.id,
             "fillAlphas": 0.8,
             "labelText": "[[value]]",
             "lineAlpha": 0.3,
@@ -94,12 +95,13 @@ function chartDataLoaded(event) {
         chartConfig.graphs.push(graph);
     });
     chartConfig.graphs.push({
-        "id": "gPreview",
+        "id": "gPreview" + sourceNode.id,
         "visibleInLegend": false,
         "lineThickness": 0,
         "valueField": "preview",
         "title": "preview"
     });
+    chartConfig.chartScrollbar.graph = "gPreview" + sourceNode.id;
 
     var chart = AmCharts.makeChart(sourceNode.id, chartConfig);
     chart.addListener("rendered", zoomChart);
