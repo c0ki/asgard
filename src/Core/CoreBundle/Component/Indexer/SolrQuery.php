@@ -141,7 +141,7 @@ class SolrQuery extends CoreSolrQuery
                 }
             }
         }
-        elseif ($formatDate && preg_match_all('/:(\d{4}-\d\d-)(\d\d)\s/', $criteria, $matches, PREG_SET_ORDER)) {
+        elseif ($formatDate && preg_match_all('/:(\d{4}-\d{1,2}-)(\d{1,2})\b/', $criteria, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $match) {
                 $final = ":[{$match[1]}{$match[2]}T00:00:00Z TO {$match[1]}" . ($match[2] + 1) . "T00:00:00Z] ";
                 $criteria = str_replace($match[0], $final, $criteria);
