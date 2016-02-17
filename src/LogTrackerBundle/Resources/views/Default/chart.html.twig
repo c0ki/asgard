@@ -11,35 +11,44 @@
 
 {% block content %}
     <section id="logtracker">
-        <h2>Log Tracker</h2>
-        <h3>
+        <h2>
+            LogTracker:
             Chart
             <a href="{{ path('log_tracker_search', {'query': query}) }}" class="icon-list icon-only">list</a>
-        </h3>
+        </h2>
         {{ render(controller('CoreSearchBundle:Default:form', {'query': query})) }}
         {% set counter = 0 %}
         {% if app.project and app.domain %}
             {% set counter = counter + 1 %}
-            <div id="chart{{ counter }}" class="chart" data-url="{{ path('log_tracker_data', {'query': query}) }}"
-                 data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
+            <article>
+                <div id="chart{{ counter }}" class="chart" data-url="{{ path('log_tracker_data', {'query': query}) }}"
+                     data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
+            </article>
         {% elseif app.project %}
             {% for domain in app.project.domains %}
                 {% set counter = counter + 1 %}
-                <h4>{{ domain }}</h4>
-                <div id="chart{{ counter }}" class="chart"
-                     data-url="{{ path('log_tracker_data', {'query': query ~ ' +domain:' ~ domain.name}) }}"
-                     data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
+                <article>
+                    <h3>{{ domain }}</h3>
+                    <div id="chart{{ counter }}" class="chart"
+                         data-url="{{ path('log_tracker_data', {'query': query ~ ' +domain:' ~ domain.name}) }}"
+                         data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
+                </article>
             {% endfor %}
         {% else %}
             {% for project in app.projects if project.domains|length %}
-                <h4>{{ project }}</h4>
-                {% for domain in project.domains %}
-                    {% set counter = counter + 1 %}
-                    <h5>{{ domain }}</h5>
-                    <div id="chart{{ counter }}" class="chart"
-                         data-url="{{ path('log_tracker_data', {'query': query ~ ' +project:' ~ project.name ~ ' +domain:' ~ domain.name}) }}"
-                         data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
-                {% endfor %}
+                <article>
+                    <h3>{{ project }}</h3>
+                    {% for domain in project.domains %}
+                        {% set counter = counter + 1 %}
+                        <article>
+                            <h4>{{ domain }}</h4>
+                            <div id="chart{{ counter }}" class="chart"
+                                 data-url="{{ path('log_tracker_data', {'query': query ~ ' +project:' ~ project.name ~ ' +domain:' ~ domain.name}) }}"
+                                 data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </article>
             {% endfor %}
         {% endif %}
     </section>
@@ -54,11 +63,6 @@
         - window.getComputedStyle(document.querySelector('#main')).marginBottom.slice(0, -2));
         Array.prototype.filter.call(document.querySelectorAll('.chart'), function (node) {
             node.style.height = height + 'px';
-//                    (document.querySelector('main').getBoundingClientRect().height
-//                    + document.querySelector('main').getBoundingClientRect().top
-//                    - document.getElementById('chart1').getBoundingClientRect().top
-//                    - window.getComputedStyle(document.querySelector('#main')).marginBottom.slice(0, -2))
-//                    + 'px';
         });
 
 

@@ -72,11 +72,15 @@ function chartDataLoaded(event) {
     if (!data.dataset.length) {
         sourceNode.innerHTML = "No data";
         sourceNode.style.height = null;
+        var prevNode = sourceNode;
+        while ((prevNode = prevNode.previousSibling)) {
+            if (prevNode.nodeType != 3) break;
+        }
+        prevNode.classList.add('nodata');
         return;
     }
 
     var chartConfig = JSON.parse(JSON.stringify(chartDefaultConfig));
-    console.log(chartConfig);
     chartConfig.dataProvider = data.dataset;
     chartConfig.dataSchema = data.schema;
     chartConfig.graphs = [];

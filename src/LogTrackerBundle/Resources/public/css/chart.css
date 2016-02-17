@@ -1,4 +1,12 @@
-#logtracker-chart {
-    width: 100%;
+#logtracker {
 }
 
+#logtracker h3.nodata, #logtracker h3.nodata + *,
+#logtracker h4.nodata, #logtracker h4.nodata + *,
+#logtracker h5.nodata, #logtracker h5.nodata + * {
+    display: inline-block;
+}
+
+#logtracker .chart a {
+    display: none !important;
+}
