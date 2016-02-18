@@ -128,7 +128,7 @@ class DefaultController extends Controller
         }
 
         $facets = array('project', 'domain', 'daemon', 'type', 'subtype_s',
-                        'date' => array('date' => array('gap' => '+1DAY')));
+                        'date' => array('date' => array('gap' => '+1DAY'), 'order' => SolrQuery::ORDER_DESC));
 
         $projectHelper = $this->container->get('project_helper');
         if ($query == '*') {
