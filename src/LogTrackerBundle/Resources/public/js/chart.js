@@ -134,6 +134,7 @@ function chartDataLoaded(event) {
     chartConfig.chartScrollbar.graph = "gPreview" + sourceNode.id;
 
     charts[sourceNode.id] = AmCharts.makeChart(sourceNode.id, chartConfig);
+    charts[sourceNode.id].sourceNode = sourceNode;
     charts[sourceNode.id].addListener("rendered", zoomChart);
     charts[sourceNode.id].addListener("clickGraphItem", clickGraphItem);
     zoomChart({'chart': charts[sourceNode.id]});
@@ -176,7 +177,7 @@ function zoomChart(obj) {
 }
 
 function clickGraphItem(obj) {
-    var url = document.querySelector('#chart').dataset.redirect;
+    var url = obj.chart.sourceNode.dataset.redirect;
     var query = '+date:' + obj.item.dataContext.date;
     query += " " + obj.chart.dataSchema[obj.graph.title];
     window.location = url + '/' + encodeURIComponent(query);
