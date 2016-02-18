@@ -1,17 +1,47 @@
+function getPrevMonth() {
+    var prevMonth = 1;
+    if (window.location.hash && window.location.hash.substring(1) == parseInt(window.location.hash.substring(1))) {
+        prevMonth = window.location.hash.substring(1);
+    }
+    return prevMonth;
+}
+
+Array.prototype.filter.call(document.querySelectorAll('nav.zoom select'), function (node) {
+    node.addEventListener("change", zoomChart);
+});
+
+function initZoom(preventMonth) {
+    if (!preventMonth) {
+        preventMonth = getPrevMonth();
+    }
+    window.location.hash = '#' + preventMonth;
+    Array.prototype.filter.call(document.querySelectorAll('nav.zoom select'), function (nodeSelect) {
+        Array.prototype.filter.call(nodeSelect.querySelectorAll('option'), function (nodeOption) {
+            if (nodeOption.value == preventMonth) {
+                nodeOption.selected = true;
+            }
+        });
+    });
+}
+initZoom();
+
+var charts = [];
+
 var chartDefaultConfig = {
     "type": "serial",
     "theme": "light",
     "dataDateFormat": "YYYY-MM-DD",
     "legend": {
-        "horizontalGap": 10,
-        "maxColumns": 1,
-        "position": "right",
+        //"horizontalGap": 10,
+        //"maxColumns": 1,
+        "position": "top",
         "useGraphSettings": true,
         "markerSize": 10,
         "autoMargins": false,
         "marginLeft": 0,
         "marginRight": 0,
-        "valueWidth": 0
+        "valueWidth": 0,
+        equalWidths: false
     },
     "valueAxes": [{
         "stackType": "regular",
@@ -37,6 +67,7 @@ var chartDefaultConfig = {
     },
     "categoryField": "date",
     "categoryAxis": {
+        boldPeriodBeginning: false,
         "parseDates": true,
         "dateFormats": [{period: 'DD', format: 'DD/MM/YYYY'},
             {period: 'WW', format: 'DD/MM/YYYY'},
@@ -54,7 +85,6 @@ var chartDefaultConfig = {
 };
 
 // Call ajax
-
 Array.prototype.filter.call(document.querySelectorAll('.chart'), function (node) {
     var url = node.dataset.url;
     var oReq = new XMLHttpRequest();
@@ -72,11 +102,7 @@ function chartDataLoaded(event) {
     if (!data.dataset.length) {
         sourceNode.innerHTML = "No data";
         sourceNode.style.height = null;
-        var prevNode = sourceNode;
-        while ((prevNode = prevNode.previousSibling)) {
-            if (prevNode.nodeType != 3) break;
-        }
-        prevNode.classList.add('nodata');
+        sourceNode.parentNode.classList.add('nodata');
         return;
     }
 
@@ -107,10 +133,10 @@ function chartDataLoaded(event) {
     });
     chartConfig.chartScrollbar.graph = "gPreview" + sourceNode.id;
 
-    var chart = AmCharts.makeChart(sourceNode.id, chartConfig);
-    chart.addListener("rendered", zoomChart);
-    chart.addListener("clickGraphItem", clickGraphItem);
-    zoomChart({'chart': chart});
+    charts[sourceNode.id] = AmCharts.makeChart(sourceNode.id, chartConfig);
+    charts[sourceNode.id].addListener("rendered", zoomChart);
+    charts[sourceNode.id].addListener("clickGraphItem", clickGraphItem);
+    zoomChart({'chart': charts[sourceNode.id]});
 }
 
 function chartDataProgress(event) {
@@ -129,7 +155,24 @@ function chartDataProgress(event) {
 }
 
 function zoomChart(obj) {
-    obj.chart.zoomToIndexes(obj.chart.dataProvider.length - 40, obj.chart.dataProvider.length - 1);
+    var preventmonth = getPrevMonth();
+    if (obj.target && obj.target.querySelector('option:checked') && obj.target.querySelector('option:checked').value) {
+        preventmonth = obj.target.querySelector('option:checked').value;
+    }
+    var startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - preventmonth);
+    //obj.chart.zoomToIndexes(obj.chart.dataProvider.length - 40, obj.chart.dataProvider.length - 1);
+    if (obj.chart) {
+        obj.chart.zoomToDates(startDate, new Date());
+    }
+    else {
+        Array.prototype.filter.call(document.querySelectorAll('.chart'), function (node) {
+            if (charts[node.id]) {
+                charts[node.id].zoomToDates(startDate, new Date());
+            }
+        });
+    }
+    initZoom(preventmonth);
 }
 
 function clickGraphItem(obj) {

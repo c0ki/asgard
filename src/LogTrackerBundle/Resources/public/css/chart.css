@@ -1,10 +1,29 @@
 #logtracker {
 }
 
-#logtracker h3.nodata, #logtracker h3.nodata + *,
-#logtracker h4.nodata, #logtracker h4.nodata + *,
-#logtracker h5.nodata, #logtracker h5.nodata + * {
+#logtracker article {
+    clear: both;
+}
+
+#logtracker article.nodata {
+    display: none;
+}
+
+#logtracker article h3 {
+    float: left;
+}
+
+#logtracker article nav.zoom {
+    text-align: right;
+}
+
+#logtracker article nav.zoom li {
     display: inline-block;
+}
+
+#logtracker .chart {
+    clear: both;
+    min-height: 10rem;
 }
 
 #logtracker .chart a {

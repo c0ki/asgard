@@ -9,32 +9,31 @@
     {% endstylesheets %}
 {% endblock %}
 
+{% set navZoom %}
+    <nav class="zoom">
+        <select>
+            {% for prev in [1,2,3,6] %}
+                <option value="{{ prev }}">last {% if prev == 1 %}month{% else %}{{ prev }} months{% endif %}</option>
+            {% endfor %}
+        </select>
+    </nav>
+{% endset %}
+
 {% block content %}
     <section id="logtracker">
-        <h2>
-            LogTracker:
+        <h2>LogTracker</h2>
+        {{ render(controller('CoreSearchBundle:Default:form', {'query': query})) }}
+        <h3>
             Chart
             <a href="{{ path('log_tracker_search', {'query': query}) }}" class="icon-list icon-only">list</a>
-        </h2>
-        {{ render(controller('CoreSearchBundle:Default:form', {'query': query})) }}
-        <nav class="pager">
-            <ul>
-                {% for prev in [1,2,6,12,24] %}
-                    {% if prev == preventMonth %}
-                        <li class="current">{{ prev }}</li>
-                    {% else %}
-                        <li>
-                            <a href="{{ path(app._route, app._route_params|merge({'preventMonth': prev})) }}">{{ prev }}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </nav>
+        </h3>
         {% set counter = 0 %}
         {% if app.project and app.domain %}
             {% set counter = counter + 1 %}
             <article>
-                <div id="chart{{ counter }}" class="chart" data-url="{{ path('log_tracker_data', {'query': query, 'preventMonth': preventMonth}) }}"
+                {{ navZoom }}
+                <div id="chart{{ counter }}" class="chart"
+                     data-url="{{ path('log_tracker_data', {'query': query, 'preventMonth': preventMonth}) }}"
                      data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
             </article>
         {% elseif app.project %}
@@ -42,6 +41,7 @@
                 {% set counter = counter + 1 %}
                 <article>
                     <h3>{{ domain }}</h3>
+                    {{ navZoom }}
                     <div id="chart{{ counter }}" class="chart"
                          data-url="{{ path('log_tracker_data', {'query': query ~ ' +domain:' ~ domain.name, 'preventMonth': preventMonth}) }}"
                          data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span></div>
@@ -49,19 +49,17 @@
             {% endfor %}
         {% else %}
             {% for project in app.projects if project.domains|length %}
-                <article>
-                    <h3>{{ project }}</h3>
-                    {% for domain in project.domains %}
-                        {% set counter = counter + 1 %}
-                        <article>
-                            <h4>{{ domain }}</h4>
-                            <div id="chart{{ counter }}" class="chart"
-                                 data-url="{{ path('log_tracker_data', {'query': query ~ ' +project:' ~ project.name ~ ' +domain:' ~ domain.name, 'preventMonth': preventMonth}) }}"
-                                 data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span>
-                            </div>
-                        </article>
-                    {% endfor %}
-                </article>
+                {% for domain in project.domains %}
+                    {% set counter = counter + 1 %}
+                    <article>
+                        <h3>{{ project }}: {{ domain }}</h3>
+                        {{ navZoom }}
+                        <div id="chart{{ counter }}" class="chart"
+                             data-url="{{ path('log_tracker_data', {'query': query ~ ' +project:' ~ project.name ~ ' +domain:' ~ domain.name, 'preventMonth': preventMonth}) }}"
+                             data-redirect="{{ path('log_tracker_search') }}"><span data-type="progress"></span>
+                        </div>
+                    </article>
+                {% endfor %}
             {% endfor %}
         {% endif %}
     </section>
@@ -77,8 +75,6 @@
         Array.prototype.filter.call(document.querySelectorAll('.chart'), function (node) {
             node.style.height = height + 'px';
         });
-
-
     </script>
     {{ parent() }}
     <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>

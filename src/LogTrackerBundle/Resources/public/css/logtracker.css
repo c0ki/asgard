@@ -1,12 +1,27 @@
-#logtracker h2 [class^="icon-"], #logtracker h2 [class*=" icon-"],
+#logtracker h2 {
+    float: left;
+}
+
+#logtracker .formsearch {
+    text-align: right;
+    padding: 0.6rem 0;
+    margin: 0;
+}
+
+#logtracker .formsearch input {
+    max-width: none;
+    width: 25rem;
+}
+
+#logtracker h3 {
+    clear: both;
+}
+
 #logtracker h3 [class^="icon-"], #logtracker h3 [class*=" icon-"] {
     float: right;
     margin: 0.25rem 0;
 }
 
-#logtracker h2 [class^="icon-"]:before, #logtracker h2 [class*=" icon-"]:before {
-    font-size: 3rem;
-}
 #logtracker h3 [class^="icon-"]:before, #logtracker h3 [class*=" icon-"]:before {
     font-size: 1.75rem;
 }
