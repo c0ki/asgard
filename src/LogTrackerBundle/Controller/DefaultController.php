@@ -70,10 +70,8 @@ class DefaultController extends Controller
         $criteria = array_filter($criteria);
 
         $results = $searchService->search('asgard_logs', $criteria, 0, 1, array('subtype_s'));
-        if (empty($preventMonth) || !is_numeric($preventMonth)) {
-            $preventMonth = 1;
-        }
         $firstDay = date('Y-m-d', strtotime("-{$preventMonth} MONTH"));
+        $lastDay = date('Y-m-d');
         foreach ($results->facets['subtype_s'] as $name => $val) {
             if ($name === '') {
                 $criteriaFacet = array_merge($criteria, array("-subtype_s" => '*'));
@@ -93,14 +91,23 @@ class DefaultController extends Controller
             unset($initialCriteriaFacet['+domain']);
             SolrQuery::formatCriteria($initialCriteriaFacet);
             foreach ($resultsSubtype->facets['date'] as $date => $nb) {
+                $date = substr($date, 0, 10);
                 if (!array_key_exists($date, $data['dataset'])) {
                     $data['dataset'][$date]["preview"] = 0;
                 }
                 $data['schema'][$name] = $initialCriteriaFacet;
-                $data['dataset'][$date]["date"] = substr($date, 0, 10);
+                $data['dataset'][$date]["date"] = $date;
                 $data['dataset'][$date][$name] = $nb;
                 $data['dataset'][$date]["preview"] += $nb / 1000;
             }
+        }
+        if (!empty($data['dataset']) && !array_key_exists($lastDay, $data['dataset'])) {
+            $data['dataset'][$lastDay]['date'] = $lastDay;
+            $data['dataset'][$lastDay]['preview'] = 0;
+        }
+        if (!empty($data['dataset']) && !array_key_exists($firstDay, $data['dataset'])) {
+            $data['dataset'][$firstDay]['date'] = $firstDay;
+            $data['dataset'][$firstDay]['preview'] = 0;
         }
 
         ksort($data['dataset']);
