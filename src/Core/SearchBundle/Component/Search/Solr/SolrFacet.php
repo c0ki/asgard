@@ -215,8 +215,9 @@ class SolrFacet
                 list($class, $method) = explode('::', $func);
                 if ($class == 'SolrFacet') {
                     $func = array($this, $method);
+                    $params = array($value, &$results[$this->field]);
                 }
-                call_user_func($func, $value, $results[$this->field]);
+                call_user_func_array($func, $params);
             }
         }
         // Add facets
@@ -274,13 +275,6 @@ class SolrFacet
         $query->setFacetDateGap($value['gap'], $field);
 
         return $query;
-//        var_dump($value);
-//        exit();
-//        $query->setFacetDateHardEnd(1);
-//        $query->addFacetDateOther('before');
-//        $query->setFacetMinCount(0);
-
-
     }
 
 }
