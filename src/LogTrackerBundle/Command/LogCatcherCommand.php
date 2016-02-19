@@ -156,6 +156,7 @@ class LogCatcherCommand extends ContainerAwareCommand
                 $this->domain = $domain;
                 $this->logCatcherDomain();
             }
+            $this->domain = null;
         }
         else {
             $this->logCatcherDomain();
