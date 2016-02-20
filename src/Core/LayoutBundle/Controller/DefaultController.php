@@ -3,6 +3,7 @@
 namespace Core\LayoutBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -18,22 +19,23 @@ class DefaultController extends Controller
 
         $result = $urlHelper->getContentUrl($url);
 
+        $response = new Response();
+
         if (array_key_exists('error', $result) && $result['error']) {
-            print($result['error']);
-            exit();
+            $response->setContent($result['error']);
         }
-
-        if (array_key_exists('header', $result)
-            && is_array($result['header'])
-            && !empty($result['header'])
-        ) {
-            foreach ($result['header'] as $header) {
-                header($header);
+        else {
+            $response->setContent($result['content']);
+            if (array_key_exists('header', $result)
+                && is_array($result['header'])
+                && !empty($result['header'])
+            ) {
+                $response->headers->add($result['header']);
             }
+
         }
 
-        print($result['content']);
-        exit();
+        return $response;
     }
 }
 
