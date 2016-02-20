@@ -243,7 +243,7 @@ class SolrFacet
         }
     }
 
-    public function setFacetDate($value, $field, $query) {
+    public function setFacetDate($value, $field, SolrQuery $query) {
         $query->removeFacetField($field);
         $query->addFacetDateField($field);
 
