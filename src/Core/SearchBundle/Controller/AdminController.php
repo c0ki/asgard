@@ -8,6 +8,7 @@ class AdminController extends Controller
 {
     public function removeDataAction()
     {
-        var_dump('TODO');
+        // TODO
+        return null;
     }
 }
