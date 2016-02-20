@@ -122,11 +122,11 @@ class LogfileType extends AbstractType
 
     public function onServerPostSubmit(FormEvent $event)
     {
-        // Il est important de récupérer ici $event->getForm()->getData(),
-        // car $event->getData() vous renverra la données initiale (vide)
+        // Il est important de rï¿½cupï¿½rer ici $event->getForm()->getData(),
+        // car $event->getData() vous renverra la donnï¿½es initiale (vide)
         $server = $event->getForm()->getData();
 
-        // puisque nous avons ajouté l'écouteur à l'enfant, il faudra passer
+        // puisque nous avons ajoutï¿½ l'ï¿½couteur ï¿½ l'enfant, il faudra passer
         // le parent aux fonctions de callback!
         $this->formUpdate($event->getForm()->getParent(), $server);
     }
