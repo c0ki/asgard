@@ -9,7 +9,7 @@ parameters:
 services:
     tool_helper:
         class: %tool_helper.class%
-        arguments: [ @service_container ]
+        arguments: [ @router ]
 
     breadcrumb_helper:
             class: %breadcrumb_helper.class%

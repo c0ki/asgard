@@ -3,19 +3,20 @@
 namespace Core\LayoutBundle\Component\Helper;
 
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 class ToolHelper
 {
 
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var Router
      */
-    protected $container = null;
+    protected $router = null;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(Router $router)
     {
-        $this->container = $container;
+        $this->router = $router;
+
     }
 
     /**
@@ -24,7 +25,7 @@ class ToolHelper
     public function listTools()
     {
         if (empty($this->tools)) {
-            $routes = $this->container->get('router')->getRouteCollection()->all();
+            $routes = $this->router->getRouteCollection()->all();
             foreach ($routes as $name => $route) {
                 if (preg_match('/_tool_homepage$/', $name)) {
                     if (preg_match_all('/{([^}]+)}/', $route->getPath(), $matches)) {
@@ -61,10 +62,9 @@ class ToolHelper
 
     public function getTool()
     {
-        $router = $this->container->get('router');
-        $currentPath = $router->getContext()->getPathInfo();
+        $currentPath = $this->router->getContext()->getPathInfo();
         foreach ($this->listTools() as $tool) {
-            $route = $router->getRouteCollection()->get($tool['route']);
+            $route = $this->router->getRouteCollection()->get($tool['route']);
             if (preg_match("#^{$route->getPath()}#", $currentPath)) {
                 return $tool;
             }
