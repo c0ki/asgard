@@ -1,17 +1,21 @@
-<section id="daemons">
-    <h3>
-        Daemons list
-        <a href="{{ path('core_project_admin_daemon_edit') }}" class="icon-plus-circle icon-only">Add</a>
-    </h3>
-
-    <ul>
-        {% for daemon in app.daemons %}
-            <li{% if currentDaemon|default == daemon.name %} class="selected"{% endif %}>
-                <a href="{{ path('core_project_admin_daemon_edit', {'name': daemon.name}) }}"
-                   class="icon-{{ daemon.logo|default('no') }}">{{ daemon }}</a>
+{% set daemons = daemons|default(app.daemons) %}
+{% if nofilter|default %}
+    {% set daemons = app.daemons %}
+{% endif %}
+<a data-target="popin" href="{{ path('core_project_admin_daemon_add') }}" class="icon-plus-circle icon-only">Add</a>
+<ul class="daemons">
+    {% for daemon in daemons %}
+        <li>
+            <span class="icon-{{ daemon.logo|default('no') }}">
+            {{ daemon }}
+            </span>
+            <div>
+                <a data-target="popin"
+                   href="{{ path('core_project_admin_daemon_edit', { 'name': daemon.name } ) }}"
+                   class="icon-edit icon-only">Edit</a>
                 <a data-target="popin" href="{{ path('core_project_admin_daemon_del', { 'name': daemon.name } ) }}"
                    class="icon-trash icon-only">Delete</a>
-            </li>
-        {% endfor %}
-    </ul>
-</section>
+            </div>
+        </li>
+    {% endfor %}
+</ul>

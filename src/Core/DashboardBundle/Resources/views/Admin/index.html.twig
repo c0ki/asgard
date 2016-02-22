@@ -22,22 +22,23 @@
                    class="icon-edit icon-only">Edit</a>
             {% endif %}
         </h2>
-        <section class="tools">
-            <h3>Tools</h3>
-            {% include 'CoreLayoutBundle:Default:tools_list.html.twig' with {} only %}
-        </section>
+
         {% if not app.project|default %}
-            <section class="projects">
-                <h3>Projects</h3>
-                {% include 'CoreProjectBundle:Admin:projects_list.html.twig' with {} only %}
-            </section>
+            <h3>Projects</h3>
+            {% include 'CoreProjectBundle:Admin:projects_list.html.twig' with {} only %}
         {% endif %}
+
         {% if not app.domain|default %}
-            <section class="domains">
-                <h3>Domains</h3>
-                {% include 'CoreProjectBundle:Admin:domains_list.html.twig' with {} only %}
-            </section>
+            <h3>Domains</h3>
+            {% include 'CoreProjectBundle:Admin:domains_list.html.twig' with {} only %}
         {% endif %}
+
+        <h3>Tools</h3>
+        {% include 'CoreLayoutBundle:Default:tools_list.html.twig' with {} only %}
+
+        <h3>Administration</h3>
+        {% include 'CoreDashboardBundle:Admin:admin_list.html.twig' with {} only %}
+
     </section>
 
 {% endblock %}

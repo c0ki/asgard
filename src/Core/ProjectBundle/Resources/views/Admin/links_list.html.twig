@@ -1,18 +1,51 @@
-<section id="links">
-    <h3>
-        Links list
-        <a href="{{ path('core_project_admin_link_edit') }}" class="icon-plus-circle icon-only">Add</a>
-    </h3>
+{% if app.project %}
+    {% set projects = [app.project] %}
+{% else %}
+    {% set projects = app.domain.projects|default(app.projects) %}
+{% endif %}
 
-    <ul>
-        {% for link in links|default([]) %}
-            <li{% if currentLinkId|default() == link.id %} class="selected"{% endif %}>
-                <a href="{{ path('core_project_admin_link_edit', {'id': link.id}) }}"
-                   class="icon-{{ project.logo|default('no') }}">{{ link }}]</a>
-                <a data-target="popin"
-                   href="{{ path('core_project_admin_link_del', { 'id': link.id } ) }}"
-                   class="icon-trash icon-only">Delete</a>
-            </li>
+<ul>
+    {% for project in projects %}
+        {% set domains = [] %}
+        {% if app.domain %}
+            {% if app.domain in project.domains %}
+                {% set domains = [app.domain] %}
+            {% endif %}
+        {% else %}
+            {% set domains = project.domains %}
+        {% endif %}
+        {% for domain in domains %}
+            <li>{{ project }} : {{ domain }}</li>
         {% endfor %}
-    </ul>
-</section>
+    {% endfor %}
+</ul>
+{#<ul class="links">#}
+    {#{% for project, projectLinks in links %}#}
+        {#<li>{{ project }}#}
+            {#<ul>#}
+                {#{% for domain, domainLinks in projectLinks %}#}
+                    {#<li>{{ domain }}#}
+                        {#<a data-target="popin" href="{{ path('core_project_admin_link_add') }}" class="icon-plus-circle icon-only">Add</a>#}
+                        {#<ul>#}
+                            {#{% for link in domainLinks %}#}
+                                {#<li>#}
+            {#<span class="icon-{{ link.logo|default('no') }}">#}
+            {#{{ link }}#}
+            {#</span>#}
+                                    {#<div>#}
+                                        {#<a data-target="popin"#}
+                                           {#href="{{ path('core_project_admin_link_edit', { 'id': link.id } ) }}"#}
+                                           {#class="icon-edit icon-only">Edit</a>#}
+                                        {#<a data-target="popin"#}
+                                           {#href="{{ path('core_project_admin_link_del', { 'id': link.id } ) }}"#}
+                                           {#class="icon-trash icon-only">Delete</a>#}
+                                    {#</div>#}
+                                {#</li>#}
+                            {#{% endfor %}#}
+                        {#</ul>#}
+                    {#</li>#}
+                {#{% endfor %}#}
+            {#</ul>#}
+        {#</li>#}
+    {#{% endfor %}#}
+{#</ul>#}

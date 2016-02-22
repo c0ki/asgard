@@ -26,7 +26,7 @@ core_project_admin_domain_edit:
         @domain: %
 
 core_project_admin_domain_add:
-    path:     /newdomain/
+    path:     /newdomain
     defaults: { _controller: CoreProjectBundle:Admin:domain, @project: null, @domain: null }
     requirements:
         @siteaccess: admin
@@ -38,26 +38,51 @@ core_project_admin_domain_del:
         @siteaccess: admin
         @domain: %
 
+core_project_admin_daemon:
+    path:     /daemons
+    defaults: { _controller: CoreProjectBundle:AdminDaemon:list }
+    requirements:
+        @siteaccess: admin
+
+core_project_admin_daemon_add:
+    path:     /daemons/new
+    defaults: { _controller: CoreProjectBundle:Admin:daemon, name: null }
+    requirements:
+        @siteaccess: admin
+
 core_project_admin_daemon_edit:
-    path:     /daemon/{name}
+    path:     /daemons/edit/{name}
     defaults: { _controller: CoreProjectBundle:Admin:daemon, name: null }
     requirements:
         @siteaccess: admin
 
 core_project_admin_daemon_del:
-    path:     /daemon/delete/{name}/{confirm}
+    path:     /daemons/delete/{name}/{confirm}
     defaults: { _controller: CoreProjectBundle:Admin:daemonDelete, confirm: false }
     requirements:
         @siteaccess: admin
 
+
+core_project_admin_link:
+    path:     /daemons/links
+    defaults: { _controller: CoreProjectBundle:AdminDaemon:listLinks }
+    requirements:
+        @siteaccess: admin
+
+core_project_admin_link_add:
+    path:     /daemons/links/new
+    defaults: { _controller: CoreProjectBundle:Admin:link, id: null }
+    requirements:
+        @siteaccess: admin
+
 core_project_admin_link_edit:
-    path:     /link/{id}
+    path:     /daemons/links/edit/{id}
     defaults: { _controller: CoreProjectBundle:Admin:link, id: null }
     requirements:
         @siteaccess: admin
 
 core_project_admin_link_del:
-    path:     /link/delete/{id}/{confirm}
+    path:     /daemons/links/delete/{id}/{confirm}
     defaults: { _controller: CoreProjectBundle:Admin:linkDelete, confirm: false }
     requirements:
         @siteaccess: admin

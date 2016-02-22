@@ -3,6 +3,7 @@
 namespace Core\ProjectBundle\Component\Helper;
 
 
+use Core\ProjectBundle\Entity\Link;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -46,6 +47,19 @@ class LinkHelper
     private $links = array();
 
     /**
+     * @param array $criteria
+     * @return \Core\ProjectBundle\Entity\Link[]
+     */
+    public function findLinks(array $criteria, $sort) {
+        $links = $this->repository->findBy($criteria);
+        if ($sort) {
+            $links = $this->sortLinks($links);
+        }
+        return $links;
+    }
+
+    /**
+     * @param $id
      * @return \Core\ProjectBundle\Entity\Link
      */
     public function getLinkById($id) {
@@ -61,4 +75,17 @@ class LinkHelper
      */
     private $linkById = array();
 
+    /**
+     * @param Link[] $links
+     * @return array
+     */
+    protected function sortLinks(array $links) {
+        $linksSorted = [];
+
+        foreach ($links as $link) {
+            $linksSorted[(string)$link->getProject()][(string)$link->getDomain()][] = $link;
+        }
+
+        return $linksSorted;
+    }
 }

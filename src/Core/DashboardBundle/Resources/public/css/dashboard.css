@@ -5,3 +5,8 @@
 body.siteaccess-admin #dashboard h3 {
     display: inline-block;
 }
+
+body.siteaccess-admin #dashboard ul {
+    list-style: none;
+    margin-top: 0;
+}

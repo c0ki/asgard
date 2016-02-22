@@ -2,13 +2,7 @@ section.list h3 {
     display: inline-block;
 }
 
-
-
-ul.projects, ul.domains {
-    list-style: none;
-}
-
-ul.projects li div, ul.domains li div {
+ul.projects li div, ul.domains li div, ul.daemons li div {
     display: inline-block;
     margin-left: 3rem;
 }
