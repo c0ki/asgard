@@ -146,6 +146,6 @@ class Link
      */
     public function __toString()
     {
-        return "{$this->getProject()} / {$this->getDomain()} / {$this->getDaemon()} [{$this->getServer()}]";
+        return "{$this->getServer()} [{$this->getDaemon()}]";
     }
 }

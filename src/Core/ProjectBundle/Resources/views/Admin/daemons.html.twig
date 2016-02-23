@@ -3,31 +3,33 @@
 {% block content %}
     <h2>Daemons</h2>
 
-    <h3>List</h3>
-    {% include 'CoreProjectBundle:Admin:daemons_list.html.twig' with {} only %}
+    <section class="list">
+        <h3>List</h3>
+        {% include 'CoreProjectBundle:Admin:daemons_list.html.twig' with {} only %}
+    </section>
 
-    <h3>
-        Links
-        {% if app.project|default %}
-            for project {{ app.project }}
-            <a data-target="popin"
-               href="{{ path('core_project_admin_project_edit', { '@project': app.project.name } ) }}"
-               class="icon-edit icon-only">Edit</a>
-            {% if app.domain|default %}
-                and domain {{ app.domain }}
+    <section class="list">
+        <h3>
+            Links
+            {% if app.project|default %}
+                for project {{ app.project }}
+                <a data-target="popin"
+                   href="{{ path('core_project_admin_project_edit', { '@project': app.project.name } ) }}"
+                   class="icon-edit icon-only">Edit</a>
+                {% if app.domain|default %}
+                    and domain {{ app.domain }}
+                    <a data-target="popin"
+                       href="{{ path('core_project_admin_domain_edit', { '@domain': app.domain.name } ) }}"
+                       class="icon-edit icon-only">Edit</a>
+                {% endif %}
+            {% elseif app.domain|default %}
+                for domain {{ app.domain }}
                 <a data-target="popin"
                    href="{{ path('core_project_admin_domain_edit', { '@domain': app.domain.name } ) }}"
                    class="icon-edit icon-only">Edit</a>
             {% endif %}
-        {% elseif app.domain|default %}
-            for domain {{ app.domain }}
-            <a data-target="popin"
-               href="{{ path('core_project_admin_domain_edit', { '@domain': app.domain.name } ) }}"
-               class="icon-edit icon-only">Edit</a>
-        {% else %}
-            (choose project or domain to display its)
-        {% endif %}
-    </h3>
-    {% include 'CoreProjectBundle:Admin:links_list.html.twig' with {'links': links} only %}
+        </h3>
+        {% include 'CoreProjectBundle:Admin:links_list.html.twig' with {'links': links} only %}
+    </section>
 
 {% endblock %}

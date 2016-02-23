@@ -1,8 +1,6 @@
 {% extends app.layout(_self) %}
 
 {% block content %}
-    {% include 'CoreProjectBundle:Admin:daemons_list.html.twig' with {'currentDaemon': name} only %}
-
     <section id="daemon-edit">
         <h2>Daemon {% if edit_mode %}edition{% else %}creation{% endif %}</h2>
         {{ form_start(form) }}
@@ -13,4 +11,11 @@
         </div>
         {{ form_end(form) }}
     </section>
+
+    {% if not app.isPopin %}
+        <section class="list">
+            <h3>Daemons</h3>
+            {% include 'CoreProjectBundle:Admin:daemons_list.html.twig' with {'currentDaemon': name} only %}
+        </section>
+    {% endif %}
 {% endblock %}

@@ -3,9 +3,6 @@
 namespace Core\ProjectBundle\Controller;
 
 use Core\ProjectBundle\Entity\Daemon;
-use Core\ProjectBundle\Entity\Domain;
-use Core\ProjectBundle\Entity\Link;
-use Core\ProjectBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminDaemonController extends Controller
 {
 
-    public function listAction() {
+    public function listAction()
+    {
         $linkHelper = $this->container->get('link_helper');
         $projectHelper = $this->container->get('project_helper');
 
@@ -25,15 +23,13 @@ class AdminDaemonController extends Controller
             $criteria['domain'] = $projectHelper->getDomain();
         }
 
-        $links = [];
-        if (!empty($criteria)) {
-            $links = $linkHelper->findLinks($criteria, true);
-        }
+        $links = $linkHelper->findLinks($criteria, true);
 
         return $this->render('CoreProjectBundle:Admin:daemons.html.twig', array('links' => $links));
     }
 
-    public function editAction(Request $request, $name) {
+    public function editAction(Request $request, $name)
+    {
         $daemonHelper = $this->container->get('daemon_helper');
         $edit = true;
         $entity = $daemonHelper->getDaemonByName($name);
@@ -58,8 +54,7 @@ class AdminDaemonController extends Controller
 
             if ($edit) {
                 $this->addFlash('success', "Daemon '{$entity}' updated");
-            }
-            else {
+            } else {
                 $this->addFlash('success', "Daemon '{$entity}' created");
             }
 
@@ -69,12 +64,13 @@ class AdminDaemonController extends Controller
         return $this->render('CoreProjectBundle:Admin:daemon_edit.html.twig',
             array(
                 'edit_mode' => $edit,
-                'name'      => $name,
-                'form'      => $form->createView(),
+                'name' => $name,
+                'form' => $form->createView(),
             ));
     }
 
-    public function deleteAction(Request $request, $name) {
+    public function deleteAction(Request $request, $name)
+    {
         $daemonHelper = $this->container->get('daemon_helper');
         $entity = $daemonHelper->getDaemonByName($name);
         if (empty($entity)) {

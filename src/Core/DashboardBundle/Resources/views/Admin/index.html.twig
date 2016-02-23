@@ -24,20 +24,28 @@
         </h2>
 
         {% if not app.project|default %}
-            <h3>Projects</h3>
-            {% include 'CoreProjectBundle:Admin:projects_list.html.twig' with {} only %}
+            <section class="list">
+                <h3>Projects</h3>
+                {% include 'CoreProjectBundle:Admin:projects_list.html.twig' with {} only %}
+            </section>
         {% endif %}
 
         {% if not app.domain|default %}
-            <h3>Domains</h3>
-            {% include 'CoreProjectBundle:Admin:domains_list.html.twig' with {} only %}
+            <section class="list">
+                <h3>Domains</h3>
+                {% include 'CoreProjectBundle:Admin:domains_list.html.twig' with {} only %}
+            </section>
         {% endif %}
 
-        <h3>Tools</h3>
-        {% include 'CoreLayoutBundle:Default:tools_list.html.twig' with {} only %}
+        <section class="list">
+            <h3>Tools</h3>
+            {% include 'CoreLayoutBundle:Default:tools_list.html.twig' with {} only %}
+        </section>
 
-        <h3>Administration</h3>
-        {% include 'CoreDashboardBundle:Admin:admin_list.html.twig' with {} only %}
+        <section class="list">
+            <h3>Administration</h3>
+            {% include 'CoreDashboardBundle:Admin:admin_list.html.twig' with {} only %}
+        </section>
 
     </section>
 

@@ -62,16 +62,9 @@ core_project_admin_daemon_del:
     requirements:
         @siteaccess: admin
 
-
-core_project_admin_link:
-    path:     /daemons/links
-    defaults: { _controller: CoreProjectBundle:AdminDaemon:listLinks }
-    requirements:
-        @siteaccess: admin
-
 core_project_admin_link_add:
-    path:     /daemons/links/new
-    defaults: { _controller: CoreProjectBundle:Admin:link, id: null }
+    path:     /daemons/links/new/{project}/{domain}/{daemon}
+    defaults: { _controller: CoreProjectBundle:Admin:link, id: null, project: null, domain: null, daemon: null }
     requirements:
         @siteaccess: admin
 

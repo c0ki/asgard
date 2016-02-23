@@ -1,8 +1,2 @@
-section.list h3 {
-    display: inline-block;
-}
 
-ul.projects li div, ul.domains li div, ul.daemons li div {
-    display: inline-block;
-    margin-left: 3rem;
-}
+

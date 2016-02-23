@@ -67,3 +67,21 @@ body.siteaccess-admin .logo-admin a:before {
 body.siteaccess-admin .logo-admin a:hover:before {
     color: #000000;
 }
+
+body.siteaccess-admin section.list h3 {
+    display: inline-block;
+}
+
+body.siteaccess-admin section.list ul {
+    list-style: none;
+    margin-top: 0;
+}
+
+body.siteaccess-admin section.list ul li div {
+    display: inline-block;
+    margin-left: 3rem;
+}
+
+body.siteaccess-admin section.list li > ul:first-child {
+    padding-left: 0;
+}

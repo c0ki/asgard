@@ -24,7 +24,8 @@ class LinkHelper
      */
     protected $repository;
 
-    public function __construct(RequestStack $request, RegistryInterface $doctrine) {
+    public function __construct(RequestStack $request, RegistryInterface $doctrine)
+    {
         $this->masterRequest = $request->getMasterRequest();
         $this->doctrine = $doctrine;
         $this->repository = $this->doctrine->getRepository('CoreProjectBundle:Link');
@@ -33,7 +34,8 @@ class LinkHelper
     /**
      * @return \Core\ProjectBundle\Entity\Link[]
      */
-    public function listLinks() {
+    public function listLinks()
+    {
         if (empty($this->links)) {
             $this->links = $this->repository->findAll();
         }
@@ -48,13 +50,16 @@ class LinkHelper
 
     /**
      * @param array $criteria
+     * @param bool  $sort
      * @return \Core\ProjectBundle\Entity\Link[]
      */
-    public function findLinks(array $criteria, $sort) {
+    public function findLinks(array $criteria, $sort)
+    {
         $links = $this->repository->findBy($criteria);
         if ($sort) {
             $links = $this->sortLinks($links);
         }
+
         return $links;
     }
 
@@ -62,7 +67,8 @@ class LinkHelper
      * @param $id
      * @return \Core\ProjectBundle\Entity\Link
      */
-    public function getLinkById($id) {
+    public function getLinkById($id)
+    {
         if (!array_key_exists($id, $this->linkById)) {
             $this->linkById[$id] = $this->repository->findOneBy(array('id' => $id));
         }
@@ -79,11 +85,12 @@ class LinkHelper
      * @param Link[] $links
      * @return array
      */
-    protected function sortLinks(array $links) {
+    protected function sortLinks(array $links)
+    {
         $linksSorted = [];
 
         foreach ($links as $link) {
-            $linksSorted[(string)$link->getProject()][(string)$link->getDomain()][] = $link;
+            $linksSorted[$link->getProject()->getName()][$link->getDomain()->getName()][] = $link;
         }
 
         return $linksSorted;

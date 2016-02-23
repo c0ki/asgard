@@ -1,22 +1,58 @@
-{% if app.project %}
-    {% set projects = [app.project] %}
-{% else %}
-    {% set projects = app.domain.projects|default(app.projects) %}
+{% if route is not defined %}
+    {% set route = app._route %}
+    {% set params = app._route_params(params|default({})) %}
 {% endif %}
-
+<a data-target="popin" href="{{ path('core_project_admin_link_add', {'project': app.project.name|default, 'domain': app.domain.name|default}) }}" class="icon-plus-circle icon-only">Add</a>
 <ul>
+    {% if app.project %}
+        {% set projects = [app.project] %}
+    {% else %}
+        {% set projects = app.domain.projects|default(app.projects) %}
+    {% endif %}
     {% for project in projects %}
-        {% set domains = [] %}
-        {% if app.domain %}
-            {% if app.domain in project.domains %}
-                {% set domains = [app.domain] %}
+        <li>
+            {% if not app.project %}
+                <a href="{{ path(route, params|default({})|merge({'@project': project.name})) }}"
+                   class="icon-{{ project.logo|default('no') }}">{{ project }}</a>
+                <a data-target="popin" href="{{ path('core_project_admin_link_add', {'project': project.name}) }}" class="icon-plus-circle icon-only">Add</a>
             {% endif %}
-        {% else %}
-            {% set domains = project.domains %}
-        {% endif %}
-        {% for domain in domains %}
-            <li>{{ project }} : {{ domain }}</li>
-        {% endfor %}
+            <ul>
+                {% set domains = [] %}
+                {% if app.domain %}
+                    {% if app.domain in project.domains %}
+                        {% set domains = [app.domain] %}
+                    {% endif %}
+                {% else %}
+                    {% set domains = project.domains %}
+                {% endif %}
+                {% for domain in domains %}
+                    <li>
+                        {% if not app.domain %}
+                            <a href="{{ path(route, params|default({})|merge({'@project': project.name, '@domain': domain.name})) }}"
+                               class="icon-{{ domain.logo|default('no') }}">{{ domain }}</a>
+                            <a data-target="popin" href="{{ path('core_project_admin_link_add', {'project': project.name, 'domain': domain.name}) }}" class="icon-plus-circle icon-only">Add</a>
+                        {% endif %}
+                        <ul>
+                            {% for link in links[project.name][domain.name] %}
+                                <li>
+                                    <span class="icon-{{ link.logo|default('no') }}">
+                                        {{ link }}
+                                    </span>
+                                    <div>
+                                        <a data-target="popin"
+                                           href="{{ path('core_project_admin_link_edit', { 'id': link.id } ) }}"
+                                           class="icon-edit icon-only">Edit</a>
+                                        <a data-target="popin"
+                                           href="{{ path('core_project_admin_link_del', { 'id': link.id } ) }}"
+                                           class="icon-trash icon-only">Delete</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
     {% endfor %}
 </ul>
 {#<ul class="links">#}

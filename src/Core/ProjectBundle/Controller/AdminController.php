@@ -242,13 +242,24 @@ class AdminController extends Controller
                              ));
     }
 
-    public function linkAction(Request $request, $id) {
+    public function linkAction(Request $request, $id, $project = null, $domain = null, $daemon = null) {
         $linkHelper = $this->container->get('link_helper');
+        $projectHelper = $this->container->get('project_helper');
+        $daemonHelper = $this->container->get('daemon_helper');
         $edit = true;
         $entity = $linkHelper->getLinkById($id);
         if (!$entity) {
             $edit = false;
             $entity = new Link();
+            if ($project && $projectHelper->getProjectByName($project)) {
+                $entity->setProject($projectHelper->getProjectByName($project));
+            }
+            if ($domain && $projectHelper->getDomainByName($domain)) {
+                $entity->setDomain($projectHelper->getDomainByName($domain));
+            }
+            if ($daemon && $daemonHelper->getDaemonByName($daemon)) {
+                $entity->setDaemon($daemonHelper->getDaemonByName($daemon));
+            }
         }
 
         $form = $this->createForm('generic_entity',
