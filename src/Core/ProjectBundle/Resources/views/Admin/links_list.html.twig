@@ -33,7 +33,7 @@
                             <a data-target="popin" href="{{ path('core_project_admin_link_add', {'project': project.name, 'domain': domain.name}) }}" class="icon-plus-circle icon-only">Add</a>
                         {% endif %}
                         <ul>
-                            {% for link in links[project.name][domain.name] %}
+                            {% for link in links[project.name][domain.name]|default([]) %}
                                 <li>
                                     <span class="icon-link">
                                         {{ link }}
