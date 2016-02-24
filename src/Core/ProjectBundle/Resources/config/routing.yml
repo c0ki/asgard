@@ -80,15 +80,6 @@ core_project_admin_link_del:
     requirements:
         @siteaccess: admin
 
-core_project_admin:
-    path:     /
-    defaults:
-        _controller: CoreProjectBundle:Admin:list
-        @project: null
-        @domain: null
-    requirements:
-        @siteaccess: admin
-
 core_project_project:
     path:     /
     defaults: { _controller: CoreProjectBundle:Default:indexProject, @domain: null }
