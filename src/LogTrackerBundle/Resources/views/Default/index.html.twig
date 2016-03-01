@@ -14,7 +14,7 @@
                         <li>
                             {{ type }}
                             <a href="{{ path('log_tracker_chart', {'query': info.query}) }}" class="icon-only icon-chart-bar">chart</a>
-                            <a href="{{ path('log_tracker_chart', {'query': info.query}) }}" class="icon-only icon-list">list</a>
+                            <a href="{{ path('log_tracker_search', {'query': info.query}) }}" class="icon-only icon-list">list</a>
                         </li>
                     {% endfor %}
                 </ul>
