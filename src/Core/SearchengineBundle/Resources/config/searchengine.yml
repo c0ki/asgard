@@ -1,0 +1,14 @@
+searchengine:
+    default_client: 'tutu'
+
+#    clients:
+#        first:
+#            type: solr
+#            hostname: localhost
+#            port: 8983
+#            core: asgard_logs
+#        another:
+#            type: solr
+#            hostname: localhost
+#            port: 8983
+#            core: asgard_another

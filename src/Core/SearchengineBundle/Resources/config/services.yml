@@ -1,0 +1,7 @@
+parameters:
+    search.client_registery.class: Core\SearchengineBundle\Component\Search\SearchClientRegistry
+
+services:
+    search.client_registery:
+        class: %search.client_registery.class%
+        arguments: [[], null]

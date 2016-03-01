@@ -34,6 +34,10 @@ core_layout:
     resource: "@CoreLayoutBundle/Resources/config/routing.yml"
     prefix:   /
 
+#core_searchengine:
+#    resource: "@CoreSearchengineBundle/Resources/config/routing.yml"
+#    prefix:   /
+
 #core_core:
 #    resource: "@CoreCoreBundle/Resources/config/routing.yml"
 #    prefix:   /
