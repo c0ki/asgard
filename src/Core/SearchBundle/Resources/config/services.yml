@@ -10,20 +10,20 @@ services:
         tags:
             - { name: form.type, alias: core_search }
 
-    search.type.solr:
-        class: %search.type.solr.class%
-        arguments: [ @monolog.logger, %searchengine.hostname%, %searchengine.port%, %searchengine.cores% ]
-        tags:
-            - { name: monolog.logger, channel: search }
-
-    search:
-        alias: search.type.solr
-
-    indexer.type.solr:
-        class: %indexer.type.solr.class%
-        arguments: [ @monolog.logger, %searchengine.hostname%, %searchengine.port%, %searchengine.cores% ]
-        tags:
-            - { name: monolog.logger, channel: index }
-
-    indexer:
-        alias: indexer.type.solr
+#    search.type.solr:
+#        class: %search.type.solr.class%
+#        arguments: [ @monolog.logger, %searchengine.hostname%, %searchengine.port%, %searchengine.cores% ]
+#        tags:
+#            - { name: monolog.logger, channel: search }
+#
+#    search:
+#        alias: search.type.solr
+#
+#    indexer.type.solr:
+#        class: %indexer.type.solr.class%
+#        arguments: [ @monolog.logger, %searchengine.hostname%, %searchengine.port%, %searchengine.cores% ]
+#        tags:
+#            - { name: monolog.logger, channel: index }
+#
+#    indexer:
+#        alias: indexer.type.solr
