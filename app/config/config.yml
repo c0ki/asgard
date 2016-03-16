@@ -79,5 +79,9 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-#searchengine:
-#    default_client: true
+searchengine:
+    default_client: true
+    clients:
+        logs:
+            dsn: "solr://127.0.0.1:8983/solr/asgard_logs.xml"
+

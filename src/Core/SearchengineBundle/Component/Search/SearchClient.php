@@ -1,17 +1,23 @@
 <?php
 
-namespace Core\SearchBundle\Component\Search;
+namespace Core\SearchengineBundle\Component\Search;
 
 
 interface SearchClient
 {
     /**
      * @param SearchQuery $query
-     * @return  object  boolean -> success  Success or not
-     *                  int     -> numFound Results found number
-     *                  array   -> results  Results list
-     *                  array   -> facets   Facets list
+     * @return  SearchResponse
      */
     public function query(SearchQuery $query);
+
+    /**
+     * @param $criteria
+     * @param int $start
+     * @param int $numRows
+     * @param array $facets
+     * @return SearchResponse
+     */
+    public function search($criteria, $start = null, $numRows = null, array $facets = null);
 
 }

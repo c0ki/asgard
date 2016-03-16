@@ -1,69 +1,71 @@
 <?php
 
-namespace Core\SearchBundle\Component\Search\Solr;
+namespace Core\SearchengineBundle\Component\Search\Solr;
 
-use Core\SearchBundle\Component\Search\SearchClient as CoreSearchClient;
+use Core\SearchengineBundle\Component\Search\SearchClient as CoreSearchClient;
+use Core\SearchengineBundle\Component\Search\SearchQuery as CoreSearchQuery;
 
 class SearchClient extends \SolrClient implements CoreSearchClient
 {
+    protected $logger;
 
-    /**
-     * @param SolrQuery $query
-     * @return  object  boolean -> success  Success or not
-     *                  int     -> numFound Results found number
-     *                  array   -> results  Results list
-     *                  array   -> facets   Facets list
-     */
-    public function query(SolrQuery $query) {
-        // Init
-        $results = new \StdClass();
-        $results->success = 0;
-        $results->numFound = 0;
-        $results->numStart = 0;
-        $results->numRows = 0;
-        $results->results = array();
-        $results->facets = array();
-        $results->query = $query->getQuery();
-
-        // Execute query
-        // @var SolrQueryResponse $query_response
-        $query_response = parent::query($query);
-        $results->success = $query_response->success();
-        if ($results->success) {
-            $response = $query_response->getResponse();
-
-            $results->numFound = $response->response->numFound;
-            $results->numStart = $response->response->start;
-            $results->numRows = count($response->response->docs);
-            $results->results = $response->response->docs;
-
-            if (isset($response->facet_counts) && !empty($response->facet_counts)) {
-                $results->facets = array_merge(
-                    (array)$response->facet_counts->facet_queries,
-                    (array)$response->facet_counts->facet_fields,
-                    (array)$response->facet_counts->facet_dates,
-                    (array)$response->facet_counts->facet_ranges
-                );
-                foreach ($results->facets as $field => $resultFacet) {
-                    $results->facets[$field] = (array)$resultFacet;
-                    foreach ($results->facets[$field] as $value => $counter) {
-                        if ($value == '_undefined_property_name' || trim($value) == '') {
-                            unset($results->facets[$field][$value]);
-                            if ($counter != 0) {
-                                $value = '';
-                                $results->facets[$field][$value] = $counter;
-                            }
-                        }
-                        if (!is_numeric($counter)) {
-                            unset($results->facets[$field][$value]);
-                        }
-                    }
-                }
-                $results->facets = $query->getFacet()->formatResult($results->facets);
-            }
-        }
-
-        return $results;
+    public function __construct($options)
+    {
+        $options['path'] .= "/{$options['core']}";
+        parent::__construct($options);
     }
 
+    /**
+     * @param CoreSearchQuery $query
+     * @return SearchResponse
+     */
+    public function query(CoreSearchQuery $query)
+    {
+        // Execute query
+        try {
+            $response = parent::query($query);
+            $response->response_rows = $query->getRows();
+        }
+        catch (\SolrClientException $e) {
+            $message = $e->getMessage();
+            $content = null;
+            $error = null;
+            if (preg_match("#^(.*)(<html>.*)$#", preg_replace('/\s+/', ' ', $message), $matches)) {
+                $message = strip_tags($matches[1]);
+                $content = $matches[2];
+                if (preg_match("#<p>(.*)</p>#", preg_replace('/\s+/', ' ', $e->getMessage()), $matches)) {
+                    $error = strip_tags($matches[1]);
+                }
+            }
+            elseif (preg_match("#^(.*)(<\?xml.*)$#", preg_replace('/\s+/', ' ', $message), $matches)) {
+                $message = strip_tags($matches[1]);
+                $content = simplexml_load_string($matches[2]);
+                $errorCode = (string)array_shift($content->xpath('//lst[@name="error"]/*[@name="code"]'));
+                $errorMessage = (string)array_shift($content->xpath('//lst[@name="error"]/*[@name="msg"]'));
+                $error = sprintf("%s: %s", $errorCode, $errorMessage);
+            }
+
+            throw new SearchException(sprintf("%s [error:%s]", $message, $error));
+        }
+        return new SearchResponse($response);
+    }
+
+    /**
+     * @param $criteria
+     * @param int $start
+     * @param int $numRows
+     * @param array $facets
+     * @return SearchResponse
+     */
+    public function search($criteria, $start = null, $numRows = null, array $facets = null) {
+        $query = new SearchQuery();
+        $query->setQuery($criteria);
+        $query->setStart($start);
+        $query->setRows($numRows);
+        $query->setFacets($facets);
+
+        return $this->query($query);
+    }
+
+    static $query = SearchQuery::class;
 }

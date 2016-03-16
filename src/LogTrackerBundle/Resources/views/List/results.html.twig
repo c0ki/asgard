@@ -15,27 +15,27 @@
         {{ render(controller('CoreSearchBundle:Default:form', {'query': query})) }}
         <h3>
             List results
-            {% if results.numFound > 0 %}
-                ({{ results.numFound }})
+            {% if response.response.numFound > 0 %}
+                ({{ response.response.numFound }})
             {% endif %}
             <a href="{{ path('log_tracker_chart', {'query': query}) }}" class="icon-chart-bar icon-only">chart</a>
         </h3>
 
         <section class="results">
             <aside class="facets">
-                {% for name, values in results.facets if values|length > 1 %}
+                {% for name, values in response.response.facets if values|length > 1 %}
                     {% include 'LogTrackerBundle:List:facet.html.twig' with {'name': name, 'values': values, 'query': query} only %}
                 {% endfor %}
             </aside>
 
-            {% if not results.success or results.numFound == 0 %}
+            {% if not response.success or response.response.numFound == 0 %}
                 <div>No results</div>
             {% else %}
-                {% for result in results.results %}
+                {% for result in response.response.docs %}
                     <article>{% include 'LogTrackerBundle:List:result.html.twig' with {'result': result} only %}</article>
                 {% endfor %}
 
-                {% include 'CoreLayoutBundle:List:pager.html.twig' with {'founds': results.numFound, 'rows': results.rows, 'start': results.start|default, 'page': page|default} only %}
+                {% include 'CoreLayoutBundle:List:pager.html.twig' with {'founds': response.response.numFound, 'rows': response.response.rows, 'start': response.response.start|default, 'page': page|default} only %}
             {% endif %}
         </section>
 

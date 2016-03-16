@@ -55,7 +55,6 @@ class SearchengineConfiguration implements ConfigurationInterface
                                     $client['core'] = $info['filename'];
                                 }
                             }
-
                             return $client;
                         })
                     ->end()

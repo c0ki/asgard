@@ -4,15 +4,20 @@ namespace LogTrackerBundle\Controller;
 
 use Core\SearchBundle\Component\Search\SearchException;
 use Core\SearchBundle\Component\Search\Solr\SolrQuery;
+use Core\SearchengineBundle\Component\Search\SearchQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class DefaultController extends Controller
 {
-    public function indexAction() {
+    public function indexAction()
+    {
         $projectHelper = $this->container->get('project_helper');
-        $searchService = $this->container->get('search');
+        $searchClient = $this->container->get('searchengine.client.logs');
+        $searchQuery = $this->container->get('searchengine.query.logs');
+
+        $data = array();
 
         $criteria = array();
         if ($projectHelper->hasProject()) {
@@ -21,81 +26,80 @@ class DefaultController extends Controller
         if ($projectHelper->hasDomain()) {
             $criteria['+domain'] = $projectHelper->getDomain()->getName();
         }
-
-        $results = $searchService->search('asgard_logs', $criteria, 0, 1, array('daemon'));
-        $daemons = array_keys($results->facets['daemon']);
-        foreach ($daemons as $daemon) {
-            $criteriaDaemon = $criteria + array('+daemon' => $daemon);
-            $results = $searchService->search('asgard_logs', $criteriaDaemon, 0, 1, array('type'));
-            foreach ($results->facets['type'] as $type => $nb) {
-                if ($type == "unknown") {
-                    $criteriaType = $criteriaDaemon + array('-type' => '*');
+        $response = $searchClient->search($criteria, 0, 1, array('daemon'));
+        if ($response->success()) {
+            foreach (array_keys($response->getFacet('daemon')) as $daemon) {
+                $criteriaDaemon = array('+daemon' => $daemon);
+                $responseDaemon = $searchClient->search(array_merge($criteria, $criteriaDaemon), 0, 1, array('type'));
+                foreach ($responseDaemon->getFacet('type') as $type => $nb) {
+                    if ($type == '') {
+                        $criteriaType = array_merge($criteriaDaemon, array('-type' => '*'));
+                    } else {
+                        $criteriaType = array_merge($criteriaDaemon, array('+type' => $type));
+                    }
+                    $criteriaType = $searchQuery::formatQuery($criteriaType);
+                    $data[$daemon][$type] = array('query' => $criteriaType, 'nb' => $nb);
                 }
-                else {
-                    $criteriaType = $criteriaDaemon + array('+type' => $type);
-                }
-                SolrQuery::formatCriteria($criteriaType);
-                $data[$daemon][$type] = array('query' => $criteriaType, 'nb' => $nb);
             }
         }
 
         return $this->render('LogTrackerBundle:Default:index.html.twig', array('list' => $data));
     }
 
-    public function chartAction($query, $preventMonth) {
+    public function chartAction($query, $preventMonth)
+    {
+        $searchQuery = $this->container->get('searchengine.query.logs');
+
         // Redirect to valid url if query have date or not formatted
-        $initialQuery = $query;
-        $query = preg_replace('/\+?date:[\d-:]+/', '', $query);
-        SolrQuery::formatCriteria($query);
-        if ($query != $initialQuery) {
-            return new RedirectResponse($this->generateUrl('log_tracker_chart', array('query' => $query)));
+        $queryFormatted = preg_replace('/\+?date:[\d-:]+/', '', $query);
+        $queryFormatted = $searchQuery::formatQuery($queryFormatted);
+        if ($queryFormatted != $query) {
+            return new RedirectResponse($this->generateUrl('log_tracker_chart', array('query' => $queryFormatted)));
         }
 
         return $this->render('LogTrackerBundle:Default:chart.html.twig',
             array('query' => $query, 'preventMonth' => $preventMonth));
     }
 
-    public function dataAction($query, $preventMonth) {
+    public function dataAction($query, $preventMonth)
+    {
         $projectHelper = $this->container->get('project_helper');
-        $searchService = $this->container->get('search');
+        $searchClient = $this->container->get('searchengine.client.logs');
+        $searchQuery = $this->container->get('searchengine.query.logs');
         $data = array('dataset' => array(), 'schema' => array());
 
-        $criteria = array($query);
+        $criteriaProject = array();
         if ($projectHelper->hasProject()) {
-            $criteria['+project'] = $projectHelper->getProject()->getName();
+            $criteriaProject['+project'] = $projectHelper->getProject()->getName();
         }
         if ($projectHelper->hasDomain()) {
-            $criteria['+domain'] = $projectHelper->getDomain()->getName();
+            $criteriaProject['+domain'] = $projectHelper->getDomain()->getName();
         }
-        $criteria = array_filter($criteria);
-
-        $results = $searchService->search('asgard_logs', $criteria, 0, 1, array('subtype_s'));
+        $criteria = array_filter(array($query));
+        $response = $searchClient->search(array_merge($criteria, $criteriaProject), 0, 1, array('subtype_s'));
         $firstDay = date('Y-m-d', strtotime("-{$preventMonth} MONTH"));
         $lastDay = date('Y-m-d');
-        foreach ($results->facets['subtype_s'] as $name => $val) {
+        foreach ($response->getFacet('subtype_s') as $name => $val) {
             if ($name === '') {
                 $criteriaFacet = array_merge($criteria, array("-subtype_s" => '*'));
                 $name = "unknown";
-            }
-            else {
+            } else {
                 $criteriaFacet = array_merge($criteria, array("+subtype_s" => $name));
             }
-            $resultsSubtype = $searchService->search('asgard_logs',
-                $criteriaFacet,
+            $responseSubtype = $searchClient->search(
+                array_merge($criteriaFacet, $criteriaProject),
                 0,
                 1,
                 array('date' => array('date' => array('start' => $firstDay,
                                                       'gap'   => '+1DAY'))));
-            $initialCriteriaFacet = $criteriaFacet;
-            unset($initialCriteriaFacet['+project']);
-            unset($initialCriteriaFacet['+domain']);
-            SolrQuery::formatCriteria($initialCriteriaFacet);
-            foreach ($resultsSubtype->facets['date'] as $date => $nb) {
+            $criteriaFacet = $searchQuery::formatQuery($criteriaFacet);
+
+            foreach ($responseSubtype->getFacet('date') as $date => $nb) {
                 $date = substr($date, 0, 10);
                 if (!array_key_exists($date, $data['dataset'])) {
                     $data['dataset'][$date]["preview"] = 0;
                 }
-                $data['schema'][$name] = $initialCriteriaFacet;
+                $data['schema'][$name] = $criteriaFacet;
                 $data['dataset'][$date]["date"] = $date;
                 $data['dataset'][$date][$name] = $nb;
                 $data['dataset'][$date]["preview"] += $nb / 1000;
@@ -119,12 +123,14 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function searchAction($query, $start, $rows) {
+    public function searchAction($query, $start, $rows)
+    {
+        $searchClient = $this->container->get('searchengine.client.logs');
+        $searchQuery = $this->container->get('searchengine.query.logs');
         // Redirect to valid url if query not formatted
-        $initialQuery = $query;
-        SolrQuery::formatCriteria($query);
-        if ($query != $initialQuery) {
-            return new RedirectResponse($this->generateUrl('log_tracker_search', array('query' => $query)));
+        $queryFormatted = $searchQuery::formatQuery($query);
+        if ($queryFormatted != $query) {
+            return new RedirectResponse($this->generateUrl('log_tracker_search', array('query' => $queryFormatted)));
         }
 
         $facets = array('project', 'domain', 'daemon', 'type', 'subtype_s',
@@ -149,9 +155,8 @@ class DefaultController extends Controller
             });
         }
 
-        $searchService = $this->container->get('search');
         try {
-            $results = $searchService->search('asgard_logs',
+            $response = $searchClient->search(
                 $query,
                 $start,
                 $rows,
@@ -162,10 +167,7 @@ class DefaultController extends Controller
 
             return new RedirectResponse($this->generateUrl('log_tracker_tool_homepage'));
         }
-        $results->start = $start;
-        $results->rows = $rows;
-
         return $this->render('LogTrackerBundle:List:results.html.twig',
-            array('results' => $results, 'query' => $initialQuery));
+            array('response' => $response, 'query' => $initialQuery));
     }
 }
