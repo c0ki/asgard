@@ -2,7 +2,7 @@
 
 namespace LogTrackerBundle\Command;
 
-use Core\CoreBundle\Component\Indexer\SolrIndexer;
+use Core\SearchengineBundle\Component\Search\SearchClient;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,9 +18,9 @@ class LogConsolidationCommand extends ContainerAwareCommand
     protected $logger;
 
     /**
-     * @var SolrIndexer
+     * @var SearchClient
      */
-    protected $indexer;
+    protected $searchClient;
 
     /**
      * @var File[]
@@ -42,7 +42,7 @@ class LogConsolidationCommand extends ContainerAwareCommand
     protected function initialize(InputInterface $input, OutputInterface $output) {
         $this->times = array(microtime(true));
         $this->logger = $this->getContainer()->get('monolog.logger.console');
-        $this->indexer = $this->getContainer()->get('indexer');
+        $this->searchClient = $this->getContainer()->get('searchengine.client.logs');
         $this->validate($input, $output);
     }
 
@@ -79,7 +79,7 @@ class LogConsolidationCommand extends ContainerAwareCommand
         }
         else {
             $this->logger->info("Log consolidation: indexed {$nbFilesToIndex} files");
-            $status = $this->indexer->importData('asgard_logs');
+            $status = $this->searchClient->importData();
             $status = urldecode(str_replace('=', ': ', http_build_query($status, null, ', ')));
             $this->logger->info("Log consolidation: indexed {$status}");
 
