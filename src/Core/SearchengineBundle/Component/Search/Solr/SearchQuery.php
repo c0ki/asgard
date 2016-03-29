@@ -145,6 +145,7 @@ class SearchQuery extends \SolrQuery implements CoreSearchQuery
                 return $this;
             }
         }
+
         // Init facet
         $this->setFacet(true);
         $this->setFacetMissing(true);
@@ -154,6 +155,7 @@ class SearchQuery extends \SolrQuery implements CoreSearchQuery
                 $name = $options;
                 $options = null;
             }
+
             // Init default options
             $this->setFacetMinCount(self::DEFAULT_MIN_COUNT);
             $this->addFacetField($name);

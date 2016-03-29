@@ -56,11 +56,13 @@ class SearchResponse implements CoreSearchResponse
                             foreach ($values as $key => $value) {
                                 if ($key == '_undefined_property_name' || (trim($key) == '' && $key != '')) {
                                     if (!empty($value)) {
+                                        if (!array_key_exists('', $values)) {
+                                            $values[''] = 0;
+                                        }
                                         $values[''] += $value;
                                     }
                                     unset($values[$key]);
-                                }
-                                elseif ($propertyName == 'facet_dates' && !strtotime($key)) {
+                                } elseif ($propertyName == 'facet_dates' && !strtotime($key)) {
                                     unset($values[$key]);
                                 }
                             }
@@ -83,5 +85,13 @@ class SearchResponse implements CoreSearchResponse
         }
 
         return null;
+    }
+
+    public function getFields() {
+        return $this->response->fields;
+    }
+
+    public function getFieldNames() {
+        return array_keys($this->response->fields);
     }
 }

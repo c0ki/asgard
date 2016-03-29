@@ -15,9 +15,9 @@ interface SearchClient
      * @param $criteria
      * @param int $start
      * @param int $numRows
-     * @param array $facets
+     * @param array|string $facets
      * @return SearchResponse
      */
-    public function search($criteria, $start = null, $numRows = null, array $facets = null);
+    public function search($criteria, $start = null, $numRows = null, $facets = null);
 
 }
