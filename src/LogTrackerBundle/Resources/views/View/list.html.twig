@@ -1,0 +1,18 @@
+<section class="list">
+    <ul>
+        <li>
+            {% for name, params in fields %}
+                <span data-field="{{ name }}">{{ name }}</span>
+            {% endfor %}
+        </li>
+        {% include 'LogTrackerBundle:View:elements.html.twig' with {docs: docs, fields: fields} only %}
+        {% for doc in docs %}
+            <li>
+                {% for name, params in fields %}
+                    <span data-field="{{ name }}">{{ attribute(doc, name)|default }}</span>
+                {% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+

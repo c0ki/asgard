@@ -1,0 +1,21 @@
+<aside class="fields">
+    <ul>
+        {% for field, values in fields %}
+            <li class="field">
+                <span class="icon-success">{{ field }}</span>
+                {% if values|length <= 10 and (values|length != 1 or not values|keys|first is empty) %}
+                    <ul>
+                        {% for value, nb in values %}
+                            <li>
+                                <a href="">
+                                    <span class="value">{{ value }}</span>
+                                    <span class="number">{{ nb }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</aside>

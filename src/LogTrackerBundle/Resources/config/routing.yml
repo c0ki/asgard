@@ -41,3 +41,17 @@ log_tracker_data:
     defaults: { _controller: LogTrackerBundle:Default:data, query: null, preventMonth: 6 }
     requirements:
         preventMonth: "\d+"
+
+log_tracker_view:
+    path:   /view/{query}/{start}/{rows}
+    defaults: { _controller: LogTrackerBundle:View:index, query: '*', start: 0, rows: 10, onlydata: false }
+    requirements:
+        start: "\d+"
+        rows: "\d+"
+
+log_tracker_view_onepage:
+    path:   /viewdata/{query}/{start}/{rows}
+    defaults: { _controller: LogTrackerBundle:View:index, query: '*', start: 0, rows: 10, onlydata: true }
+    requirements:
+        start: "\d+"
+        rows: "\d+"

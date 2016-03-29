@@ -1,0 +1,34 @@
+{% extends app.layout(_self) %}
+
+{% block head_css %}
+    {{ parent() }}
+    {% stylesheets
+    'bundles/logtracker/css/view.css'
+    filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <section id="logtrackerview">
+        <h2>LogTracker</h2>
+        {{ render(controller('CoreSearchBundle:Default:form', {'_route': 'log_tracker_search'})) }}
+        {% include 'LogTrackerBundle:View:list.html.twig' with {docs: response.response.docs, fields: response.fields} only %}
+        {% include 'LogTrackerBundle:View:fields.html.twig' with {fields: response.facets()} only %}
+    </section>
+{% endblock %}
+
+{% block foot_js %}
+    {{ parent() }}
+    <script>
+        var nodes = document.querySelectorAll('aside.fields .field');
+        Array.prototype.filter.call(nodes, function (node) {
+            node.addEventListener('click', innertoggle, false);
+        });
+
+        Array.prototype.filter.call(document.querySelectorAll('aside.fields .field > span'), function (node) {
+            node.addEventListener("click", clickAfter);
+        });
+
+    </script>
+{% endblock %}

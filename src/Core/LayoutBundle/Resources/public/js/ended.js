@@ -16,3 +16,23 @@ function innertoggle(node) {
         node.classList.toggle('nohide');
     });
 }
+
+function clickAfter(event) {
+    var node = event.target;
+    if (event.currentTarget) {
+        node = event.currentTarget;
+    }
+    var span = node;
+    var e = event;
+    console.log(e);
+    console.log(span);
+    if (e.offsetX ? e.offsetX > span.offsetWidth :
+        e.pageX - span.offsetLeft > span.offsetWidth) {
+        console.log("Click 2");
+        span.classList.add('c2');
+    } else {
+        span.classList.add('c1');
+        console.log("Click 1");
+    }
+    console.log(e.offsetX, span.offsetWidth, e.pageX, e.pageX - span.offsetLeft);
+}

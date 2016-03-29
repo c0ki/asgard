@@ -1,0 +1,9 @@
+{% for doc in docs %}
+    <li>
+        {% for name, params in fields %}
+            <span data-field="{{ name }}">{{ attribute(doc, name)|default }}</span>
+        {% endfor %}
+    </li>
+{% endfor %}
+
+
