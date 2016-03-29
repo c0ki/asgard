@@ -28,6 +28,7 @@ class GlobalExtension extends \Twig_Extension
             new \Twig_SimpleFilter ('array', array($this, 'arrayFilter')),
             new \Twig_SimpleFilter ('regex', array($this, 'regexFilter')),
             new \Twig_SimpleFilter ('date_format', array($this, 'dateFormat')),
+            new \Twig_SimpleFilter ('to_array', array($this, 'toArray')),
         );
     }
 
@@ -99,6 +100,16 @@ class GlobalExtension extends \Twig_Extension
         }
 
         return null;
+    }
+
+    public function toArray($element, $delimiter = ',') {
+        if (is_object($element)) {
+            return (array)$element;
+        }
+        if (is_string($element)) {
+            return explode($delimiter, $element);
+        }
+        return $element;
     }
 
     public function renderBreadcrumb(\Twig_Environment $twig, array $params = array())
