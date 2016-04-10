@@ -11,8 +11,10 @@
 
 {% block content %}
     <section id="logtrackerview">
-        <h2>LogTracker</h2>
-        {{ render(controller('CoreSearchBundle:Default:form', {'_route': 'log_tracker_search'})) }}
+        <header>
+            <h2>LogTracker</h2>
+            {{ render(controller('CoreSearchBundle:Default:form', {'query': response.response.query|default() })) }}
+        </header>
         {% include 'LogTrackerBundle:View:list.html.twig' with {docs: response.response.docs, fields: response.fields} only %}
         {% include 'LogTrackerBundle:View:fields.html.twig' with {fields: response.facets()} only %}
     </section>
@@ -25,10 +27,5 @@
         Array.prototype.filter.call(nodes, function (node) {
             node.addEventListener('click', innertoggle, false);
         });
-
-        Array.prototype.filter.call(document.querySelectorAll('aside.fields .field > span'), function (node) {
-            node.addEventListener("click", clickAfter);
-        });
-
     </script>
 {% endblock %}
