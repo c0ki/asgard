@@ -2,13 +2,24 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: flex-end;
-    align-items: flex-start;
 }
+
+#logtrackerview header {
+    display: flex;
+    flex-direction: row;
+    /*flex-wrap: nowrap;*/
+    justify-content: space-between;
+    /*align-items: stretch;*/
+}
+
+#logtrackerview header .formsearch input {
+    max-width: none;
+    width: 25rem;
+}
+
 #logtrackerview .fields {
     order: 0;
     flex: 1;
-
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -25,13 +36,7 @@
     margin: 0 1rem;
     cursor: context-menu;
 }
-#logtrackerview .fields li.field > span:hover {
-    margin-left: 2.8rem;
-}
-#logtrackerview .fields li.field > span:hover:before {
-    position: absolute;
-    margin-left: -2.8rem;
-}
+
 #logtrackerview .fields li.field.innershow {
     background-color: lightblue;
 }
@@ -39,6 +44,14 @@
 #logtrackerview .fields li.field * {
     margin: 0;
     padding: 0;
+}
+
+#logtrackerview .fields li.field > span {
+    display: inline-block;
+    width: 10rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #logtrackerview .fields li.field ul {
@@ -51,6 +64,7 @@
     margin-left: -1.1rem;
     display: none;
 }
+
 #logtrackerview .fields li.field.innershow ul {
     display: block;
 }
@@ -60,6 +74,10 @@
     text-decoration: none;
     padding: 0 0.5rem;
 }
+#logtrackerview .fields li.field a[data-number]:after {
+    content: "["attr(data-number)"]";
+}
+
 #logtrackerview .fields li.field a:hover {
     background-color: lightblue;
 }

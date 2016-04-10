@@ -7,9 +7,8 @@
                     <ul>
                         {% for value, nb in values %}
                             <li>
-                                <a href="">
-                                    <span class="value">{{ value }}</span>
-                                    <span class="number">{{ nb }}</span>
+                                <a href="{{ path('log_tracker_view', {'query': field ~ ':"' ~ value ~ '"'}) }}" data-number="{{ nb }}">
+                                    {{ value }}
                                 </a>
                             </li>
                         {% endfor %}
