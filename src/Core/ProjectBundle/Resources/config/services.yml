@@ -11,25 +11,25 @@ parameters:
 
 services:
     event_subscriber.project.router:
-        class: %event_subscriber.project.router.class%
-        arguments: [ @project_helper, @router, @?router.request_context ]
+        class: '%event_subscriber.project.router.class%'
+        arguments: [ '@project_helper', '@router', '@?router.request_context' ]
         tags:
             - { name: kernel.event_subscriber }
 
     project_helper:
-        class: %project_helper.class%
-        arguments: [ @request_stack, @doctrine ]
+        class: '%project_helper.class%'
+        arguments: [ '@request_stack', '@doctrine' ]
 
     daemon_helper:
-        class: %daemon_helper.class%
-        arguments: [ @request_stack, @doctrine ]
+        class: '%daemon_helper.class%'
+        arguments: [ '@request_stack', '@doctrine' ]
 
     link_helper:
-        class: %link_helper.class%
-        arguments: [ @request_stack, @doctrine ]
+        class: '%link_helper.class%'
+        arguments: [ '@request_stack', '@doctrine' ]
 
     breadcrumb_helper:
-        class: %breadcrumb_helper.class%
-        arguments: [ @request_stack, @tool_helper, %breadcrumb.template% ]
+        class: '%breadcrumb_helper.class%'
+        arguments: [ '@request_stack', '@tool_helper', '%breadcrumb.template%' ]
         calls:
-            - [setProjectHelper, [@project_helper]]
+            - [setProjectHelper, ['@project_helper']]
