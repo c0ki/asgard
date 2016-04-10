@@ -122,15 +122,36 @@ class SearchQuery extends \SolrQuery implements CoreSearchQuery
             }
         }
 
-        // Replace / and ~
-        $query = str_replace('/', '~', $query);
-
         // Replace empty by * or null
         if (empty($query)) {
             $query = '*';
         }
 
         return $query;
+    }
+
+    public static function parseQuery($query) {
+        preg_match_all('/(or\s+|and\s+)?([+-]?\w+\:)?("[^"]*"|\(((?>[^()]+)|(?R))*\)|\w+)/i', $query, $matches);
+        if (implode(' ', $matches[0]) != $query) {
+            return $query;
+        }
+        else {
+            $query = $matches[0];
+            $query = array_unique($query);
+            $queryParsed = array();
+            foreach ($query as $param) {
+                if (preg_match('/^((or\s+)?[+-]?\w+)\:(.*)$/i', $param, $matches)) {
+                    $queryParsed[$matches[1]] = $matches[3];
+                }
+                elseif (preg_match('/^\((.*)\)$/', $param, $matches)) {
+                    $queryParsed[] = self::parseQuery($matches[1]);
+                }
+                else {
+                    $queryParsed[] = $param;
+                }
+            }
+        }
+        return $queryParsed;
     }
 
     public function setFacets($facets)
