@@ -27,7 +27,7 @@ class DefaultController extends Controller
         // Redirect to valid url if form valid
         if ($form->isValid()) {
             $query = $form->get('query')->getData();
-            SolrQuery::formatCriteria($query);
+            //SolrQuery::formatCriteria($query);
             parse_str($form->get('_route_params')->getData(), $routeParams);
             $routeParams = array_merge($routeParams, array('query' => $query));
 
