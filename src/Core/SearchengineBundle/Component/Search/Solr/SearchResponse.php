@@ -35,6 +35,12 @@ class SearchResponse implements CoreSearchResponse
         $response->rows = $this->response->response_rows;
         $response->facets = $this->getFacets();
 
+        parse_str($this->response->getRawRequest(), $rawRequest);
+        if (array_key_exists('q', $rawRequest)) {
+            $response->query = $rawRequest['q'];
+            $response->queryParsed = SearchQuery::parseQuery($response->query);
+        }
+
         return $response;
     }
 
