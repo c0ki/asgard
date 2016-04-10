@@ -1,14 +1,22 @@
 parameters:
+    router.options.generator_class: Core\SearchBundle\Component\Routing\Generator\UrlGenerator
+    router.options.generator_base_class: Core\SearchBundle\Component\Routing\Generator\UrlGenerator
+    event_subscriber.search.router.class: Core\SearchBundle\EventSubscriber\RouterSubscriber
     form.type.search.class: Core\SearchBundle\Form\Type\SearchType
-    search.type.solr.class: Core\SearchBundle\Component\Search\Solr\SolrSearch
-    indexer.type.solr.class: Core\SearchBundle\Component\Indexing\Solr\SolrIndexer
-
 services:
+    event_subscriber.search.router:
+        class: '%event_subscriber.search.router.class%'
+        arguments: [ '@router', '@?router.request_context' ]
+        tags:
+            - { name: kernel.event_subscriber }
+
     form.type.search:
-        class: %form.type.search.class%
-        arguments: [ @request_stack, @router ]
+        class: '%form.type.search.class%'
+        arguments: [ '@request_stack', '@router' ]
         tags:
             - { name: form.type, alias: core_search }
+
+
 
 #    search.type.solr:
 #        class: %search.type.solr.class%
