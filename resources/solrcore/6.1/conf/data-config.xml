@@ -1,0 +1,111 @@
+<dataConfig>
+    <dataSource type="FileDataSource" encoding="UTF-8" name="file-datasource"/>
+    <document>
+        <entity name="file_apache_access" processor="FileListEntityProcessor"
+                baseDir="/var/www/asgard/resources/indexes"
+                fileName="httpd.access"
+                rootEntity="false" dataSource="null" transformer="TemplateTransformer">
+            <entity onError="skip" name="line"
+                    processor="LineEntityProcessor"
+                    url="${file_apache_access.fileAbsolutePath}"
+                    rootEntity="true"
+                    transformer="TemplateTransformer,RegexTransformer,DateFormatTransformer"
+                    dataSource="fds"
+                    >
+                <field column="id" template="${file_apache_access.file}:${line.rawLine}"/>
+                <field column="filename_s" template="${file_apache_access.file}" regex="^(.*\.log)"/>
+                <field column="id" regex="^${file_apache_access.file}:" replaceWith="${line.filename_s}:"/>
+                <field column="project" sourceColName="filename_s" regex="^([^\.]*)\."/>
+                <field column="domain" sourceColName="filename_s" regex="^[^\.]*\.([^\.]*)\."/>
+                <field column="server" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.([^\.]*)\."/>
+                <field column="daemon" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.[^\.]*\.([^\.]*)\."/>
+                <field column="type" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.[^\.]*\.[^\.]*\.([^-]*)-"/>
+                <field column="filename_s" sourceColName="filename_s" regex=".*-(.*)$"/>
+                <!--126.6.101.81 - - [23/Oct/2015:10:20:08 +0200] "GET /portail/display/ HTTP/1.1" 500 206 "http://126.7.113.72:8080/portail/display/" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
+                <!--10.0.3.1 - - [14/Oct/2015:21:44:13 +0000] "GET / HTTP/1.1" 500 185 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0"-->
+                <!--126.199.40.20 - - [29/Dec/2015:23:32:51 +0100] "GET /var/storage/images/media/national/vignettes/paget3/picto-gestion-privee/7889-1-fre-FR/picto-gestion-privee_full_width.png HTTP/1.1" 304 -"-->
+                <!--127.0.0.1 - - [12/Feb/2016:11:59:18 +0100] <988650...3660> "GET /Lanceur.htm?env=UTI HTTP/1.1" 404 3660 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"-->
+                <field column="rawLine" name="line"
+                       regex="^([^\s]+) - (.*)- \[([^\]]+)\]( .\d+---\d+.)? &quot;(\w+) ([^\s]+) ([^\s]+)&quot; (\d+) ([\d-]+)"
+                       groupNames="info_clientip_s,info_unknown_s,date_s,info_compress_s,info_method_s,info_url_s,info_vhttp_s,info_codehttp_s,info_size_s"/>
+                <field column="info_referer_s" sourceColName="rawLine"
+                       regex="&quot;([^&quot;]+)&quot; &quot;[^&quot;]+&quot;$"/>
+                <field column="info_browser_s" sourceColName="rawLine"
+                       regex="&quot;[^&quot;]+&quot; &quot;([^&quot;]+)&quot;$"/>
+                <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss Z"/>
+                <field column="subtype_s" sourceColName="info_codehttp_s" regex="^(.*)$"/>
+                <field column="info_compress_size_s" sourceColName="info_compress_s" regex="^ .\d+---(\d+).$"/>
+                <field column="info_compress_size_uncompress_s" sourceColName="info_compress_s" regex="^ .(\d+)---\d+.$"/>
+            </entity>
+        </entity>
+        <entity name="file_apache_error" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
+                fileName="httpd.error"
+                rootEntity="false" dataSource="null" transformer="TemplateTransformer">
+            <entity onError="skip" name="line"
+                    processor="LineEntityProcessor"
+                    skipLineRegex="\]\s+PHP\s+(Stack trace|\d+\.\s)"
+                    url="${file_apache_error.fileAbsolutePath}"
+                    rootEntity="true"
+                    transformer="TemplateTransformer,RegexTransformer,DateFormatTransformer"
+                    dataSource="fds"
+                    >
+                <field column="id" template="${file_apache_error.file}:${line.rawLine}"/>
+                <field column="filename_s" template="${file_apache_error.file}" regex="^(.*\.log)"/>
+                <field column="id" regex="^${file_apache_error.file}:" replaceWith="${line.filename_s}:"/>
+                <field column="project" sourceColName="filename_s" regex="^([^\.]*)\."/>
+                <field column="domain" sourceColName="filename_s" regex="^[^\.]*\.([^\.]*)\."/>
+                <field column="server" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.([^\.]*)\."/>
+                <field column="daemon" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.[^\.]*\.([^\.]*)\."/>
+                <field column="type" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.[^\.]*\.[^\.]*\.([^-]*)-"/>
+                <field column="filename_s" sourceColName="filename_s" regex=".*-(.*)$"/>
+                <!--[Wed Oct 14 21:45:03.708867 2015] [:error] [pid 3745] [client 10.0.3.1:43508] PHP Notice:  Undefined index: route_path in /var/www/asgard/src/Core/LayoutBundle/Controller/LayoutController.php on line 45, referer: http://itceapps.lxc:8080/-->
+                <!--[Wed Oct 14 21:44:08.718767 2015] [:error] [pid 3742] [client 10.0.3.1:43506] PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Failed to write cache file \"/var/www/asgard/app/cache/dev/classes.php\".' in /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php:239\\nStack trace:\\n#0 /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php(122): Symfony\\\\Component\\\\ClassLoader\\\\ClassCollectionLoader::writeCacheFile('/var/www/asgard...', '<?php \\\\nnamespac...')\\n#1 /var/www/asgard/app/bootstrap.php.cache(2534): Symfony\\\\Component\\\\ClassLoader\\\\ClassCollectionLoader::load(Array, '/var/www/asgard...', 'classes', false, false, '.php')\\n#2 /var/www/asgard/app/bootstrap.php.cache(2370): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->doLoadClassCache('classes', '.php')\\n#3 /var/www/asgard/app/bootstrap.php.cache(2404): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->boot()\\n#4 /var/www/asgard/web/app.php(28): Symfony\\\\Component\\\\HttpKernel\\\\Kernel->handle(Object(Symfony\\\\Component\\\\HttpFoundation\\\\Request))\\n#5 {main}\\n  thrown in /var/www/asgard/vendor/symfony/symfony/src/Symfony/Component/ClassLoader/ClassCollectionLoader.php on line 239",-->
+                <!--[Mon Jan 11 10:41:52 2016] [error] [client 127.0.0.1] File does not exist: /tech/ezpublish/www/web/lbmonitor.html-->
+                <field column="rawLine" name="line"
+                       regex="^\[([^\]]+)\] \[([^:]*)(:[^\]]+)?\] (.*)\[client ([^\:]+):?\d*\] (.*)$"
+                       groupNames="date_s,info_module_s,info_severity_s,info_pidtid_s,info_clientip_s,info_message_s"/>
+                <field column="date_s" sourceColName="date_s" regex="^([^\.]+)\.?\d*( \d+)$" replaceWith="$1$2"/>
+                <field column="info_pidtid_s" regex="^\s*\[(pid \d+)\]\s*$" replaceWith="$1"/>
+                <field column="date" sourceColName="date_s" dateTimeFormat="EEE MMM dd HH:mm:ss yyyy"/>
+                <field column="info_referer_s" sourceColName="rawLine" regex="referer: (.*)$"/>
+                <field column="subtype_s" sourceColName="info_message_s" regex="^([^:]+):"/>
+            </entity>
+        </entity>
+        <entity name="file_varnish" processor="FileListEntityProcessor" baseDir="/var/www/asgard/resources/indexes"
+                fileName="varnish"
+                rootEntity="false" dataSource="null" transformer="TemplateTransformer">
+            <entity onError="skip" name="line"
+                    processor="LineEntityProcessor"
+                    skipLineRegex="probe_varnish"
+                    url="${file_varnish.fileAbsolutePath}"
+                    rootEntity="true"
+                    transformer="TemplateTransformer,RegexTransformer,DateFormatTransformer"
+                    dataSource="fds"
+            >
+                <field column="id" template="${file_varnish.file}:${line.rawLine}"/>
+                <field column="filename_s" template="${file_varnish.file}" regex="^(.*\.log)"/>
+                <field column="id" regex="^${file_varnish.file}:" replaceWith="${line.filename_s}:"/>
+                <field column="project" sourceColName="filename_s" regex="^([^\.]*)\."/>
+                <field column="domain" sourceColName="filename_s" regex="^[^\.]*\.([^\.]*)\."/>
+                <field column="server" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.([^\.]*)\."/>
+                <field column="daemon" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.[^\.]*\.([^\.]*)\."/>
+                <field column="type" sourceColName="filename_s" regex="^[^\.]*\.[^\.]*\.[^\.]*\.[^\.]*\.([^-]*)-"/>
+                <field column="filename_s" sourceColName="filename_s" regex=".*-(.*)$"/>
+                <!--[11/Jan/2016:13:55:58 +0100] GET http://ind-ez-dua-nginx.sigcesie.caisse-epargne.fr/favicon.ico HTTP/1.1 200 6974 0.000097036 hit -->
+                <!--[11/Jan/2016:13:56:19 +0100] GET http://127.0.0.1/probe_varnish HTTP/1.1 200 442 0.000120401 - -->
+                <field column="rawLine" name="line"
+                       regex="^\[([^\]]+)\] ([^\s]+) ([^\s]+) ([^\s]+) (\d+) ([^\s]+) ([^\s]+) (.*)$"
+                       groupNames="date_s,info_method_s,info_url_s,info_vhttp_s,info_codehttp_s,info_size_s,info_time_s,info_hitmiss_s"/>
+                <field column="date" sourceColName="date_s" dateTimeFormat="dd/MMM/yyyy:HH:mm:ss"/>
+                <field column="subtype_s" sourceColName="info_hitmiss_s" regex="^(.*)$"/>
+            </entity>
+        </entity>
+
+
+
+
+    </document>
+
+</dataConfig>
+
+
