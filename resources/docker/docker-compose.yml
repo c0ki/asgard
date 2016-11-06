@@ -1,0 +1,32 @@
+version: '2'
+services:
+  php-apache:
+    image: custom:php-7-apache
+    volumes:
+      - /home/data/asgard/resources/apache/asgard.conf:/etc/apache2/sites-enabled/asgard.conf
+      - /home/data/asgard/resources/php/extended.ini:/usr/local/etc/php/conf.d/extended.ini
+      - /home/data/asgard:/var/www/asgard
+    links:
+  #    - mysql
+      - solr
+    ports:
+      - "80:80"
+
+  #mysql:
+  #  image: mysql:5.5
+  #  volumes:
+  #    - "/home/data/esidoc/envdev/config/mysql:/docker-entrypoint-initdb.d"
+  #    - "/home/data/esidoc/envdev/data/mysql:/var/lib/mysql"
+  #    - "/home/data/esidoc/envdev/logs:/var/log/mysql"
+  #  ports:
+  #    - "3306:3306"
+  #  environment:
+  #    MYSQL_ROOT_PASSWORD: root
+
+  solr:
+    image: solr:6.1-alpine
+    volumes:
+      - /home/data/asgard/resources/solrcore/6.1:/opt/solr/server/solr/asgard_logs
+      - /home/data/asgard/app/logs:/opt/solr/server/logs
+    ports:
+      - "8983:8983"
