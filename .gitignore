@@ -1,15 +1,17 @@
-# Cache and logs (Symfony2)
+# Cache and logs
 /app/cache/*
 /app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
+/app/config/parameters.yml
+/app/bootstrap.php.cache
+/app/phpunit.xml
 
 # Managed by Composer
 /vendor/
 
 # Assets and user uploads
 /web/bundles/
-/web/uploads/
 
 # Build data
 /build/
