@@ -64,7 +64,7 @@ class AdminController extends Controller
                 $this->addFlash('success', "Project '{$entity}' created");
             }
 
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            return new RedirectResponse($this->generateUrl('core_dashboard_admin'), 302);
         }
 
         return $this->render('CoreProjectBundle:Admin:project_edit.html.twig',
@@ -109,7 +109,7 @@ class AdminController extends Controller
                 $this->addFlash('success', "Domain '{$entity}' created");
             }
 
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            return new RedirectResponse($this->generateUrl('core_dashboard_admin'), 302);
         }
 
         return $this->render('CoreProjectBundle:Admin:domain_edit.html.twig',
@@ -135,7 +135,7 @@ class AdminController extends Controller
                 array('data_class' => 'Core\ProjectBundle\Entity\Domain', 'read_only' => true));
         }
         else {
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            return new RedirectResponse($this->generateUrl('core_dashboard_admin'), 302);
         }
         $form->handleRequest($request);
 
@@ -147,8 +147,7 @@ class AdminController extends Controller
                 $ormManager->remove($project);
                 $ormManager->flush();
                 $this->addFlash('success', "Project '{$entity}' deleted");
-
-                return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+                return new RedirectResponse($this->generateUrl('core_dashboard_admin', ['@project' => null]), 302);
             }
             elseif ($projectHelper->hasDomain()) {
                 $domain = $projectHelper->getDomain();
@@ -156,10 +155,10 @@ class AdminController extends Controller
                 $ormManager->flush();
                 $this->addFlash('success', "Domain '{$domain}' deleted");
 
-                return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+                return new RedirectResponse($this->generateUrl('core_dashboard_admin', ['@domain' => null]), 302);
             }
 
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            return new RedirectResponse($this->generateUrl('core_dashboard_admin'), 302);
         }
 
         return $this->render('CoreLayoutBundle:Default:confirm.html.twig',
@@ -198,7 +197,7 @@ class AdminController extends Controller
                 $this->addFlash('success', "Daemon '{$entity}' created");
             }
 
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            return new RedirectResponse($this->generateUrl('core_dashboard_admin'), 302);
         }
 
         return $this->render('CoreProjectBundle:Admin:daemon_edit.html.twig',
@@ -213,7 +212,7 @@ class AdminController extends Controller
         $daemonHelper = $this->container->get('daemon_helper');
         $entity = $daemonHelper->getDaemonByName($name);
         if (empty($entity)) {
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            return new RedirectResponse($this->generateUrl('core_dashboard_admin'), 302);
         }
         $form = $this->createForm('generic_entity',
             $entity,
@@ -227,7 +226,7 @@ class AdminController extends Controller
             $ormManager->flush();
             $this->addFlash('success', "Daemon '{$entity}' deleted");
 
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            return new RedirectResponse($this->generateUrl('core_dashboard_admin'), 302);
         }
 
         return $this->render('CoreLayoutBundle:Default:confirm.html.twig',
@@ -275,7 +274,7 @@ class AdminController extends Controller
                 $this->addFlash('success', "Link '{$entity}' created");
             }
 
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            return new RedirectResponse($this->generateUrl('core_dashboard_admin'), 302);
         }
 
         $links = $this->container->get('link_helper')->listLinks();
@@ -293,7 +292,7 @@ class AdminController extends Controller
         $linkHelper = $this->container->get('link_helper');
         $entity = $linkHelper->getLinkById($id);
         if (empty($entity)) {
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            return new RedirectResponse($this->generateUrl('core_dashboard_admin'), 302);
         }
         $entityLabel = (string)$entity;
         $form = $this->createForm('generic_entity',
@@ -308,7 +307,7 @@ class AdminController extends Controller
             $ormManager->flush();
             $this->addFlash('success', "Link '{$entityLabel}' deleted");
 
-            return new RedirectResponse($this->generateUrl('core_project_admin'), 302);
+            return new RedirectResponse($this->generateUrl('core_dashboard_admin'), 302);
         }
 
         return $this->render('CoreLayoutBundle:Default:confirm.html.twig',
